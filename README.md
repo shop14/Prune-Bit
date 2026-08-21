@@ -69,6 +69,10 @@ reintroducing server-side key storage.
 - Captcha protects setup/import/unlock flows; banned-IP list included.
 - CSRF origin checks on all non-GET API calls.
 
+## Author
+
+**Prune Bit** — Founder & project lead.
+
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). © Prune Bit
