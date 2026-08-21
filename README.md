@@ -21,7 +21,6 @@ Because no keys exist server-side, the following features are removed:
 | **Send / sign transactions** | ❌ Requires client-side signing (roadmap) |
 | Show mnemonic / export private key | ❌ Impossible by design |
 | Encrypted backups export | ❌ Requires stored seed |
-| Admin seed recovery | ❌ Removed entirely |
 
 The low-level builders in `classes/TransactionBuilder.php` still accept an
 explicit private key, so client-side signing can be layered on without
