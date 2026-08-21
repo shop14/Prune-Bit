@@ -1,0 +1,26 @@
+User-agent: *
+Disallow: /
+
+Allow: /index.html
+Allow: /setup.html
+Allow: /import.html
+Allow: /products.html
+Allow: /address-check.html
+Allow: /check.html
+Allow: /prices.html
+Allow: /explorer.html
+Allow: /fees.html
+Allow: /help.html
+Allow: /support.html
+Allow: /ticket.html
+Allow: /company.html
+Allow: /status.html
+Allow: /terms.html
+Allow: /privacy.html
+Allow: /aml.html
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Allow: /favicon.ico
+
+Sitemap: https://prunebit.com/sitemap.xml

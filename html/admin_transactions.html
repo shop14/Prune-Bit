@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transactions - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div class="admin-page-header">
+  <h2><i class="bi bi-receipt me-2"></i>Transactions</h2>
+  <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+</div>
+<div class="card admin-card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table admin-table align-middle mb-0">
+        <thead>
+          <tr><th>Coin</th><th>From</th><th>To</th><th>Amount</th><th>Tx Hash</th><th>Status</th><th>Date</th></tr>
+        </thead>
+        <tbody id="transactionsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+async function loadTransactions() {
+  try {
+    var data = await adminPost('/api/admin/transactions');
+    if (data.success) {
+      var txs = data.transactions || [];
+
+      var recent = txs.slice(-10).reverse();
+      document.getElementById('transactionsTableBody').innerHTML = recent.length === 0
+        ? '<tr><td colspan="7" class="text-center text-muted py-4">No transactions found</td></tr>'
+        : recent.map(function(t) {
+            var statusClass = 'completed' === t.status ? 'bg-success' : 'pending' === t.status ? 'bg-warning' : 'bg-danger';
+            var fromAddr = t.from_address || '-';
+            var toAddr = t.to_address || '-';
+            if (fromAddr.length > 20) fromAddr = fromAddr.substring(0, 20) + '...';
+            if (toAddr.length > 20) toAddr = toAddr.substring(0, 20) + '...';
+            var txHash = t.tx_hash || '-';
+            if (txHash.length > 16) txHash = txHash.substring(0, 16) + '...';
+            return '<tr>' +
+              '<td class="fw-semibold">' + escapeHtml(t.coin || 'N/A') + '</td>' +
+              '<td><code class="small">' + escapeHtml(fromAddr) + '</code></td>' +
+              '<td><code class="small">' + escapeHtml(toAddr) + '</code></td>' +
+              '<td>' + escapeHtml(t.amount || '0') + '</td>' +
+              '<td><code class="small">' + escapeHtml(txHash) + '</code></td>' +
+              '<td><span class="badge ' + statusClass + '">' + escapeHtml(t.status) + '</span></td>' +
+              '<td class="text-secondary small">' + escapeHtml(t.created_at || '-') + '</td>' +
+            '</tr>';
+          }).join('');
+    }
+  } catch(e) { console.error('Error loading transactions:', e); }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadTransactions();
+  document.getElementById('refreshBtn').addEventListener('click', loadTransactions);
+});
+</script>
+</body>
+</html>

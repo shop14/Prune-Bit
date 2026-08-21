@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sessions - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div class="admin-page-header">
+  <h2><i class="bi bi-person-check me-2"></i>Active Sessions</h2>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span id="sessionCount" class="badge bg-secondary d-none" style="font-size:0.85rem;"></span>
+    <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+  </div>
+</div>
+<div class="card admin-card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table admin-table align-middle mb-0">
+        <thead>
+          <tr><th>Wallet</th><th>Coin</th><th>Balance</th><th>Last Activity</th><th>Expires</th></tr>
+        </thead>
+        <tbody id="sessionsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="d-flex align-items-center justify-content-between mt-3" id="paginationWrap" style="display:none !important;">
+  <span class="text-secondary small" id="pageInfo"></span>
+  <div class="d-flex gap-2">
+    <button class="btn btn-sm btn-outline-secondary" id="prevPageBtn" disabled>&laquo; Prev</button>
+    <button class="btn btn-sm btn-outline-secondary" id="nextPageBtn" disabled>Next &raquo;</button>
+  </div>
+</div>
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+var _allSessions = [];
+var _currentPage = 1;
+var _perPage = 15;
+
+function getPageSessions() {
+  var start = (_currentPage - 1) * _perPage;
+  return _allSessions.slice(start, start + _perPage);
+}
+
+function totalPages() { return Math.max(1, Math.ceil(_allSessions.length / _perPage)); }
+
+function updatePagination() {
+  var total = _allSessions.length;
+  var wrap = document.getElementById('paginationWrap');
+  if (total <= _perPage) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'flex';
+  var tp = totalPages();
+  if (_currentPage > tp) _currentPage = tp;
+  document.getElementById('pageInfo').textContent = 'Page ' + _currentPage + ' of ' + tp + ' (' + total + ' sessions)';
+  document.getElementById('prevPageBtn').disabled = _currentPage <= 1;
+  document.getElementById('nextPageBtn').disabled = _currentPage >= tp;
+}
+
+function renderTable() {
+  var sessions = getPageSessions();
+  var tbody = document.getElementById('sessionsTableBody');
+  var badge = document.getElementById('sessionCount');
+  var total = _allSessions.length;
+
+  if (total > 0) {
+    badge.textContent = total;
+    badge.classList.remove('d-none');
+  } else {
+    badge.classList.add('d-none');
+  }
+
+  if (sessions.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No active sessions found</td></tr>';
+  } else {
+    tbody.innerHTML = sessions.map(function(s) {
+      var walletShort = (s.wallet_id || '').substring(0, 16) + (s.wallet_id && s.wallet_id.length > 16 ? '...' : '');
+      var coin = s.coin || '-';
+      var balance = s.balance != null ? Number(s.balance).toFixed(8) : '-';
+      return '<tr>' +
+        '<td><code class="small">' + escapeHtml(walletShort) + '</code></td>' +
+        '<td><span class="badge bg-primary text-white" style="font-size:0.75rem;">' + escapeHtml(coin) + '</span></td>' +
+        '<td class="text-secondary small">' + escapeHtml(balance) + '</td>' +
+        '<td class="text-secondary small">' + escapeHtml(s.last_activity || '-') + '</td>' +
+        '<td class="text-secondary small">' + escapeHtml(s.expires_at || '-') + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+  updatePagination();
+}
+
+async function loadSessions() {
+  var btn = document.getElementById('refreshBtn');
+  var icon = btn.querySelector('i');
+  icon.classList.add('spin');
+  btn.disabled = true;
+  try {
+    var data = await adminPost('/api/admin/sessions');
+    if (data.success) {
+      _allSessions = data.sessions || [];
+      _currentPage = 1;
+      renderTable();
+    }
+  } catch(e) { console.error('Error loading sessions:', e); }
+  finally {
+    icon.classList.remove('spin');
+    btn.disabled = false;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadSessions();
+  document.getElementById('refreshBtn').addEventListener('click', loadSessions);
+  document.getElementById('prevPageBtn').addEventListener('click', function() {
+    if (_currentPage > 1) { _currentPage--; renderTable(); }
+  });
+  document.getElementById('nextPageBtn').addEventListener('click', function() {
+    if (_currentPage < totalPages()) { _currentPage++; renderTable(); }
+  });
+});
+</script>
+<style>.spin{animation:spin .8s linear infinite}@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
+</body>
+</html>

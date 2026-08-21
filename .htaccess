@@ -1,0 +1,82 @@
+Options -Indexes
+DirectoryIndex index.php index.html
+RewriteEngine On
+RewriteBase /
+
+# APK downloads: correct MIME + force download as attachment
+AddType application/vnd.android.package-archive .apk
+<IfModule mod_headers.c>
+    <FilesMatch "\.apk$">
+        Header set Content-Disposition "attachment"
+    </FilesMatch>
+</IfModule>
+
+# Deny direct web access to backend source files.
+# API routes (e.g. /api/dashboard) are dotless and still reach index.php;
+# real source files all end in .php/.inc/.json/.txt and must not execute directly.
+RewriteRule ^(?:api|classes|config|tests|secret)/.*\.(?:php|inc|json|txt|log)$ - [F,L]
+RewriteRule ^autoload\.php$ - [F,L]
+RewriteRule ^(?:tests|secret)(?:/|$) - [F,L]
+
+# If the request is not for an existing file or directory, route to the front controller
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Block sensitive files
+<FilesMatch "\.(env|log|sql|bak|inc|json)$">
+    Require all denied
+</FilesMatch>
+
+# Never show PHP errors in the browser (Apache mod_php)
+<IfModule mod_php.c>
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# LiteSpeed / OpenLiteSpeed: disable directory listing and PHP error display
+<IfModule lsapi_module>
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# Security headers (mirror Node helmet + middleware)
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), midi=(), accelerometer=(), gyroscope=(), magnetometer=(), display-capture=(), autoplay=(), fullscreen=(self), web-share=(), clipboard-write=(self), clipboard-read=(), gamepad=(), serial=(), hid=(), window-placement=(), screen-wake-lock=()"
+    Header set Cross-Origin-Opener-Policy "same-origin"
+    Header set Cross-Origin-Resource-Policy "same-origin"
+    Header set Cross-Origin-Embedder-Policy "credentialless"
+</IfModule>
+
+# LiteSpeed Cache (if available)
+<IfModule mod_pagespeed.c>
+    ModPagespeed off
+</IfModule>
+
+# GZIP compression (works on LiteSpeed + Apache)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# Browser caching (works on LiteSpeed + Apache)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 1 day"
+    ExpiresByType image/png "access plus 7 days"
+    ExpiresByType image/jpeg "access plus 7 days"
+    ExpiresByType image/svg+xml "access plus 7 days"
+    ExpiresByType image/webp "access plus 7 days"
+    ExpiresByType font/woff2 "access plus 30 days"
+    ExpiresByType font/woff "access plus 30 days"
+    ExpiresByType font/ttf "access plus 30 days"
+</IfModule>

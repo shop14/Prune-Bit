@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Transaction History - PruneBit">Transaction History - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<style>
+body.bitcoin-style .send-form-container{max-width:61.2rem;margin:0 auto}
+body.bitcoin-style .send-form-container.page-card{border-radius:18px;border:1px solid var(--cv-border);box-shadow:0 8px 30px rgba(0,0,0,.07)}
+body.bitcoin-style .send-header{display:flex;align-items:center;gap:12px}
+body.bitcoin-style .send-header-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--cv-primary),#ffb45e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 6px 16px rgba(255,126,0,.3);flex-shrink:0}
+body.bitcoin-style .form-select{border:1px solid var(--cv-border);border-radius:10px;background:var(--cv-surface);color:var(--bs-body-color);padding:8px 12px;transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style .form-select:focus{border-color:var(--cv-primary);box-shadow:0 0 0 3px rgba(255,126,0,.18)}
+body.bitcoin-style #refreshHistory{border-radius:10px}
+body.bitcoin-style #txList .tx-item{border:1px solid var(--cv-border);border-radius:12px;background:var(--cv-surface);margin-bottom:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style #txList .tx-item:hover{border-color:var(--cv-primary);box-shadow:0 2px 10px rgba(255,126,0,.12)}
+body.bitcoin-style #txList .tx-item .cursor-pointer{cursor:pointer}
+body.bitcoin-style #txList .tx-detail{border-top:1px solid var(--cv-border);background:var(--bs-tertiary-bg);border-radius:0 0 12px 12px}
+body.bitcoin-style #pagination{width:100%;box-sizing:border-box;overflow:hidden}
+body.bitcoin-style #pagination:not(:empty){border-top:1px solid var(--cv-border);padding-top:12px;margin-top:12px}
+body.bitcoin-style #pagination .btn{border-radius:8px;color:#1c1f30;background:#FBFAF7;border:1px solid var(--cv-border)}
+body.bitcoin-style #pagination .btn-primary{background:linear-gradient(135deg,var(--cv-primary),#ffa94d);border:1px solid transparent;box-shadow:0 4px 12px rgba(255,126,0,.25);color:#fff}
+body.bitcoin-style #pagination .btn:disabled{opacity:.5;cursor:not-allowed}
+body.bitcoin-style #pagination .disabled{opacity:.5;pointer-events:none}
+@media(max-width:576px){body.bitcoin-style #pagination:not(:empty){flex-wrap:wrap;gap:4px;overflow:hidden;padding:6px 0}body.bitcoin-style #pagination .btn{font-size:12px;padding:4px 8px}}
+body.bitcoin-style .send-form-container.page-card{position:relative;z-index:1;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease;overflow:hidden}
+body.bitcoin-style .send-form-container.page-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .send-header-icon{box-shadow:0 6px 16px rgba(255,126,0,.3),0 0 26px rgba(255,126,0,.45)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style #refreshHistory,body.bitcoin-style #exportPdfHistory{border-radius:8px;border:1px solid var(--cv-border);background:linear-gradient(135deg,var(--cv-primary),#ffa94d);color:#fff;font-size:13px;padding:6px 14px;transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style #refreshHistory:hover,body.bitcoin-style #exportPdfHistory:hover{filter:brightness(1.05);box-shadow:0 4px 12px rgba(255,126,0,.25);transform:translateY(-1px)}
+body.bitcoin-style #refreshHistory i,body.bitcoin-style #exportPdfHistory i{font-size:14px}
+</style>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-content">
+  <div class="page-card send-form-container">
+    <div class="page-card-header">
+      <div class="send-header">
+        <div class="send-header-icon"><i class="bi bi-clock-history"></i></div>
+        <div>
+          <h1 class="fs-5 fw-bold mb-0" data-i18n="Transaction History">Transaction History</h1>
+          <p class="text-muted small mb-0" data-i18n="View all your past transactions">View all your past transactions</p>
+        </div>
+      </div>
+    </div>
+    <div class="page-card-body">
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+        <select class="form-select" style="min-width:160px;flex:1" id="historyCoin"><option value="" data-i18n="All Coins">All Coins</option></select>
+        <select class="form-select" style="min-width:140px" id="historyStatus"><option value="" data-i18n="All Status">All Status</option><option value="completed" data-i18n="Completed">Completed</option><option value="pending" data-i18n="Pending">Pending</option><option value="failed" data-i18n="Failed">Failed</option></select>
+        <button id="refreshHistory" class="btn btn-sm"><i class="bi bi-arrow-clockwise"></i><span data-i18n="Refresh"> Refresh</span></button>
+        <button id="exportPdfHistory" class="btn btn-sm"><i class="bi bi-filetype-pdf"></i><span data-i18n="Export to PDF"> Export to PDF</span></button>
+      </div>
+      <div id="txList">
+        <div class="px-4 py-8 text-center text-muted"><i class="bi bi-inbox fs-1 mb-2"></i><p class="mb-0" data-i18n="Loading transactions...">Loading transactions...</p></div>
+      </div>
+      <div id="pagination" class="d-flex justify-content-center gap-1"></div>
+    </div>
+  </div>
+</div>
+
+<script>const token=localStorage.getItem("wallet_token");function getTrackedCoins(){try{return JSON.parse(localStorage.getItem("tracked_coins"))||["BTC","ETH","LTC","DOGE"]}catch(t){return["BTC","ETH","LTC","DOGE"]}}token||(window.location.href="import.html");const coinLabelMap={BTC:"Bitcoin",BTCT:"Bitcoin Testnet",ETH:"Ethereum",ETC:"Ethereum Classic",USDT:"Tether USD",LTC:"Litecoin",DOGE:"Dogecoin",BCH:"Bitcoin Cash",DASH:"Dash",DGB:"DigiByte",RVN:"Ravencoin",BTG:"Bitcoin Gold",ZEC:"Zcash",BSV:"Bitcoin SV",XVG:"Verge",QTUM:"Qtum",VTC:"Vertcoin",KMD:"Komodo",POLYGON:"Polygon",BSC:"BNB Chain",KASPA:"Kaspa",XRP:"Ripple"};function rebuildCoinDropdown(){const t=document.getElementById("historyCoin"),e=getTrackedCoins();t.innerHTML='<option value="">All Coins</option>',e.forEach(function(e){const n=document.createElement("option");n.value=e,n.textContent=(coinLabelMap[e]||e)+" ("+e+")",t.appendChild(n)})}let currentPage=1;const ITEMS_PER_PAGE=20;let allTransactions=[];async function loadHistory(){const t=document.getElementById("historyCoin").value,e=document.getElementById("historyStatus").value;const limit=50,offset=(currentPage-1)*limit;try{const n=await fetch("/api/get_transactions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coin:t||void 0,status:e||void 0,coins:t?void 0:function(){try{return JSON.parse(localStorage.getItem("tracked_coins"))}catch(t){return[]}}(),limit:limit,offset:offset})});if(!n.ok)throw new Error("Server error: "+n.status);const a=await n.json();a.success&&(allTransactions=a.transactions||[],totalTransactions=a.total||0,renderPage())}catch(t){console.error("Error loading history:",t),document.getElementById("txList").innerHTML=`\n          <div class="px-4 py-8 text-center text-gray-500">\n            <i class="bi bi-exclamation-triangle fs-1 mb-2"></i>\n            <p>Error: ${escapeHtml(t.message)}</p>\n          </div>\n        `}}function formatDate(t){return new Date(t).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}function formatTime(t){return new Date(t).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:!0}).toLowerCase()}function renderPage(){const t=document.getElementById("txList"),e=Math.max(1,Math.ceil(allTransactions.length/20)),n=20*(currentPage-1),a=allTransactions.slice(n,n+20);0===a.length?t.innerHTML='\n          <div class="px-4 py-8 text-center text-gray-500">\n            <i class="bi bi-inbox fs-1 mb-2"></i>\n            <p>No transactions found</p>\n          </div>\n        ':(t.innerHTML=a.map(t=>`\n          <div class="tx-item" data-tx="${escapeHtml(JSON.stringify(t))}">\n            <div class="p-4 hover:bg-gray-50 transition-colors cursor-pointer">\n              <div class="flex items-center justify-between">\n                <div class="flex items-center gap-3">\n                    <div class="w-10 h-10 ${"sent"===t.type?"bg-blue-100":"bg-green-100"} rounded-lg flex items-center justify-center">\n                    <i class="bi bi-${"sent"===t.type?"arrow-up-right":"arrow-down-left"} ${"sent"===t.type?"text-blue-600":"text-green-600"}"></i>\n                  </div>\n                  <div>\n                    <p class="text-sm text-gray-900">${formatDate(t.date)} ${formatTime(t.date)}</p>\n                    <p class="text-xs text-gray-500">${escapeHtml((t.tx_hash||t.to_address||t.from_address||"").substring(0,20))}...</p>\n                  </div>\n                </div>\n                <div class="text-end">\n                  <p class="font-bold ${"sent"===t.type?"text-blue-600":"text-green-600"}">${"sent"===t.type?"-":"+"}${escapeHtml(Math.abs(t.amount))} ${escapeHtml(t.coin)}</p>\n                  <p class="text-xs ${parseInt(t.confirmations)>0?"text-green-600":"text-yellow-600"}">${parseInt(t.confirmations)>0?t.confirmations+" confirmations":"unconfirmed"}</p>\n                </div>\n              </div>\n            </div>\n          </div>\n        `).join(""),document.querySelectorAll(".tx-item").forEach(t=>{t.addEventListener("click",function(){showTxDetails(this,JSON.parse(this.dataset.tx))})})),renderPagination(e)}function showTxDetails(t,e){const n=t.nextElementSibling;if(n&&n.classList.contains("tx-detail"))return void n.remove();const a=parseFloat(e.fee||0).toString(),s=document.createElement("div");s.className="tx-detail bg-gray-50 p-4 border-t border-gray-200",s.innerHTML=`\n        <div class="grid grid-cols-1 gap-2 text-sm px-4 py-2">\n          <div><span class="text-gray-600 font-medium">Date:</span> <span class="font-semibold">${formatDate(e.date)}</span></div>\n          <div><span class="text-gray-600 font-medium">Time:</span> <span class="font-semibold">${formatTime(e.date)}</span></div>\n          <div><span class="text-gray-600 font-medium">Amount:</span> <span class="font-semibold">${"sent"===e.type?"-":"+"}${escapeHtml(Math.abs(e.amount))} ${escapeHtml(e.coin)}</span></div>\n          <div><span class="text-gray-600 font-medium">Confirmations:</span> <span class="font-semibold">${parseInt(e.confirmations)||0}</span></div>\n          <div><span class="text-gray-600 font-medium">From:</span> <span class="font-mono text-xs break-all">${escapeHtml(e.from_address||"N/A")}</span></div>\n          <div><span class="text-gray-600 font-medium">To:</span> <span class="font-mono text-xs break-all">${escapeHtml(e.to_address||"N/A")}</span></div>\n          <div><span class="text-gray-600 font-medium">Hash:</span> <span class="font-mono text-xs break-all">${escapeHtml(e.tx_hash||"N/A")}</span></div>\n          <div><span class="text-gray-600 font-medium">Network Fee:</span> <span class="font-semibold">${escapeHtml(a)} ${escapeHtml(e.coin)}</span></div>\n        </div>\n      `,t.after(s)}function renderPagination(t){const e=document.getElementById("pagination");if(t<=1)return void(e.innerHTML="");let n='<button class="btn btn-sm btn-outline" data-page="'+(currentPage-1)+'" '+(currentPage<=1?'disabled':'')+'>\u00AB</button>';let pages=[];if(t<=7){for(let i=1;i<=t;i++)pages.push(i)}else{pages.push(1);if(currentPage>3)pages.push(-1);let s=Math.max(2,currentPage-1),end=Math.min(t-1,currentPage+1);for(let i=s;i<=end;i++)pages.push(i);if(currentPage<t-2)pages.push(-1);pages.push(t)}for(let i=0;i<pages.length;i++){if(pages[i]===-1)n+='<span class="btn btn-sm btn-outline disabled" style="cursor:default;opacity:.5">...</span>';else n+=`<button class="btn btn-sm ${pages[i]===currentPage?"btn-primary":"btn-outline"}" data-page="${pages[i]}">${pages[i]}</button>`}n+='<button class="btn btn-sm btn-outline" data-page="'+(currentPage+1)+'" '+(currentPage>=t?'disabled':'')+'>\u00BB</button>';e.innerHTML=n;e.querySelectorAll("button[data-page]").forEach(function(b){b.addEventListener("click",function(){const p=parseInt(b.dataset.page);if(p>=1&&p<=t)window.goToPage(p)})})}window.goToPage=function(t){currentPage=t,renderPage()},window.exportHistoryPDF=function(){
+  if(!allTransactions||!allTransactions.length){alert("No transactions to export");return}
+  function esc(s){return escapeHtml(String(s==null?"":s))}
+  var rows=allTransactions.map(function(t){
+    var coin=(coinLabelMap[t.coin]||t.coin)+" ("+t.coin+")";
+    var dir="sent"===t.type?"-":"+";
+    var typeLabel="sent"===t.type?"Sent":"Received";
+    var conf=parseInt(t.confirmations)>0?t.confirmations+" confirmations":"unconfirmed";
+    return '<tr><td>'+esc(formatDate(t.date)+' '+formatTime(t.date))+'</td><td>'+esc(coin)+'</td><td style="text-align:right">'+dir+esc(Math.abs(t.amount))+'</td><td>'+esc(typeLabel)+'</td><td>'+esc(conf)+'</td><td style="font-family:monospace">'+esc((t.tx_hash||"").substring(0,24))+'</td></tr>';
+  }).join("");
+  var now=formatDate(new Date().toString())+' '+formatTime(new Date().toString());
+  var doc='<html><head><meta charset="utf-8"><title>Transaction History</title><style>@page{margin:12px}body{margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;color:#111;font-size:13px}table{border-collapse:collapse;width:100%;font-size:11px}h2{margin:0;font-size:16px}.hdr{text-align:center}.hdr p{margin:4px 0 12px;color:#666}th,td{border:1px solid #999;padding:6px 8px;text-align:left}th{background:#eee;font-weight:700}td.txt{word-break:break-all}</style></head><body><div class="hdr"><h2>PruneBit - Transaction History</h2><p>Exported: '+esc(now)+' | '+allTransactions.length+' transactions</p></div><table><thead><tr><th>Date & Time</th><th>Coin</th><th style="text-align:right">Amount</th><th>Type</th><th>Confirmations</th><th>Tx Hash</th></tr></thead><tbody>'+rows+'</tbody></table></body></html>';
+  var w=window.open("","","width=900,height=700,top=40,left=40");
+  w.document.clear();
+  w.document.write(doc);
+  w.document.close();
+  w.focus();
+  setTimeout(function(){w.print()},250);
+};
+document.getElementById("refreshHistory").addEventListener("click",function(){const coins=[];try{const t=JSON.parse(localStorage.getItem("tracked_coins"));if(t)coins.push(...t)}catch(e){}fetch("/api/sync_transactions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coins:coins.length?coins:undefined})}).catch(function(){}).then(function(){loadHistory()})}),document.getElementById("exportPdfHistory")&&(document.getElementById("exportPdfHistory").addEventListener("click",function(){window.exportHistoryPDF()})),document.getElementById("historyCoin").addEventListener("change",loadHistory),document.getElementById("historyStatus").addEventListener("change",loadHistory),rebuildCoinDropdown(),loadHistory()</script><script src="../js/websocket.js?v=20260815a"></script><script>"undefined"!=typeof token&&token&&(connectWebSocket(token),document.addEventListener("ws_sync_complete",function(){loadHistory()}))</script><script src="../js/header.js?v=20260727a"></script>

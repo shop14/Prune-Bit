@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Admin Login - PruneBit">Admin Login - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<style>
+.admin-wrapper{min-height:100vh;min-height:100dvh;background:var(--bs-body-bg)}
+.admin-main .admin-login-wrapper{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px}
+.admin-main .card{width:100%;max-width:400px;border:1px solid var(--bs-border-color);border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.06);background:var(--bs-body-bg);overflow:hidden}
+.admin-main .card-body{padding:40px}
+.admin-main .login-icon{width:56px;height:56px;background:rgba(255,126,0,0.1);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.admin-main .login-icon i{font-size:1.6rem;color:var(--btc-orange)}
+.admin-main h1{font-size:1.5rem;font-weight:700;margin:0 0 4px}
+.admin-main .text-secondary{color:var(--bs-secondary-color);font-size:0.9rem;margin-bottom:28px}
+.admin-main .form-group{margin-bottom:18px}
+.admin-main .form-group label{display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px}
+.admin-main .form-group input{width:100%;padding:12px 14px;border:1px solid var(--bs-border-color);border-radius:10px;font-size:0.9rem;background:var(--bs-body-bg);color:var(--bs-body-color);transition:border-color 0.15s;box-sizing:border-box}
+.admin-main .form-group input:focus{outline:none;border-color:var(--btc-orange);box-shadow:0 0 0 3px rgba(255,126,0,0.12)}
+.admin-main .password-wrap{position:relative}
+.admin-main .password-wrap input{padding-right:44px}
+.admin-main .password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--bs-secondary-color);cursor:pointer;padding:8px;font-size:1.1rem}
+.admin-main .btn-primary{width:100%;padding:12px;background:var(--btc-orange);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:background 0.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.admin-main .btn-primary:hover{background:var(--btc-bright)}
+.admin-main .btn-primary:disabled{opacity:0.7;cursor:not-allowed}
+.admin-main .spinner-border{width:1rem;height:1rem;border-width:2px;display:none}
+.admin-main .back-link{display:block;text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--bs-border-color);color:var(--bs-secondary-color);text-decoration:none;font-size:0.85rem}
+.admin-main .back-link i{margin-right:6px}
+.admin-main .back-link:hover{color:var(--btc-orange)}
+.code-panel{background:var(--bs-tertiary-bg);border:1px dashed var(--bs-border-color);border-radius:12px;padding:16px;margin-bottom:14px;position:relative;overflow:hidden}
+.code-chars{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:12px;user-select:none;-webkit-user-select:none}
+.code-char{display:inline-flex;align-items:center;justify-content:center;width:38px;height:44px;font-size:1.4rem;font-weight:800;border-radius:8px;color:var(--bs-body-color);text-shadow:1px 1px 2px rgba(0,0,0,0.1);font-family:'Courier New',monospace}
+.code-refresh{position:absolute;top:8px;right:8px;background:none;border:1px solid var(--bs-border-color);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--bs-secondary-color);font-size:0.85rem;transition:all 0.15s}
+.code-refresh:hover{border-color:var(--btc-orange);color:var(--btc-orange)}
+.code-refresh.spinning i{animation:spin 0.6s linear}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.code-label{font-size:0.8rem;font-weight:600;color:var(--bs-secondary-color);text-align:center;margin-bottom:10px}
+.code-input{width:100%;padding:10px 14px;border:1px solid var(--bs-border-color);border-radius:10px;font-size:1rem;font-weight:600;text-align:center;letter-spacing:3px;background:var(--bs-body-bg);color:var(--bs-body-color);font-family:'Courier New',monospace;transition:border-color 0.15s;box-sizing:border-box}
+.code-input:focus{outline:none;border-color:var(--btc-orange);box-shadow:0 0 0 3px rgba(255,126,0,0.12)}
+.code-input.is-valid{border-color:var(--btc-orange)}
+.code-input.is-invalid{border-color:var(--bs-danger)}
+.code-line{position:absolute;width:120%;height:2px;left:-10%;opacity:0.15;pointer-events:none}
+.code-loading{text-align:center;padding:12px 0;font-size:0.85rem;color:var(--bs-secondary-color)}
+</style>
+<script src="../js/security.js"></script><script src="../js/pinpad.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-wrapper">
+<div class="admin-main">
+<div class="admin-login-wrapper">
+<div class="card">
+<div class="card-body">
+<div class="login-icon"><i class="bi bi-shield-lock"></i></div>
+<h1 class="text-center" data-i18n="Admin Login">Admin Login</h1>
+<p class="text-center text-secondary" data-i18n="Enter your admin credentials to continue">Enter your admin credentials to continue</p>
+<form id="adminLoginForm">
+<div class="form-group">
+<label for="username" data-i18n="Username">Username</label>
+<input id="username" type="text" class="form-control" placeholder="Enter username" required autocomplete="username" inputmode="text">
+</div>
+<div class="form-group">
+<label for="adminPassword" data-i18n="Password">Password</label>
+<div class="password-wrap">
+<input id="adminPassword" type="password" placeholder="Enter password" required autocomplete="current-password" inputmode="password">
+<button type="button" class="password-toggle" aria-label="Toggle password visibility">
+<i class="bi bi-eye" id="adminPasswordIcon"></i>
+</button>
+</div>
+</div>
+<div class="code-panel" id="codePanel">
+  <button type="button" class="code-refresh" id="codeRefresh" title="New code"><i class="bi bi-arrow-clockwise"></i></button>
+  <div id="codeView">
+    <div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div>
+  </div>
+  <div class="code-label">Type the characters above</div>
+  <input type="text" id="codeInput" class="code-input" placeholder="Enter code" autocomplete="off" maxlength="6" inputmode="text" required disabled>
+</div>
+<button type="submit" class="btn-primary" id="loginBtn" disabled>
+<span id="adminLoginText" data-i18n="Login">Login</span>
+<span class="spinner-border spinner-border-sm d-none" id="adminLoginSpinner" role="status"></span>
+</button>
+</form>
+<div id="adminLoginResult" class="mt-4"></div>
+<a href="index.html" class="back-link"><i class="bi bi-arrow-left"></i><span data-i18n="Back to Home">Back to Home</span></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+!function(){const e=!!localStorage.getItem("admin_token"),t=document.getElementById("adminLoginNav"),n=document.getElementById("adminLogoutNav");t&&t.classList.toggle("d-none",e),n&&n.classList.toggle("d-none",!e),n?.addEventListener("click",e=>{e.preventDefault(),localStorage.clear(),sessionStorage.clear(),window.location.href="admin_login.html"})}();
+let adminLastActivity=Date.now();
+const ADMIN_INACTIVITY_TIMEOUT=6e5;
+function checkAdminInactivity(){localStorage.getItem("admin_token")&&Date.now()-adminLastActivity>=6e5&&(localStorage.clear(),sessionStorage.clear(),window.location.href="admin_login.html")}
+function togglePassword(e,t){const n=document.getElementById(e),o=document.getElementById(t);"password"===n.type?(n.type="text",o.classList.remove("bi-eye"),o.classList.add("bi-eye-slash")):(n.type="password",o.classList.remove("bi-eye-slash"),o.classList.add("bi-eye"))}
+["mousedown","mousemove","keypress","scroll","touchstart","click"].forEach(function(e){document.addEventListener(e,function(){adminLastActivity=Date.now()})});
+setInterval(checkAdminInactivity,3e4);
+
+var _captchaToken = null;
+
+async function generateCaptcha() {
+  var refreshBtn = document.getElementById('codeRefresh');
+  var display = document.getElementById('codeView');
+  var input = document.getElementById('codeInput');
+  var loginBtn = document.getElementById('loginBtn');
+
+  refreshBtn.classList.add('spinning');
+  display.innerHTML = '<div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div>';
+  input.disabled = true;
+  input.value = '';
+  input.classList.remove('is-valid','is-invalid');
+  loginBtn.disabled = true;
+
+  try {
+    var resp = await fetch('/api/admin/login/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+    var data = await resp.json();
+    if (data.success) {
+      _captchaToken = data.captcha_token;
+      display.innerHTML = atob(data.captcha_image);
+      input.disabled = false;
+    } else {
+      display.innerHTML = '<div class="code-loading" style="color:var(--bs-danger);">Failed to load captcha</div>';
+    }
+  } catch(e) {
+    display.innerHTML = '<div class="code-loading" style="color:var(--bs-danger);">Network error</div>';
+  }
+  refreshBtn.classList.remove('spinning');
+}
+
+document.getElementById('codeInput').addEventListener('input', function() {
+  var val = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  this.value = val;
+  if (val.length >= 6) {
+    this.classList.remove('is-invalid');
+    this.classList.add('is-valid');
+    document.getElementById('loginBtn').disabled = false;
+  } else {
+    this.classList.remove('is-valid','is-invalid');
+    document.getElementById('loginBtn').disabled = true;
+  }
+});
+
+document.getElementById('codeRefresh').addEventListener('click', function() {
+  generateCaptcha();
+});
+
+document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  if (!_captchaToken) { generateCaptcha(); return; }
+
+  var btn = document.getElementById('loginBtn');
+  var spinner = document.getElementById("adminLoginSpinner");
+  var btnText = document.getElementById("adminLoginText");
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("adminPassword").value;
+  var captchaCode = document.getElementById("codeInput").value;
+
+  if (!captchaCode || captchaCode.length !== 6) return;
+
+  btn.disabled = true;
+  spinner.classList.remove("d-none");
+  btnText.textContent = "Logging in...";
+
+  var delay = new Promise(function(r){ setTimeout(r, 3000) });
+  try {
+    var resp = await Promise.all([
+      fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+          captcha_token: _captchaToken,
+          captcha_code: captchaCode
+        })
+      }),
+      delay
+    ]);
+    var data = await resp[0].json();
+    if (data.success) {
+      localStorage.setItem("admin_token", data.token);
+      window.location.href = "admin_dashboard.html";
+    } else {
+      document.getElementById("adminLoginResult").innerHTML = '<div class="alert alert-info"><i class="bi bi-exclamation-triangle me-2"></i>' + escapeHtml(data.error) + '</div>';
+      generateCaptcha();
+    }
+  } catch(e) {
+    document.getElementById("adminLoginResult").innerHTML = '<div class="alert alert-info"><i class="bi bi-exclamation-triangle me-2"></i>Error: ' + escapeHtml(e.message) + '</div>';
+    generateCaptcha();
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add("d-none");
+    btnText.textContent = "Login";
+  }
+});
+
+document.querySelector('.password-toggle').addEventListener('click', function(){ togglePassword('adminPassword','adminPasswordIcon') });
+
+generateCaptcha();
+</script>
+</body>
+</html>

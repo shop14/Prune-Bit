@@ -1,0 +1,144 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Profile - PruneBit">Profile - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<style>
+body.bitcoin-style .send-form-container{max-width:61.2rem;margin:0 auto}
+body.bitcoin-style .send-form-container.page-card{border-radius:18px;border:1px solid var(--cv-border);box-shadow:0 8px 30px rgba(0,0,0,.07)}
+body.bitcoin-style .send-header{display:flex;align-items:center;gap:12px}
+body.bitcoin-style .send-header-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--cv-primary),#ffb45e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 6px 16px rgba(255,126,0,.3);flex-shrink:0}
+body.bitcoin-style .profile-section{border:1px solid var(--cv-border);border-radius:14px;padding:16px;margin-bottom:12px;background:var(--cv-surface)}
+body.bitcoin-style .profile-section:last-child{margin-bottom:0}
+body.bitcoin-style .profile-ic{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--cv-primary),#ffb45e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.05rem;box-shadow:0 4px 12px rgba(255,126,0,.25);flex-shrink:0}
+body.bitcoin-style .profile-ic.warn{background:linear-gradient(135deg,#f59e0b,#fbbf24);box-shadow:0 4px 12px rgba(245,158,11,.25)}
+body.bitcoin-style .profile-ic.success{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 4px 12px rgba(22,163,74,.25)}
+body.bitcoin-style .send-form-label{margin-bottom:6px;font-weight:600;font-size:.82rem;letter-spacing:.2px;color:var(--bs-body-color);display:flex;align-items:center;gap:6px}
+body.bitcoin-style .btn-block{width:100%}
+body.bitcoin-style .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,var(--cv-primary),#ffa94d);border:1px solid transparent;border-radius:12px;color:#fff;box-shadow:0 6px 16px rgba(255,126,0,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,126,0,.38);color:#fff;filter:brightness(1.03)}
+body.bitcoin-style .btn-success{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#16a34a,#22c55e);border:1px solid transparent;border-radius:12px;color:#fff;box-shadow:0 6px 16px rgba(22,163,74,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .btn-success:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(22,163,74,.38);color:#fff;filter:brightness(1.03)}
+body.bitcoin-style .form-label{font-weight:600;font-size:.85rem}
+body.bitcoin-style .send-form-container.page-card{position:relative;z-index:1;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease}
+body.bitcoin-style .send-form-container.page-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .send-header-icon{box-shadow:0 6px 16px rgba(255,126,0,.3),0 0 26px rgba(255,126,0,.45)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style .btn-primary{box-shadow:0 6px 16px rgba(255,126,0,.28),0 0 22px rgba(255,126,0,.3)}
+body.bitcoin-style .btn-primary:hover{box-shadow:0 8px 20px rgba(255,126,0,.38),0 0 30px rgba(255,126,0,.42)}
+body.bitcoin-style .btn-success{box-shadow:0 6px 16px rgba(22,163,74,.28),0 0 22px rgba(22,163,74,.3)}
+body.bitcoin-style .btn-success:hover{box-shadow:0 8px 20px rgba(22,163,74,.38),0 0 30px rgba(22,163,74,.42)}
+body.bitcoin-style .profile-ic{box-shadow:0 6px 16px rgba(255,126,0,.3)}
+body.bitcoin-style .profile-section:hover{border-color:var(--cv-primary)}
+</style>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-content">
+  <div class="page-card send-form-container">
+    <div class="page-card-header">
+      <div class="send-header">
+        <div class="send-header-icon"><i class="bi bi-person-gear"></i></div>
+        <div>
+          <h1 class="fs-5 fw-bold mb-0" data-i18n="Profile Settings">Profile Settings</h1>
+          <p class="text-muted small mb-0" data-i18n="Manage your wallet settings and security">Manage your wallet settings and security</p>
+        </div>
+      </div>
+    </div>
+    <div class="page-card-body">
+      <div class="profile-section">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="profile-ic"><i class="bi bi-person"></i></div>
+          <div>
+            <h2 class="fs-6 fw-bold mb-0" data-i18n="My Wallet">My Wallet</h2>
+            <p class="text-muted small mb-0" data-i18n="Manage your settings">Manage your settings</p>
+          </div>
+        </div>
+        <div class="stat-label mb-1" data-i18n="Wallet ID">Wallet ID</div>
+        <code class="text-break small d-block p-2 rounded border" id="profileWalletId" style="background:var(--bs-tertiary-bg);border-color:var(--cv-border)!important">Loading...</code>
+      </div>
+      <div class="profile-section">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="profile-ic warn"><i class="bi bi-key"></i></div>
+          <div>
+            <h3 class="fs-6 fw-bold mb-0" data-i18n="Show Seed Phrase">Show Seed Phrase</h3>
+            <p class="text-muted small mb-0" data-i18n="View your recovery phrase">View your recovery phrase</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="send-form-label" data-i18n="Enter PIN Code">Enter PIN Code</label>
+          <div id="showSeedPinContainer"></div>
+        </div>
+        <button id="showMnemonicBtn" class="btn btn-primary btn-block">
+          <span id="mnemonicText" data-i18n="Show Seed Phrase">Show Seed Phrase</span>
+          <span class="spinner-border spinner-border-sm d-none" id="mnemonicSpinner" role="status"></span>
+        </button>
+        <div id="mnemonicResult" class="mt-4"></div>
+      </div>
+      <div class="profile-section">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="profile-ic"><i class="bi bi-shield-lock"></i></div>
+          <div>
+            <h3 class="fs-6 fw-bold mb-0" data-i18n="Change PIN">Change PIN</h3>
+            <p class="text-muted small mb-0" data-i18n="Update your wallet PIN">Update your wallet PIN</p>
+          </div>
+        </div>
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-md-6">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="send-form-label" data-i18n="Current PIN">Current PIN</label>
+              <div id="changeOldPinContainer"></div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="send-form-label" data-i18n="New PIN">New PIN</label>
+              <div id="changeNewPinContainer"></div>
+            </div>
+          </div>
+        </div>
+        <button id="changePasswordBtn" class="btn btn-primary btn-block">
+          <span id="passwordText" data-i18n="Change PIN">Change PIN</span>
+          <span class="spinner-border spinner-border-sm d-none" id="passwordSpinner" role="status"></span>
+        </button>
+        <div id="passwordResult" class="mt-4"></div>
+      </div>
+<div class="profile-section">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="profile-ic success"><i class="bi bi-download"></i></div>
+          <div>
+            <h3 class="fs-6 fw-bold mb-0" data-i18n="Backup Wallet">Backup Wallet</h3>
+            <p class="text-muted small mb-0" data-i18n="Download your wallet information">Download your wallet information</p>
+          </div>
+        </div>
+        <p class="text-muted small mb-4" data-i18n="Download an encrypted backup of your wallet including seed phrase and all addresses.">Download an encrypted backup of your wallet including seed phrase and all addresses.</p>
+        <button id="backupBtn" class="btn btn-success btn-block">
+          <span id="backupText" data-i18n="Download Encrypted Backup">Download Encrypted Backup</span>
+          <span class="spinner-border spinner-border-sm d-none" id="backupSpinner" role="status"></span>
+        </button>
+        <div id="backupResult" class="mt-4"></div>
+      </div>
+
+<script>const token=localStorage.getItem("wallet_token");PinPad.create({id:"showSeedPin",container:"showSeedPinContainer"});PinPad.create({id:"changeOldPin",container:"changeOldPinContainer"});PinPad.create({id:"changeNewPin",container:"changeNewPinContainer"});function togglePassword(e,t){const n=document.getElementById(e),s=document.getElementById(t);"password"===n.type?(n.type="text",s.classList.remove("bi-eye"),s.classList.add("bi-eye-slash")):(n.type="password",s.classList.remove("bi-eye-slash"),s.classList.add("bi-eye"))}async function loadWalletInfo(){try{const e=await fetch("/api/get_wallets",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token})}),t=await e.json();t.success&&(document.getElementById("profileWalletId").textContent=t.wallet.id)}catch(e){console.error("Error loading wallet info:",e)}}token||(window.location.href="import.html"),document.getElementById("showMnemonicBtn").addEventListener("click",async()=>{const e=document.getElementById("showMnemonicBtn"),t=document.getElementById("mnemonicSpinner"),n=document.getElementById("mnemonicText"),s=PinPad.getValue("showSeedPin");if(!s)return void(showToast("PIN required",'warning'));e.disabled=!0,t.classList.remove("d-none"),n.textContent="Loading...";const o=new Promise(e=>setTimeout(e,3e3));try{const[e]=await Promise.all([fetch("/api/show_mnemonic",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,password:s})}),o]),t=await e.json();t.success?(document.getElementById("mnemonicResult").innerHTML=`\n            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">\n              <div class="flex items-start gap-3 mb-3">\n                <i class="bi bi-exclamation-triangle text-amber-600 mt-0.5"></i>\n                <div>\n                  <h4 class="font-semibold text-amber-800">Your Seed Phrase</h4>\n                  <p class="text-amber-700 text-sm">Never share this with anyone!</p>\n                </div>\n              </div>\n              <div class="bg-white border border-amber-200 rounded-lg p-4 mb-3">\n                <p class="text-lg font-mono text-center" style="letter-spacing: 2px;">${escapeHtml(t.mnemonic)}</p>\n              </div>\n              <button id="copyMnemonicBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 rounded-lg transition-colors">\n                <i class="bi bi-clipboard me-2"></i>Copy to Clipboard\n              </button>\n            </div>\n          `,document.getElementById("copyMnemonicBtn").addEventListener("click",function(){navigator.clipboard.writeText(t.mnemonic)})):showToast(t.error,'error')}catch(e){showToast(e.message,'error')}finally{e.disabled=!1,t.classList.add("d-none"),n.textContent="Show Seed Phrase"}}),document.getElementById("changePasswordBtn").addEventListener("click",async()=>{const e=document.getElementById("changePasswordBtn"),t=document.getElementById("passwordSpinner"),n=document.getElementById("passwordText"),s=PinPad.getValue("changeOldPin"),o=PinPad.getValue("changeNewPin"),a=PinPad.getValue("changeNewPin");if(!s||!o||!a)return void(showToast("All fields are required",'warning'));e.disabled=!0,t.classList.remove("d-none"),n.textContent="Changing...";const d=new Promise(e=>setTimeout(e,3e3));try{const[e]=await Promise.all([fetch("/api/change_password",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,oldPassword:s,newPassword:o})}),d]),t=await e.json();t.success?(t.backup&&function(){const e=JSON.stringify(t.backup),n=new Blob([e],{type:"application/json"}),s=URL.createObjectURL(n),o=document.createElement("a");o.href=s,o.download=`wallet_backup_pin_change_${(new Date).toISOString().split("T")[0]}.prunebit`,document.body.appendChild(o),o.click(),document.body.removeChild(o),URL.revokeObjectURL(s)}(),document.getElementById("passwordResult").innerHTML='\n            <div class="alert alert-success">\n              <i class="bi bi-check-circle me-2"></i>PIN changed successfully! Backup downloaded automatically. Please log in again.\n            </div>\n          ',PinPad.reset("changeOldPin"),PinPad.reset("changeNewPin"),PinPad.reset("changeNewPin"),setTimeout(()=>window.location.href="import.html",3e3)):showToast(t.error,'error')}catch(e){showToast(e.message,'error')}finally{e.disabled=!1,t.classList.add("d-none"),n.textContent="Change PIN"}}),document.getElementById("backupBtn").addEventListener("click",async()=>{const e=document.getElementById("backupBtn"),t=document.getElementById("backupSpinner"),n=document.getElementById("backupText"),s=sessionStorage.getItem("wallet_password");if(s){e.disabled=!0,t.classList.remove("d-none"),n.textContent="Encrypting...";try{const e=await fetch("/api/export_backup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,password:s,backupPassword:s})}),t=await e.json();if(t.success){const e=JSON.stringify(t.backup,null,2),n=new Blob([e],{type:"application/json"}),s=URL.createObjectURL(n),o=document.createElement("a");o.href=s,o.download=`wallet_backup_${(new Date).toISOString().split("T")[0]}.prunebit`,document.body.appendChild(o),o.click(),document.body.removeChild(o),URL.revokeObjectURL(s),document.getElementById("backupResult").innerHTML='\n            <div class="alert alert-success">\n              <i class="bi bi-check-circle me-2"></i>Encrypted backup downloaded successfully!\n            </div>\n          '}else showToast(t.error,'error')}catch(e){showToast(e.message,'error')}finally{e.disabled=!1,t.classList.add("d-none"),n.textContent="Download Encrypted Backup"}}else{const pwd=prompt("Please enter your wallet PIN to create backup:");if(!pwd)return;e.disabled=!0,t.classList.remove("d-none"),n.textContent="Encrypting...";try{const e=await fetch("/api/export_backup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,password:pwd,backupPassword:pwd})}),t=await e.json();if(t.success){const e=JSON.stringify(t.backup,null,2),n=new Blob([e],{type:"application/json"}),s=URL.createObjectURL(n),o=document.createElement("a");o.href=s,o.download=`wallet_backup_${(new Date).toISOString().split("T")[0]}.prunebit`,document.body.appendChild(o),o.click(),document.body.removeChild(o),URL.revokeObjectURL(s),document.getElementById("backupResult").innerHTML='<div class="alert alert-success"><i class="bi bi-check-circle me-2"></i>Encrypted backup downloaded successfully!</div>'}else showToast(t.error,'error')}catch(e){showToast(e.message,'error')}finally{e.disabled=!1,t.classList.add("d-none"),n.textContent="Download Encrypted Backup"}}}),loadWalletInfo()
+</script>
+<script src="../js/header.js?v=20260801a"></script>
+</body>
+</html>

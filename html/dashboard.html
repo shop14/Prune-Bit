@@ -1,0 +1,110 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Dashboard - PruneBit">Dashboard - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<style>
+body.bitcoin-style .send-form-container{max-width:61.2rem;margin:0 auto}
+body.bitcoin-style .send-form-container.page-card{border-radius:18px;border:1px solid var(--cv-border);box-shadow:0 8px 30px rgba(0,0,0,.07)}
+body.bitcoin-style .send-header{display:flex;align-items:center;gap:12px}
+body.bitcoin-style .send-header-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--cv-primary),#ffb45e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 6px 16px rgba(255,126,0,.3);flex-shrink:0}
+body.bitcoin-style .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,var(--cv-primary),#ffa94d);border:1px solid transparent;border-radius:12px;color:#fff;box-shadow:0 6px 16px rgba(255,126,0,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,126,0,.38);color:#fff;filter:brightness(1.03)}
+body.bitcoin-style .btn-outline-primary,body.bitcoin-style .btn-outline-secondary{border-radius:12px}
+body.bitcoin-style .stat-card{border-radius:14px;border-color:var(--cv-border)}
+body.bitcoin-style .stat-value{font-weight:700}
+body.bitcoin-style .table{border-radius:12px;overflow:hidden}
+body.bitcoin-style .table thead th{color:var(--bs-secondary-color);font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--cv-border)}
+body.bitcoin-style .table td{vertical-align:middle}
+body.bitcoin-style #recentTransactions{display:flex;flex-direction:column;gap:8px}
+body.bitcoin-style #recentTransactions .tx-row{border:1px solid var(--cv-border);border-radius:12px;background:var(--cv-surface);padding:10px 12px;transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style #recentTransactions .tx-row:hover{border-color:var(--cv-primary);box-shadow:0 2px 10px rgba(255,126,0,.12);background:var(--bs-tertiary-bg)}
+body.bitcoin-style #recentTransactions .tx-row .sent{color:#dc2626}
+body.bitcoin-style #recentTransactions .tx-row .received{color:#16a34a}
+body.bitcoin-style .send-form-container.page-card{position:relative;z-index:1;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease}
+body.bitcoin-style .send-form-container.page-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .send-header-icon{box-shadow:0 6px 16px rgba(255,126,0,.3),0 0 26px rgba(255,126,0,.45)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style .btn-primary{box-shadow:0 6px 16px rgba(255,126,0,.28),0 0 22px rgba(255,126,0,.3)}
+body.bitcoin-style .btn-primary:hover{box-shadow:0 8px 20px rgba(255,126,0,.38),0 0 30px rgba(255,126,0,.42)}
+</style>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-content">
+  <div class="page-card send-form-container">
+    <div class="page-card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div class="send-header">
+        <div class="send-header-icon"><i class="bi bi-speedometer2"></i></div>
+        <div>
+          <h1 class="fs-5 fw-bold mb-0" data-i18n="Dashboard">Dashboard</h1>
+          <p class="text-muted small mb-0" data-i18n="Overview of your wallets">Overview of your wallets</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <button type="button" id="refreshBalanceBtn" class="btn btn-sm btn-outline-primary py-0 px-2" title="Refresh Balances"><i class="bi bi-arrow-clockwise"></i></button>
+      </div>
+    </div>
+    <div class="page-card-body">
+      <div id="dashboardError" class="d-none alert alert-info mb-4"></div>
+      <div id="welcomeAlert" class="mb-4 p-3 rounded-3" style="display:none;background:var(--cv-success-light);border:1px solid var(--cv-success)">
+        <i class="bi bi-check-circle me-2" style="color:var(--cv-success)"></i>
+        <span id="welcomeMessage" style="color:var(--cv-success);font-weight:500"></span>
+      </div>
+      <div class="stat-card mb-4" style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+        <div style="flex:1 1 240px;min-width:0">
+          <div class="stat-label" data-i18n="Wallet ID">Wallet ID</div>
+          <div class="d-flex align-items-center gap-2 mt-1">
+            <code id="walletIdDisplay" class="text-break small">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+            <button type="button" id="toggleWalletIdBtn" class="btn btn-sm btn-outline-secondary py-0 px-1" title="Show Wallet ID"><i class="bi bi-eye"></i></button>
+            <button type="button" id="copyWalletIdBtn" class="btn btn-sm btn-outline-primary py-0 px-1" title="Copy Wallet ID"><i class="bi bi-clipboard"></i></button>
+          </div>
+        </div>
+        <div style="flex:1 1 240px;min-width:0">
+          <div class="stat-label" data-i18n="Total Balance">Total Balance</div>
+          <div class="stat-value" id="totalUsdBalance" style="font-size:1.25rem">$ 0.00</div>
+          <div class="mt-2" style="font-size:13px;opacity:.75"><i class="bi bi-arrow-left-right me-1"></i><span data-i18n="Total Transactions">Total Transactions</span>: <strong id="totalTxCount">0</strong></div>
+        </div>
+      </div>
+      <h3 class="fs-6 fw-bold mb-2"><i class="bi bi-coin me-1"></i><span data-i18n="Coin Balances">Coin Balances</span></h3>
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div class="d-flex flex-wrap align-items-center gap-1" id="activeCoinTags"></div>
+        <div class="dropdown">
+          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="dropdown" style="font-size:.8rem;border-radius:20px;padding:4px 14px" aria-expanded="false"><i class="bi bi-plus-lg me-1"></i><span data-i18n="Add coin">Add coin</span></button>
+          <ul class="dropdown-menu dropdown-menu-end shadow" id="addCoinDropdown" style="max-height:280px;overflow-y:auto;font-size:.85rem;min-width:200px"></ul>
+        </div>
+      </div>
+      <div class="table-responsive mb-4">
+        <table class="table table-sm align-middle mb-0">
+          <thead><tr><th data-i18n="Coin">Coin</th><th class="text-end" data-i18n="Balance">Balance</th><th class="text-end" data-i18n="Unconfirmed">Unconfirmed</th><th class="text-end">Exchanges</th></tr></thead>
+          <tbody id="walletCoinRows"><tr><td colspan="4" class="text-center text-muted py-3" data-i18n="Loading...">Loading...</td></tr></tbody>
+        </table>
+      </div>
+      <h3 class="fs-6 fw-bold mb-2"><i class="bi bi-clock-history me-1"></i><span data-i18n="Recent Transactions">Recent Transactions</span></h3>
+      <div id="recentTransactions">
+        <div class="text-center py-5 text-muted"><i class="bi bi-inbox fs-1 mb-2 d-block"></i><p class="mb-0" data-i18n="No transactions yet">No transactions yet</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>const token=localStorage.getItem("wallet_token");token||(window.location.href="import.html"),setTimeout(()=>{const e=localStorage.getItem("showWelcomeMessage");if(!e)return;localStorage.removeItem("showWelcomeMessage");const t=document.getElementById("welcomeAlert"),n=document.getElementById("welcomeMessage");t&&n&&(n.textContent=e,t.style.display="block",setTimeout(()=>{t.style.display="none"},1e4))},100);let activeCoinFilters=null;var walletCoins=null;var walletIdRevealed=!1,walletIdValue="";const dashExtraCoins=[{coin:"BTC",label:"Bitcoin"},{coin:"ETH",label:"Ethereum"},{coin:"LTC",label:"Litecoin"},{coin:"DOGE",label:"Dogecoin"},{coin:"BTCT",label:"Bitcoin Testnet"},{coin:"BCH",label:"Bitcoin Cash"},{coin:"DASH",label:"Dash"},{coin:"DGB",label:"DigiByte"},{coin:"RVN",label:"Ravencoin"},{coin:"BTG",label:"Bitcoin Gold"},{coin:"ZEC",label:"Zcash"},{coin:"BSV",label:"Bitcoin SV"},{coin:"XVG",label:"Verge"},{coin:"QTUM",label:"Qtum"},{coin:"VTC",label:"Vertcoin"},{coin:"KMD",label:"Komodo"},{coin:"ETC",label:"Ethereum Classic"},{coin:"USDT",label:"Tether USDT"},{coin:"POLYGON",label:"Polygon"},{coin:"BSC",label:"BNB Chain"},{coin:"KASPA",label:"Kaspa"},{coin:"XRP",label:"Ripple"}];function coinLogoFile(e){return({POLYGON:"matic",BSC:"bnb"}[e]||e.toLowerCase())+".png"}function rebuildCoinTags(){const e=document.getElementById("activeCoinTags");e.innerHTML="",activeCoinFilters.forEach(function(t){if(!dashExtraCoins.find(function(e){return e.coin===t}))return;const n=document.createElement("button");n.type="button",n.className="coin-filter-btn active",n.dataset.filterCoin=t,n.onclick=function(){toggleCoinFilter(t)},n.style.cssText="font-size:0.75rem;padding:2px 10px;border-radius:20px;border:1px solid var(--cv-border);background:var(--bs-tertiary-bg);color:var(--bs-body-color);cursor:pointer;display:inline-flex;align-items:center;gap:4px;",n.innerHTML='<img src="../img/logos/'+coinLogoFile(t)+'" alt="" style="width:14px;height:14px;object-fit:contain;border-radius:50%;"> '+escapeHtml(t)+' <span class="ms-1" style="opacity:0.5�">×</span>',e.appendChild(n)})}async function syncActiveCoins(){for(var e=Array.from(activeCoinFilters),t=0;t<3;t++){if(!(await Promise.all([fetch("/api/sync_balances",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coins:e})}).catch(function(){}),fetch("/api/sync_transactions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coins:e})}).catch(function(){})])).some(function(e){return e&&429===e.status}))return;await new Promise(function(e){setTimeout(e,2e3*(t+1))})}}var dashboardTimer=null,syncRunning=!1,lastSyncStart=0;function debouncedLoadDashboard(){dashboardTimer&&clearTimeout(dashboardTimer),dashboardTimer=setTimeout(function(){window.loadDashboard()},500)}function toggleCoinFilter(e){if(activeCoinFilters.has(e)){if(activeCoinFilters.size<=1)return;activeCoinFilters.delete(e)}else activeCoinFilters.add(e);localStorage.setItem("tracked_coins",JSON.stringify(Array.from(activeCoinFilters))),rebuildCoinTags(),populateAddCoinDropdown(),debouncedLoadDashboard()}async function addCoinFilter(e){if(activeCoinFilters.has(e))return;dashExtraCoins.find(t=>t.coin===e)&&(activeCoinFilters.add(e),localStorage.setItem("tracked_coins",JSON.stringify(Array.from(activeCoinFilters))),rebuildCoinTags(),populateAddCoinDropdown(),debouncedLoadDashboard(),syncActiveCoins())}function populateAddCoinDropdown(){const e=document.getElementById("addCoinDropdown");if(!e)return;const t=new Set;document.querySelectorAll("#activeCoinTags .coin-filter-btn").forEach(e=>t.add(e.dataset.filterCoin)),e.innerHTML=dashExtraCoins.filter(function(e){return!t.has(e.coin)}).map(e=>'<li><a class="dropdown-item py-1" href="#" data-add-coin="'+escapeHtml(e.coin)+'"><img src="../img/logos/'+coinLogoFile(e.coin)+'" alt="" style="width:16px;height:16px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-right:6px;"> '+escapeHtml(e.label)+"</a></li>").join(""),""===e.innerHTML&&(e.innerHTML='<li><span class="dropdown-item text-muted py-1 small">All coins added</span></li>')}function showDashboardError(e){const t=document.getElementById("dashboardError");t&&(t.textContent=e,t.classList.remove("d-none")),console.error("Dashboard error:",e)}function triggerSync(e){if(syncRunning)return;var t=e||Array.from(activeCoinFilters);if(!t||!t.length)return;var n=Date.now();if(n-lastSyncStart<3e4)return void window.loadDashboard();lastSyncStart=n;syncRunning=!0;var o={method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coins:t})};Promise.all([fetch("/api/sync_balances",o).catch(function(){}),fetch("/api/sync_transactions",o).catch(function(){})]).then(function(){syncRunning=!1,window.loadDashboard()}).catch(function(){syncRunning=!1})}function renderWalletCoinRows(b,u){var r=document.getElementById("walletCoinRows");if(!r)return;var c=[];activeCoinFilters.forEach(function(e){c.push(e)});c.sort(function(x,y){var bx=Number(b[x])||0,by=Number(b[y])||0,ux=Number(u[x])||0,uy=Number(u[y])||0,tx=bx+ux,ty=by+uy;return ty-tx||y.localeCompare(x)});var rows=c.map(function(e){var bv=Number(b[e])||0,uv=Number(u[e])||0,lg=coinLogoFile(e),nm=(dashExtraCoins.find(function(x){return x.coin===e})||{}).label||e;return '<tr><td><img src="../img/logos/'+escapeHtml(lg)+'" alt="" style="width:18px;height:18px;object-fit:contain;border-radius:50%;vertical-align:middle;margin-right:6px;"> '+escapeHtml(nm)+' <span class="text-muted small">('+escapeHtml(e)+')</span></td><td class="text-end fw-semibold">'+bv.toLocaleString(void 0,{minimumFractionDigits:2,maximumFractionDigits:8})+'</td><td class="text-end">'+uv.toLocaleString(void 0,{minimumFractionDigits:2,maximumFractionDigits:8})+'</td><td class="text-end"><a href="exchanges.html?from='+encodeURIComponent(e)+'" class="small fw-semibold" style="color:var(--bs-primary);white-space:nowrap">Exchange</a></td></tr>'}).join("");rows||(rows='<tr><td colspan="3" class="text-center text-muted py-3" data-i18n="No balances to show">No balances to show</td></tr>');r.innerHTML=rows}function walletIdDisplayText(){if(!walletIdValue)return"-";if(walletIdRevealed)return walletIdValue;return walletIdValue.length>8?walletIdValue.slice(0,8)+"...":walletIdValue}window.loadDashboard=async function(){var e=document.getElementById("totalUsdBalance");e&&(e.textContent="$ 0.00");try{var t=await fetch("/api/dashboard",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coins:Array.from(activeCoinFilters)})});if(401===t.status||400===t.status)return localStorage.removeItem("wallet_token"),void(window.location.href="import.html");if(429===t.status)return void setTimeout(window.loadDashboard,5e3);var n=await t.json();if(!n||n.error)return n&&"Session expired"===n.error?(localStorage.removeItem("wallet_token"),void(window.location.href="import.html")):void((r=document.getElementById("totalUsdBalance"))&&(r.textContent="USDT 0.00"));var o=n.addresses||[];walletCoins=new Set(o.map(function(e){return e.coin}));var i=n.recentTransactions||[],a=n.balances||{};activeCoinFilters.forEach(function(e){Number(a[e])||0});var wid=document.getElementById("walletIdDisplay");if(wid){var wv=n.walletId||localStorage.getItem("walletId")||"";walletIdValue=wv||walletIdValue;wid.textContent=walletIdDisplayText()}var u={};o.forEach(function(e){u[e.coin]=(u[e.coin]||0)+(Number(e.unconfirmed)||0)});var txc=document.getElementById("totalTxCount");txc&&(txc.textContent=Number(n.totalTx)||0);renderWalletCoinRows(a,u);var r=document.getElementById("totalUsdBalance"),c=Object.keys(a).filter(function(e){return!!{BTC:1,ETH:1,LTC:1,DOGE:1,BCH:1,DASH:1,DGB:1,RVN:1,BTG:1,ZEC:1,BSV:1,XVG:1,QTUM:1,VTC:1,KMD:1,ETC:1,USDT:1,POLYGON:1,BSC:1,KASPA:1,XRP:1}[e]&&Number(a[e])>0});c.length>0?fetch("/api/prices",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({coins:c})}).then(function(e){return e.json()}).then(function(e){if(!e.success)throw new Error("API error");for(var t=0,n=0;n<c.length;n++){var o=c[n];e.prices[o]&&(t+=Number(a[o])*e.prices[o])}r&&(r.textContent="$ "+t.toLocaleString(void 0,{minimumFractionDigits:2,maximumFractionDigits:2}))}).catch(function(){r&&(r.textContent="$ 0.00")}):r&&(r.textContent="$ 0.00");var s=i.filter(function(e){return activeCoinFilters.has(e.coin)});var m=document.getElementById("recentTransactions");m&&(s.length>0?m.innerHTML=s.slice(0,10).map(function(e){var t="sent"===e.type?"arrow-up-right":"arrow-down-left",n="sent"===e.type?"sent":"received",o="sent"===e.type?"-":"+";return'<div class="tx-row"><div class="d-flex align-items-center gap-3"><div class="tx-icon '+n+'"><i class="bi bi-'+t+'"></i></div><div><p class="fw-semibold mb-0">'+("sent"===e.type?"Sent":"Received")+" "+escapeHtml(e.coin)+'</p><p class="small text-muted mb-0">'+escapeHtml(e.date||"")+'</p></div></div><div class="text-end"><p class="fw-bold mb-0 '+n+'">'+o+Math.abs(e.amount)+'</p><p class="small text-muted mb-0">'+escapeHtml(e.status||"")+"</p></div></div>"}).join(""):m.innerHTML='<div class="text-center py-5 text-muted"><i class="bi bi-inbox fs-1 mb-2 d-block"></i><span>No transactions yet</span></div>'),setTimeout(function(){rebuildCoinTags(),populateAddCoinDropdown()},0)}catch(e){showDashboardError("Dashboard error: "+e.message)}},function(){try{var e=JSON.parse(localStorage.getItem("tracked_coins"));activeCoinFilters=e&&e.length>0?new Set(e):new Set(["USDT","BTC","ETH","LTC","DOGE"])}catch(e){activeCoinFilters=new Set(["USDT","BTC","ETH","LTC","DOGE"])}localStorage.setItem("tracked_coins",JSON.stringify(Array.from(activeCoinFilters))),rebuildCoinTags(),populateAddCoinDropdown()}(),document.getElementById('addCoinDropdown').addEventListener('click',function(e){var t=e.target.closest('[data-add-coin]');if(t){e.preventDefault();addCoinFilter(t.dataset.addCoin)}});function copyWalletIdFeedback(cb){var o=cb.innerHTML;cb.innerHTML='<i class="bi bi-check-lg"></i>';setTimeout(function(){cb.innerHTML=o},1500)}function copyWalletIdFallback(s,cb){var ta=document.createElement("textarea");ta.value=s;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");copyWalletIdFeedback(cb)}catch(e){}document.body.removeChild(ta)}(function(){var cb=document.getElementById("copyWalletIdBtn");cb&&cb.addEventListener("click",function(){if(!walletIdValue)return;var s=walletIdValue;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(s).then(function(){copyWalletIdFeedback(cb)}).catch(function(){copyWalletIdFallback(s,cb)})}else copyWalletIdFallback(s,cb)})})();(function(){var tb=document.getElementById("toggleWalletIdBtn");tb&&tb.addEventListener("click",function(){walletIdRevealed=!walletIdRevealed;var w=document.getElementById("walletIdDisplay");w&&(w.textContent=walletIdDisplayText());tb.innerHTML=walletIdRevealed?'<i class="bi bi-eye-slash"></i>':'<i class="bi bi-eye"></i>'})})();window.loadDashboard(),setTimeout(function(){localStorage.getItem("db_synced_once")||syncActiveCoins().then(function(){localStorage.setItem("db_synced_once","1"),window.loadDashboard()}).catch(function(){})},2000),document.getElementById("refreshBalanceBtn").addEventListener("click",function(){this.disabled=!0,this.innerHTML='<span class="spinner-border spinner-border-sm"></span>';var e=function(){try{return JSON.parse(localStorage.getItem("tracked_coins"))}catch(e){return[]}}();fetch("/api/sync_balances",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token,coins:e.length?e:void 0,force:!0})}).then(function(){window.loadDashboard()}).catch(function(){}).finally(function(){var e=document.getElementById("refreshBalanceBtn");e&&(e.disabled=!1,e.innerHTML='<i class="bi bi-arrow-clockwise"></i>')})})</script><script src="/js/lib/bootstrap.bundle.min.js"></script><script src="../js/websocket.js?v=20260815a"></script><script>var wsTok=localStorage.getItem("wallet_token");wsTok&&(connectWebSocket(wsTok),document.addEventListener("ws_sync_complete",function(){window.loadDashboard()}),document.addEventListener("ws_balance_sync_complete",function(){triggerSync()}))</script><script src="../js/header.js?v=20260803a"></script>
+

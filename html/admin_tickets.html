@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tickets - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div class="admin-page-header">
+  <h2><i class="bi bi-ticket-detailed me-2"></i>Support Tickets</h2>
+  <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+</div>
+<div id="ticketDetailContainer" class="mb-4" style="display:none;"></div>
+
+<div class="card admin-card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table admin-table align-middle mb-0">
+        <thead>
+          <tr><th>ID</th><th>User</th><th>Subject</th><th>Priority</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="ticketsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+async function loadTickets() {
+  try {
+    var data = await adminPost('/api/support_tickets/list');
+    if (data.success) {
+      var tickets = data.tickets || [];
+
+      document.getElementById('ticketsTableBody').innerHTML = tickets.length === 0
+        ? '<tr><td colspan="7" class="text-center text-muted py-4">No support tickets</td></tr>'
+        : tickets.map(function(t) {
+            var st = (t.status || 'Open').toLowerCase();
+            var statusClass = 'open' === st ? 'bg-warning' : 'bg-success';
+            var priClass = 'urgent' === (t.priority || '').toLowerCase() || 'high' === (t.priority || '').toLowerCase() ? 'bg-danger' : 'Normal' === t.priority ? 'bg-secondary' : 'bg-info';
+            return '<tr>' +
+              '<td><code class="small">' + escapeHtml(t.id || '') + '</code></td>' +
+              '<td>' + escapeHtml(t.name || '-') + '</td>' +
+              '<td>' + escapeHtml(t.subject || '-') + '</td>' +
+              '<td><span class="badge ' + priClass + '">' + escapeHtml(t.priority || 'Normal') + '</span></td>' +
+              '<td><span class="badge ' + statusClass + '">' + escapeHtml(t.status || 'Open') + '</span></td>' +
+              '<td class="text-secondary small">' + escapeHtml(t.created_at || '-') + '</td>' +
+              '<td>' +
+                '<button class="btn btn-link btn-sm text-decoration-none p-0 me-2" data-action="view-ticket" data-id="' + escapeHtml(t.id) + '">View</button>' +
+                '<button class="btn btn-link btn-sm text-danger text-decoration-none p-0" data-action="delete-ticket" data-id="' + escapeHtml(t.id) + '">Delete</button>' +
+              '</td>' +
+            '</tr>';
+          }).join('');
+    }
+  } catch(e) { console.error('Error loading tickets:', e); }
+}
+
+async function viewTicket(id) {
+  var container = document.getElementById('ticketDetailContainer');
+  container.style.display = 'block';
+  container.innerHTML = '<div class="card admin-card"><div class="card-body text-center py-4"><div class="spinner-border"></div><p class="mt-2">Loading ticket...</p></div></div>';
+  try {
+    var data = await adminPost('/api/support_tickets/list');
+    var tickets = data.tickets || [];
+    var ticket = tickets.find(function(t) { return String(t.id) === String(id); });
+    if (!ticket) {
+      container.innerHTML = '<div class="card admin-card"><div class="card-body text-center text-muted">Ticket not found</div></div>';
+      return;
+    }
+
+    container.innerHTML =
+      '<div class="card admin-card">' +
+        '<div class="card-header d-flex justify-content-between align-items-center">' +
+          '<strong>Ticket #' + escapeHtml(ticket.id) + ': ' + escapeHtml(ticket.subject || '') + '</strong>' +
+          '<button class="btn btn-sm btn-outline-secondary" data-action="close-detail">&times; Close</button>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<div class="row g-3 mb-3">' +
+            '<div class="col-md-3"><label class="form-label small">Name</label><div>' + escapeHtml(ticket.name || '-') + '</div></div>' +
+            '<div class="col-md-3"><label class="form-label small">Email</label><div>' + escapeHtml(ticket.email || '-') + '</div></div>' +
+            '<div class="col-md-3"><label class="form-label small">Category</label><div>' + escapeHtml(ticket.category || '-') + '</div></div>' +
+            '<div class="col-md-3"><label class="form-label small">Priority</label><div><span class="badge bg-secondary">' + escapeHtml(ticket.priority || 'Normal') + '</span></div></div>' +
+          '</div>' +
+          '<div class="mb-3"><label class="form-label small">Message</label><div class="p-3 bg-light rounded">' + escapeHtml(ticket.message || '') + '</div></div>' +
+          '<div class="mb-3"><label class="form-label small">Admin Notes</label><div class="p-3 bg-light rounded">' + escapeHtml(ticket.admin_notes || 'No notes yet') + '</div></div>' +
+          '<div class="border-top pt-3">' +
+            '<div class="mb-2">' +
+              '<span class="badge ' + ((ticket.status || '').toLowerCase() === 'open' ? 'bg-warning' : 'bg-success') + ' me-2">' + escapeHtml(ticket.status || 'Open') + '</span>' +
+              '<button class="btn btn-sm btn-success ms-2" data-action="resolve-ticket" data-id="' + escapeHtml(ticket.id) + '">Mark Resolved</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  } catch(e) {
+    container.innerHTML = '<div class="card admin-card"><div class="card-body text-danger">Error: ' + escapeHtml(e.message) + '</div></div>';
+  }
+}
+
+async function resolveTicket(id) {
+  try {
+    var data = await adminPost('/api/support_tickets/resolve', { ticket_id: id });
+    if (data.success) { loadTickets(); viewTicket(id); }
+    else alert(data.error || 'Failed to resolve');
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+async function deleteTicket(id) {
+  if (!confirm('Delete this ticket?')) return;
+  try {
+    var data = await adminPost('/api/support_tickets/delete', { ticket_id: id });
+    if (data.success) loadTickets();
+    else alert(data.error || 'Failed to delete');
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadTickets();
+  document.getElementById('refreshBtn').addEventListener('click', loadTickets);
+
+  document.getElementById('ticketsTableBody').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    var id = btn.getAttribute('data-id');
+    if (action === 'view-ticket') viewTicket(id);
+    else if (action === 'delete-ticket') deleteTicket(id);
+  });
+
+  document.getElementById('ticketDetailContainer').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    if (action === 'close-detail') {
+      document.getElementById('ticketDetailContainer').style.display = 'none';
+    } else if (action === 'resolve-ticket') {
+      resolveTicket(btn.getAttribute('data-id'));
+    }
+  });
+});
+</script>
+</body>
+</html>

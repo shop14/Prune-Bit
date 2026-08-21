@@ -1,0 +1,852 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Import Wallet - PruneBit">Import Wallet - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<script src="../js/bip39-words.js"></script>
+<script>localStorage.getItem("wallet_token")&&window.location.replace("dashboard.html")</script>
+<style>
+.import-card{background:#FBFAF7;border:1px solid #E5E0D5;padding:40px;width:60%;max-width:61.2rem;margin:0 auto}
+.import-card h1{font-family:'Trebuchet MS',Arial,sans-serif;font-size:162.5%;color:#ff7e00;font-weight:400;margin:0 0 6px}
+.import-card .subtitle{color:#646464;font-size:14px;margin-bottom:24px}
+.import-card label{font-size:14px;font-weight:600;color:#1c1f30;display:block;margin-bottom:6px}
+.import-card input[type=file],.import-card input[type=password],.import-card input[type=text],.import-card textarea{width:100%;padding:12px 14px;border:1px solid #E5E0D5;font-size:15px;font-family:'Trebuchet MS',Arial,sans-serif;box-sizing:border-box;background:#FBFAF7;color:#1c1f30}
+.import-card input:focus,.import-card textarea:focus{outline:0;border-color:#ff7e00}
+.import-card textarea{min-height:70px;resize:vertical}
+.import-card .input-group{position:relative}
+.import-card .input-group input,.import-card .input-group textarea{padding-right:44px}
+.import-card .toggle-pass{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:0 0;border:none;color:#9d9d9d;padding:8px 10px;cursor:pointer;font-size:18px}
+.import-card .form-hint{font-size:12px;color:#9d9d9d;margin-top:4px}
+.import-card .mb-3{margin-bottom:16px}
+.import-card .mb-4{margin-bottom:24px}
+.import-card .btn-btc-primary{background:#ff9500;color:#fff;border:none;padding:14px 25px;font-size:100%;font-weight:600;width:100%;cursor:pointer;font-family:'Trebuchet MS',Arial,sans-serif}
+.import-card .btn-btc-primary:hover{background:#f9a136}
+.import-card .btn-btc-primary:disabled{opacity:.5;cursor:not-allowed}
+.import-card .tabs{display:flex;border:1px solid #E5E0D5;margin-bottom:24px}
+.import-card .tabs button{flex:1;padding:12px;border:none;background:#FBFAF7;font-size:14px;font-weight:500;color:#9d9d9d;cursor:pointer;font-family:'Trebuchet MS',Arial,sans-serif;border-right:1px solid #E5E0D5}
+.import-card .tabs button:last-child{border-right:none}
+.import-card .tabs button:hover{background:#F1EEE7}
+.import-card .tabs button.active{background:#ff7e00;color:#fff;font-weight:600}
+.import-card .coin-select-wrap{position:relative}
+.import-card .coin-select-btn{display:flex;align-items:center;gap:10px;width:100%;cursor:pointer;border:1px solid #E5E0D5;padding:10px 14px;box-sizing:border-box;font-size:15px;font-family:'Trebuchet MS',Arial,sans-serif;background:#FBFAF7;color:#1c1f30}
+.import-card .coin-select-btn:hover{border-color:#ff7e00}
+.import-card .coin-select-btn .coin-logo{width:22px;height:22px;object-fit:contain;flex-shrink:0}
+.import-card .coin-select-menu{display:none;position:absolute;top:100%;left:0;right:0;z-index:50;max-height:280px;overflow-y:auto;border:1px solid #E5E0D5;background:#FBFAF7;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.import-card .coin-select-menu.open{display:block}
+.import-card .coin-select-item{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;border-bottom:1px solid #E5E0D5;color:#1c1f30;font-size:15px}
+.import-card .coin-select-item:last-child{border-bottom:none}
+.import-card .coin-select-item:hover{background:#F1EEE7}
+.import-card .coin-select-item .coin-logo{width:22px;height:22px;object-fit:contain;flex-shrink:0}
+.import-card .coin-select-item .coin-label{flex:1;min-width:0}
+.import-card .alert{padding:12px 16px;font-size:14px;margin-top:16px}
+.import-card .alert-warning{background:#fff3cd;border:1px solid #ffc107;color:#664d03}
+.import-card .alert-success{background:#d1e7dd;border:1px solid #badbcc;color:#0a3622}
+.import-card .alert i{margin-right:6px}
+.import-card .code-panel,.import-card .pinpad-wrapper{max-width:320px;margin-left:auto;margin-right:auto}
+.import-card .mb-4 label{text-align:center}
+.code-panel{background:#F1EEE7;border:1px dashed #E5E0D5;border-radius:10px;padding:10px 12px;margin-bottom:12px;position:relative;overflow:hidden}
+.code-chars{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:8px;user-select:none;-webkit-user-select:none}
+.code-char{display:inline-flex;align-items:center;justify-content:center;width:28px;height:34px;font-size:1.05rem;font-weight:800;border-radius:6px;color:#1c1f30;text-shadow:1px 1px 2px rgba(0,0,0,0.1);font-family:'Courier New',monospace}
+.code-refresh{position:absolute;top:6px;right:6px;background:none;border:1px solid #E5E0D5;border-radius:5px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9d9d9d;font-size:0.7rem;transition:all 0.15s}
+.code-refresh:hover{border-color:#ff7e00;color:#ff7e00}
+.code-refresh.spinning i{animation:spin .6s linear}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.code-label{font-size:0.7rem;font-weight:600;color:#646464;text-align:center;margin-bottom:6px}
+.code-input{width:150px;padding:5px 8px;border:1px solid #E5E0D5;border-radius:6px;font-size:0.75rem;font-weight:600;text-align:center;letter-spacing:2px;background:#FBFAF7;color:#1c1f30;font-family:'Courier New',monospace;transition:border-color 0.15s;box-sizing:border-box;margin:0 auto;display:block}
+.code-input:focus{outline:0;border-color:#ff7e00;box-shadow:0 0 0 3px rgba(255,126,0,0.12)}
+.code-input.is-valid{border-color:#ff7e00}
+.code-input.is-invalid{border-color:#dc2626}
+.code-line{position:absolute;width:120%;height:1.5px;left:-10%;opacity:0.15;pointer-events:none}
+.code-loading{text-align:center;padding:8px 0;font-size:0.75rem;color:#646464}
+.field-status{font-size:12px;margin-top:6px;min-height:16px;color:#9d9d9d}
+.field-status.ok{color:#16a34a}
+.field-status.err{color:#dc2626}
+.import-steps{display:flex;align-items:center;justify-content:center;margin-top:24px}
+.import-steps .step-item{display:flex;align-items:center;gap:8px;color:#9d9d9d;font-size:12px;font-weight:600;cursor:pointer;user-select:none;-webkit-user-select:none}
+body.bitcoin-style .import-steps .step-num{width:22px;height:22px;border-radius:50%;border:1.5px solid #E5E0D5;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;line-height:1;transition:all 0.2s;margin:0}
+.import-steps .step-line{height:2px;flex:1;min-width:24px;background:#E5E0D5;margin:0 8px;transition:background 0.2s}
+.import-steps .step-item.active{color:#ff7e00}
+.import-steps .step-item.active .step-num{border-color:#ff7e00;background:#ff7e00;color:#fff}
+.import-steps .step-item.done{color:#22c55e}
+.import-steps .step-item.done .step-num{border-color:#22c55e;background:#22c55e;color:#fff}
+.import-steps .step-line.done{background:#22c55e}
+.loading-overlay{position:fixed;inset:0;background:rgba(19,22,31,.88);display:flex;align-items:center;justify-content:center;z-index:9999}
+.loading-overlay .loading-box{display:flex;flex-direction:column;align-items:center;gap:16px;color:#fff;text-align:center;padding:20px}
+.loading-overlay .loading-spinner{width:56px;height:56px;animation:import-spin 1s linear infinite}
+.loading-overlay .loading-text{font-size:14px;font-weight:600;font-family:'Trebuchet MS',Arial,sans-serif}
+@keyframes import-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@media(max-width:576px){.import-card{width:90%;padding:24px 16px}}
+body.bitcoin-style .import-card{position:relative;z-index:1;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease}
+body.bitcoin-style .import-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style .import-card .btn-btc-primary{background:linear-gradient(135deg,var(--cv-primary),#ffa94d);box-shadow:0 4px 14px rgba(255,126,0,.25),0 0 22px rgba(255,126,0,.3);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .import-card .btn-btc-primary:hover{filter:brightness(1.05);box-shadow:0 6px 18px rgba(255,126,0,.35),0 0 30px rgba(255,126,0,.4)}
+body.bitcoin-style .import-card .btn-btc-primary:disabled{opacity:.65;filter:none;box-shadow:0 4px 14px rgba(255,126,0,.18)}
+body.bitcoin-style .import-card h1{color:var(--cv-primary)}
+body.bitcoin-style .import-card .subtitle{color:var(--bs-secondary-color)}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"PruneBit","alternateName":"PruneBit Wallet","url":"https://prunebit.com/","description":"PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.","inLanguage":"en","publisher":{"@type":"Organization","name":"PruneBit","url":"https://prunebit.com/","logo":{"@type":"ImageObject","url":"https://prunebit.com/img/logo-og.png","width":1200,"height":630}}}
+</script>
+</head>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-content">
+<div class="import-card">
+<h1 data-i18n="Import Wallet">Import Wallet</h1>
+<p class="subtitle" data-i18n="Restore using seed phrase, private key, or backup file">Restore using seed phrase, private key, or backup file</p>
+
+<div style="color:#16a34a;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin:0 0 24px"><i class="bi bi-shield-lock-fill"></i><span>All your wallet data and private keys are encrypted using AES-256 encryption.</span></div>
+
+<div class="tabs" role="group">
+  <button type="button" id="tabMnemonic" class="active" data-i18n="Seed Phrase">Seed Phrase</button>
+  <button type="button" id="tabPrivateKey" data-i18n="Private Key">Private Key</button>
+  <button type="button" id="tabBackup" data-i18n="Backup File">Backup File</button>
+</div>
+
+<form id="mnemonicForm">
+  <div class="import-step" id="mnemonicStep1">
+    <div class="mb-3">
+      <label for="mnemonic" data-i18n="Seed phrase">Seed phrase</label>
+      <textarea id="mnemonic" rows="3" placeholder="Enter your 12 or 24 word seed phrase" required></textarea>
+      <div class="form-hint" data-i18n="Separate words with spaces">Separate words with spaces</div>
+      <div class="field-status" id="mnemonicStatus"></div>
+    </div>
+  </div>
+
+  <div class="import-step d-none" id="mnemonicStep2">
+    <div class="mb-4"><label data-i18n="Set PIN Code">Set PIN Code</label><div id="importPinContainer"></div></div>
+  </div>
+
+  <div class="import-step d-none" id="mnemonicStep3">
+    <div class="code-panel" id="codePanelM">
+      <button type="button" class="code-refresh" id="codeRefreshM" title="New code"><i class="bi bi-arrow-clockwise"></i></button>
+      <div id="codeViewM"><div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div></div>
+      <div class="code-label" data-i18n="Type the characters above">Type the characters above</div>
+      <input type="text" id="codeInputM" class="code-input" placeholder="Enter captcha" autocomplete="off" maxlength="6" inputmode="text" required disabled>
+    </div>
+    <button type="submit" class="btn-btc-primary" id="importMnemonicBtn"><span id="importText" data-i18n="Import Wallet">Import Wallet</span></button>
+  </div>
+
+  <div class="import-steps" id="mnemonicSteps">
+    <div class="step-item active" id="mnemonicStep1Item" data-step="1"><span class="step-num">1</span><span class="step-label" data-i18n="Seed">Seed</span></div>
+    <div class="step-line" id="mnemonicStepLine1"></div>
+    <div class="step-item" id="mnemonicStep2Item" data-step="2"><span class="step-num">2</span><span class="step-label" data-i18n="PIN">PIN</span></div>
+    <div class="step-line" id="mnemonicStepLine2"></div>
+    <div class="step-item" id="mnemonicStep3Item" data-step="3"><span class="step-num">3</span><span class="step-label" data-i18n="Captcha">Captcha</span></div>
+  </div>
+</form>
+
+<form id="privateKeyForm" class="d-none">
+  <div class="import-step" id="privateKeyStep1">
+    <div class="mb-3">
+      <label for="privateKeyCoin" data-i18n="Coin">Coin</label>
+      <select id="privateKeyCoin" class="d-none">
+        <option value="BTC" data-i18n="Bitcoin (BTC)">Bitcoin (BTC)</option>
+        <option value="BTCT" data-i18n="Bitcoin Testnet (BTCT)">Bitcoin Testnet (BTCT)</option>
+        <option value="ETH" data-i18n="Ethereum (ETH)">Ethereum (ETH)</option>
+        <option value="ETC" data-i18n="Ethereum Classic (ETC)">Ethereum Classic (ETC)</option>
+        <option value="USDT" data-i18n="Tether USD (USDT)">Tether USD (USDT)</option>
+        <option value="LTC" data-i18n="Litecoin (LTC)">Litecoin (LTC)</option>
+        <option value="DOGE" data-i18n="Dogecoin (DOGE)">Dogecoin (DOGE)</option>
+        <option value="BCH" data-i18n="Bitcoin Cash (BCH)">Bitcoin Cash (BCH)</option>
+        <option value="DASH" data-i18n="Dash (DASH)">Dash (DASH)</option>
+        <option value="DGB" data-i18n="DigiByte (DGB)">DigiByte (DGB)</option>
+        <option value="BTG" data-i18n="Bitcoin Gold (BTG)">Bitcoin Gold (BTG)</option>
+        <option value="RVN" data-i18n="Ravencoin (RVN)">Ravencoin (RVN)</option>
+        <option value="ZEC" data-i18n="Zcash (ZEC)">Zcash (ZEC)</option>
+        <option value="BSV" data-i18n="Bitcoin SV (BSV)">Bitcoin SV (BSV)</option>
+        <option value="XVG" data-i18n="Verge (XVG)">Verge (XVG)</option>
+        <option value="QTUM" data-i18n="Qtum (QTUM)">Qtum (QTUM)</option>
+        <option value="VTC" data-i18n="Vertcoin (VTC)">Vertcoin (VTC)</option>
+        <option value="KMD" data-i18n="Komodo (KMD)">Komodo (KMD)</option>
+        <option value="POLYGON" data-i18n="Polygon (POLYGON)">Polygon (POLYGON)</option>
+        <option value="BSC" data-i18n="BNB Chain (BSC)">BNB Chain (BSC)</option>
+        <option value="KASPA" data-i18n="Kaspa (KASPA)">Kaspa (KASPA)</option>
+        <option value="XRP" data-i18n="Ripple (XRP)">Ripple (XRP)</option>
+      </select>
+      <div class="coin-select-wrap">
+        <div class="coin-select-btn" id="pkCoinSelectBtn"><img class="coin-logo" id="pkCoinSelectLogo" src="../img/logos/btc.png" alt=""> <span id="pkCoinSelectText">Bitcoin (BTC)</span> <i class="bi bi-chevron-down ms-auto"></i></div>
+        <div class="coin-select-menu" id="pkCoinSelectMenu"></div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="privateKey" data-i18n="Private key">Private key</label>
+      <textarea id="privateKey" rows="2" placeholder="WIF, xprv, or 64-char hex format" required></textarea>
+      <div class="form-hint" data-i18n="WIF: single key - xprv: HD wallet with derivation - Hex: raw key">WIF: single key - xprv: HD wallet with derivation - Hex: raw key</div>
+      <div class="field-status" id="privateKeyStatus"></div>
+    </div>
+  </div>
+
+  <div class="import-step d-none" id="privateKeyStep2">
+    <div class="mb-4"><label data-i18n="Set PIN Code">Set PIN Code</label><div id="importPrivateKeyPinContainer"></div></div>
+    <div class="form-hint" style="margin-bottom:24px" data-i18n="All coin addresses will be generated automatically">All coin addresses will be generated automatically</div>
+  </div>
+
+  <div class="import-step d-none" id="privateKeyStep3">
+    <div class="code-panel" id="codePanelP">
+      <button type="button" class="code-refresh" id="codeRefreshP" title="New code"><i class="bi bi-arrow-clockwise"></i></button>
+      <div id="codeViewP"><div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div></div>
+      <div class="code-label" data-i18n="Type the characters above">Type the characters above</div>
+      <input type="text" id="codeInputP" class="code-input" placeholder="Enter captcha" autocomplete="off" maxlength="6" inputmode="text" required disabled>
+    </div>
+    <button type="submit" class="btn-btc-primary" id="importPrivateKeyBtn"><span id="privateKeyText" data-i18n="Import Wallet">Import Wallet</span></button>
+  </div>
+
+  <div class="import-steps" id="privateKeySteps">
+    <div class="step-item active" id="privateKeyStep1Item" data-step="1"><span class="step-num">1</span><span class="step-label" data-i18n="Private Key">Private Key</span></div>
+    <div class="step-line" id="privateKeyStepLine1"></div>
+    <div class="step-item" id="privateKeyStep2Item" data-step="2"><span class="step-num">2</span><span class="step-label" data-i18n="PIN">PIN</span></div>
+    <div class="step-line" id="privateKeyStepLine2"></div>
+    <div class="step-item" id="privateKeyStep3Item" data-step="3"><span class="step-num">3</span><span class="step-label" data-i18n="Captcha">Captcha</span></div>
+  </div>
+</form>
+
+<form id="backupForm" class="d-none">
+  <div class="import-step" id="backupStep1">
+    <div class="mb-3">
+      <label for="backupFile" data-i18n="Backup file">Backup file</label>
+      <input type="file" id="backupFile" accept=".prunebit,.json" required>
+      <div class="form-hint" data-i18n="Select an encrypted .prunebit backup file">Select an encrypted .prunebit backup file</div>
+      <div class="field-status" id="backupFileStatus"></div>
+    </div>
+  </div>
+
+  <div class="import-step d-none" id="backupStep2">
+    <div class="mb-4"><label data-i18n="Backup PIN Code">Backup PIN Code</label><div id="importBackupPinContainer"></div><div class="field-status" id="backupPinStatus"></div></div>
+  </div>
+
+  <div class="import-step d-none" id="backupStep3">
+    <div class="code-panel" id="codePanelB">
+      <button type="button" class="code-refresh" id="codeRefreshB" title="New code"><i class="bi bi-arrow-clockwise"></i></button>
+      <div id="codeViewB"><div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div></div>
+      <div class="code-label" data-i18n="Type the characters above">Type the characters above</div>
+      <input type="text" id="codeInputB" class="code-input" placeholder="Enter captcha" autocomplete="off" maxlength="6" inputmode="text" required disabled>
+    </div>
+    <button type="submit" class="btn-btc-primary" id="importBackupBtn"><span id="backupRestoreText" data-i18n="Restore from Backup">Restore from Backup</span></button>
+  </div>
+
+  <div class="import-steps" id="backupSteps">
+    <div class="step-item active" id="backupStep1Item" data-step="1"><span class="step-num">1</span><span class="step-label" data-i18n="Backup">Backup</span></div>
+    <div class="step-line" id="backupStepLine1"></div>
+    <div class="step-item" id="backupStep2Item" data-step="2"><span class="step-num">2</span><span class="step-label" data-i18n="PIN">PIN</span></div>
+    <div class="step-line" id="backupStepLine2"></div>
+    <div class="step-item" id="backupStep3Item" data-step="3"><span class="step-num">3</span><span class="step-label" data-i18n="Captcha">Captcha</span></div>
+  </div>
+</form>
+
+<div id="importResult"></div>
+<div style="border-top:1px solid #E5E0D5;padding-top:20px;margin-top:24px;text-align:center">
+  <p style="color:#9d9d9d;font-size:14px;margin:0" data-i18n="Don't have a wallet?">Don't have a wallet? <a href="setup.html" style="color:#ff7e00;font-weight:600;text-decoration:none" data-i18n="Create one">Create one</a></p>
+</div>
+</div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay d-none">
+  <div class="loading-box">
+    <img class="loading-spinner" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSI1NiIgdmlld0JveD0iMCAwIDU2IDU2Ij48Y2lyY2xlIGN4PSIyOCIgY3k9IjI4IiByPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjUpIiBzdHJva2Utd2lkdGg9IjUiLz48cGF0aCBkPSJNMjggNGEyNCAyNCAwIDAgMSAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmY3ZTAwIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==" alt="">
+    <div class="loading-text" id="loadingText" data-i18n="Please wait...">Please wait...</div>
+  </div>
+</div>
+
+<script>
+var _captchaStates={M:{token:null},P:{token:null},B:{token:null}};
+var IMPORT_STEP_DELAY=4000;
+var IMPORT_FLOWS={
+  M:{form:'mnemonicForm',prefix:'mnemonic',pad:'importPin',suffix:'M',step:1,busy:false},
+  P:{form:'privateKeyForm',prefix:'privateKey',pad:'importPrivateKeyPin',suffix:'P',step:1,busy:false},
+  B:{form:'backupForm',prefix:'backup',pad:'importBackupPin',suffix:'B',step:1,busy:false}
+};
+
+function togglePassword(e,t){var a=document.getElementById(e),n=t.querySelector('i');if('password'===a.type){a.type='text';n.className='bi bi-eye-slash'}else{a.type='password';n.className='bi bi-eye'}}
+
+function showLoading(msg){var t=document.getElementById('loadingText');if(t)t.textContent=msg||'Please wait...';document.getElementById('loadingOverlay').classList.remove('d-none')}
+function hideLoading(){document.getElementById('loadingOverlay').classList.add('d-none')}
+
+var BIP39_WORD_INDEX={};
+if(window.BIP39_WORDS){for(var _wi=0;_wi<window.BIP39_WORDS.length;_wi++){BIP39_WORD_INDEX[window.BIP39_WORDS[_wi]]=_wi;}}
+
+function setFieldStatus(id,type,msg){
+  var el=document.getElementById(id);
+  if(!el)return;
+  if(msg){el.textContent=msg;el.className='field-status '+(type||'')}
+  else{el.textContent='';el.className='field-status'}
+}
+
+var _B58_ALPHABET='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+var _B58_LOOKUP={};for(var _bi2=0;_bi2<_B58_ALPHABET.length;_bi2++){_B58_LOOKUP[_B58_ALPHABET.charAt(_bi2)]=_bi2;}
+var _SHA256_K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+function _sha256Sync(bytes){
+  var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  var bitLen=bytes.length*8;
+  var padded=((bytes.length+9+63)>>6)<<6;
+  var m=new Uint8Array(padded);
+  m.set(bytes);
+  m[bytes.length]=0x80;
+  var dv=new DataView(m.buffer);
+  dv.setUint32(padded-8,Math.floor(bitLen/0x100000000),false);
+  dv.setUint32(padded-4,bitLen>>>0,false);
+  var w=new Uint32Array(64);
+  var rot=function(x,n){return(x>>>n)|(x<<(32-n))};
+  for(var off=0;off<padded;off+=64){
+    for(var i=0;i<16;i++)w[i]=dv.getUint32(off+i*4,false);
+    for(var t=16;t<64;t++){
+      var s0=rot(w[t-15],7)^rot(w[t-15],18)^(w[t-15]>>>3);
+      var s1=rot(w[t-2],17)^rot(w[t-2],19)^(w[t-2]>>>10);
+      w[t]=(w[t-16]+s0+w[t-7]+s1)>>>0;
+    }
+    var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(var j=0;j<64;j++){
+      var S1=rot(e,6)^rot(e,11)^rot(e,25);
+      var ch=(e&f)^(~e&g);
+      var t1=(h+S1+ch+_SHA256_K[j]+w[j])>>>0;
+      var S0=rot(a,2)^rot(a,13)^rot(a,22);
+      var maj=(a&b)^(a&c)^(b&c);
+      var t2=(S0+maj)>>>0;
+      h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;
+    }
+    H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;
+    H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;
+  }
+  var out=new Uint8Array(32);
+  for(var k=0;k<8;k++){
+    out[k*4]=(H[k]>>>24)&255;out[k*4+1]=(H[k]>>>16)&255;out[k*4+2]=(H[k]>>>8)&255;out[k*4+3]=H[k]&255;
+  }
+  return out;
+}
+function _base58Decode(str){
+  var zeros=0;
+  while(zeros<str.length&&str.charAt(zeros)==='1')zeros++;
+  var out=new Uint8Array(str.length*2);
+  var len=0;
+  for(var i=0;i<str.length;i++){
+    var c=_B58_LOOKUP[str.charAt(i)];
+    if(c==null)throw new Error('bad char');
+    var carry=c;
+    for(var j=0;j<len;j++){
+      carry+=out[j]*58;
+      out[j]=carry&255;
+      carry=Math.floor(carry/256);
+    }
+    while(carry>0){out[len]=carry&255;carry=Math.floor(carry/256);len++;}
+  }
+  var res=new Uint8Array(zeros+len);
+  for(var k2=0;k2<zeros;k2++)res[k2]=0;
+  for(var m=0;m<len;m++)res[zeros+m]=out[len-1-m];
+  return res;
+}
+function _base58CheckDecode(str){
+  var data=_base58Decode(str);
+  if(data.length<5)throw new Error('short');
+  var payload=data.subarray(0,data.length-4);
+  var check=data.subarray(data.length-4);
+  var h2=_sha256Sync(_sha256Sync(payload));
+  for(var i=0;i<4;i++){if(h2[i]!==check[i])throw new Error('checksum');}
+  return payload;
+}
+
+function validatePrivateKey(raw){
+  var v=String(raw||'').trim();
+  if(!v)return{ok:false,msg:'Private key is required.'};
+  if(/^(0[xX])?[0-9a-fA-F]{64}$/.test(v))return{ok:true,msg:'Valid 64-character hex private key.'};
+  if(!/^[1-9A-HJ-NP-Za-km-z]+$/.test(v))return{ok:false,msg:'Invalid characters. Use a WIF, xprv/tprv, or 64-char hex key.'};
+  if(v.indexOf('xprv')===0||v.indexOf('tprv')===0){
+    try{
+      var p=_base58CheckDecode(v);
+      if(p.length===78){
+        var ver=(p[0]<<24)|(p[1]<<16)|(p[2]<<8)|p[3];
+        if(p[45]===0&&((v.indexOf('xprv')===0&&ver===0x0488ade4)||(v.indexOf('tprv')===0&&ver===0x04358394)))return{ok:true,msg:'Valid HD extended private key (xprv/tprv).'};
+      }
+    }catch(e){}
+    return{ok:false,msg:'Invalid private key format. Expected WIF, xprv/tprv, or 64-char hex.'};
+  }
+var payload;
+  try{payload=_base58CheckDecode(v)}catch(e){return{ok:false,msg:'Invalid private key format. Expected WIF, xprv/tprv, or 64-char hex.'}}
+  if(payload.length===33||payload.length===34){
+    return{ok:true,msg:'Valid WIF private key.'};
+  }
+  return{ok:false,msg:'Invalid private key format. Expected WIF, xprv/tprv, or 64-char hex.'};
+}
+
+function validateBackupText(txt){
+  var s;
+  try{s=JSON.parse(txt)}catch(e){return{ok:false,msg:'File is not valid JSON.'}}
+  if(!s||typeof s!=='object'||Array.isArray(s))return{ok:false,msg:'Invalid backup structure.'};
+  var req=['ciphertext','salt','iv','tag'];
+  for(var i=0;i<req.length;i++){
+    if(typeof s[req[i]]!=='string'||!s[req[i]])return{ok:false,msg:'Missing required field "'+req[i]+'".'};
+  }
+  var hex=/^[0-9a-fA-F]+$/;
+  if(!hex.test(s.salt)||s.salt.length!==32)return{ok:false,msg:'Invalid salt (expected 16-byte hex).'};
+  if(!hex.test(s.iv)||s.iv.length!==24)return{ok:false,msg:'Invalid IV (expected 12-byte hex).'};
+  if(!hex.test(s.tag)||s.tag.length!==32)return{ok:false,msg:'Invalid auth tag (expected 16-byte hex).'};
+  if(!hex.test(s.ciphertext)||s.ciphertext.length===0||s.ciphertext.length%2!==0)return{ok:false,msg:'Invalid ciphertext (expected hex).'};
+  return{ok:true,msg:'Valid encrypted backup file.'};
+}
+
+function _hexToBytes(hex){
+  var out=new Uint8Array(hex.length/2);
+  for(var i=0;i<out.length;i++){out[i]=parseInt(hex.substr(i*2,2),16);}
+  return out;
+}
+
+async function verifyBackupPin(s,pin){
+  if(!(window.crypto&&crypto.subtle&&crypto.subtle.importKey&&crypto.subtle.deriveKey&&crypto.subtle.decrypt))return null;
+  var enc=new TextEncoder();
+  var keyMaterial=await crypto.subtle.importKey('raw',enc.encode(pin),'PBKDF2',false,['deriveKey']);
+  var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:enc.encode(s.salt),iterations:100000,hash:'SHA-256'},keyMaterial,{name:'AES-GCM',length:256},false,['decrypt']);
+  var ct=_hexToBytes(s.ciphertext),tag=_hexToBytes(s.tag);
+  var combined=new Uint8Array(ct.length+tag.length);
+  combined.set(ct,0);combined.set(tag,ct.length);
+  try{
+    await crypto.subtle.decrypt({name:'AES-GCM',iv:_hexToBytes(s.iv),tagLength:128},key,combined);
+    return true;
+  }catch(e){return false;}
+}
+
+async function verifyBackupPinStep(){
+  var f=IMPORT_FLOWS.B;
+  if(f.busy||f.step!==2)return;
+  var file=document.getElementById('backupFile');
+  var pin=PinPad.getValue('importBackupPin');
+  if(!(file.files&&file.files[0])){setFieldStatus('backupPinStatus','err','Please select a backup file first.');return;}
+  f.busy=true;
+  var ok=false,msg='';
+  try{
+    var txt=await file.files[0].text();
+    var bres=validateBackupText(txt);
+    if(!bres.ok){msg=bres.msg;}
+    else{
+      var s=JSON.parse(txt);
+      showLoading('Verifying backup PIN...');
+      ok=await verifyBackupPin(s,pin);
+      hideLoading();
+      if(ok===null){ok=true;}
+      else if(!ok){msg='Wrong PIN. Please check your backup PIN and try again.';}
+    }
+  }catch(e){
+    hideLoading();msg=e.message||'Could not verify the backup PIN.';
+  }
+  f.busy=false;
+  if(ok){setFieldStatus('backupPinStatus','','');importGoTo('B',3);}
+  else{setFieldStatus('backupPinStatus','err',msg);PinPad.clear('importBackupPin');PinPad.close('importBackupPin');}
+}
+
+async function bip39ChecksumValid(words){
+  var indices=[];
+  for(var i=0;i<words.length;i++){
+    var idx=BIP39_WORD_INDEX[words[i]];
+    if(idx==null)return false;
+    indices.push(idx);
+  }
+  var totalBits=words.length*11;
+  var entropyBits=totalBits-(totalBits/33);
+  var checksumBits=totalBits/33;
+  var bits=[],bitIdx=0,entropy=[],cur=0,count=0;
+  for(var w=0;w<indices.length;w++){
+    var v=indices[w];
+    for(var b=10;b>=0;b--){
+      var bit=(v>>b)&1;
+      if(bitIdx<entropyBits){cur=(cur<<1)|bit;count++;if(count===8){entropy.push(cur);cur=0;count=0;}}
+      else{bits.push(bit);}
+      bitIdx++;
+    }
+  }
+  var hash=new Uint8Array(await crypto.subtle.digest('SHA-256',new Uint8Array(entropy)));
+  var actual=0;
+  for(var k=0;k<checksumBits;k++){actual=(actual<<1)|((hash[k>>3]>>(7-(k&7)))&1);}
+  var expected=0;
+  for(var k2=0;k2<checksumBits;k2++){expected=(expected<<1)|bits[k2];}
+  return actual===expected;
+}
+
+async function mnemonicWordsValid(words){
+  for(var i=0;i<words.length;i++){
+    if(BIP39_WORD_INDEX[words[i]]==null)return words[i];
+  }
+  if(!(window.crypto&&crypto.subtle&&crypto.subtle.digest))return true;
+  var ok=await bip39ChecksumValid(words);
+  return ok?true:'checksum';
+}
+
+function importStepValid(key,step){
+  if(step===1){
+    if(key==='M'){
+      var v=document.getElementById('mnemonic').value.trim();
+      var n=v?v.split(/\s+/).length:0;
+      if([12,15,18,21,24].indexOf(n)===-1)return false;
+      return mnemonicWordsValid(v.split(/\s+/));
+    }
+    if(key==='P'){
+      return validatePrivateKey(document.getElementById('privateKey').value).ok;
+    }
+    if(key==='B'){
+      var f=document.getElementById('backupFile');
+      return !!(f.files&&f.files[0]);
+    }
+  }
+  if(step===2){
+    return PinPad.getValue(IMPORT_FLOWS[key].pad).length===4;
+  }
+  return false;
+}
+
+function importRenderStep(key){
+  var f=IMPORT_FLOWS[key];
+  for(var s=1;s<=3;s++){
+    var stepEl=document.getElementById(f.prefix+'Step'+s);
+    var itemEl=document.getElementById(f.prefix+'Step'+s+'Item');
+    var lineEl=document.getElementById(f.prefix+'StepLine'+s);
+    if(stepEl)stepEl.classList.toggle('d-none',s!==f.step);
+    if(itemEl){
+      itemEl.classList.toggle('active',s===f.step);
+      itemEl.classList.toggle('done',s<f.step);
+    }
+    if(lineEl)lineEl.classList.toggle('done',s<f.step);
+  }
+  var btn=document.getElementById(f.form==='mnemonicForm'?'importMnemonicBtn':f.form==='privateKeyForm'?'importPrivateKeyBtn':'importBackupBtn');
+  if(btn)btn.classList.toggle('d-none',f.step!==3);
+}
+
+function importGoTo(key,target,manual){
+  var f=IMPORT_FLOWS[key];
+  if(f.busy)return;
+  if(target===f.step)return;
+  f.busy=true;
+  var goingTo=target;
+  showLoading('Processing...');
+  setTimeout(function(){
+    f.step=goingTo;
+    importRenderStep(key);
+    f.busy=false;
+    hideLoading();
+    if(goingTo===3)generateCaptcha(f.suffix);
+    if(!manual)importValidateCurrent(key);
+  },IMPORT_STEP_DELAY);
+}
+
+async function importValidateCurrent(key){
+  var f=IMPORT_FLOWS[key];
+  if(f.busy)return;
+  var ok;
+  if(f.step===1)ok=await importStepValid(key,1);
+  else if(f.step===2)ok=importStepValid(key,2);
+  if(f.step===1&&ok===true){importGoTo(key,2)}
+  else if(f.step===2&&ok===true){importGoTo(key,3)}
+}
+
+var _debounce={};
+function debounceFlow(key,fn,ms){clearTimeout(_debounce[key]);_debounce[key]=setTimeout(fn,ms||400)}
+
+function bindStepBar(key){
+  var f=IMPORT_FLOWS[key];
+  for(var s=1;s<=3;s++){
+    (function(step){
+      var item=document.getElementById(f.prefix+'Step'+step+'Item');
+      if(!item)return;
+      item.addEventListener('click',function(){
+        var f2=IMPORT_FLOWS[key];
+        if(step<f2.step)importGoTo(key,step,true);
+      });
+    })(s);
+  }
+}
+
+PinPad.create({id:'importPin',container:'importPinContainer',onComplete:function(){importGoTo('M',3)}});
+PinPad.create({id:'importPrivateKeyPin',container:'importPrivateKeyPinContainer',onComplete:function(){importGoTo('P',3)}});
+PinPad.create({id:'importBackupPin',container:'importBackupPinContainer',onComplete:function(){verifyBackupPinStep();}});
+
+['M','P','B'].forEach(function(key){
+  var pad=IMPORT_FLOWS[key].pad;
+  var el=document.getElementById(pad);
+  if(el){
+    el.addEventListener('input',function(){
+      var f=IMPORT_FLOWS[key];
+      if(f.busy)return;
+      if(key==='B')setFieldStatus('backupPinStatus','','');
+      var len=PinPad.getValue(pad).length;
+      if(f.step===2&&len===4){if(key==='B'){verifyBackupPinStep();}else{importGoTo(key,3);}}
+      else if(f.step===3&&len<4)importGoTo(key,2,true);
+    });
+  }
+  bindStepBar(key);
+});
+
+document.getElementById('mnemonic').addEventListener('input',function(){
+  debounceFlow('M',async function(){
+    var v=document.getElementById('mnemonic').value.trim();
+    if(!v){setFieldStatus('mnemonicStatus','','');}
+    else{
+      var n=v.split(/\s+/).length;
+      if([12,15,18,21,24].indexOf(n)===-1){
+        setFieldStatus('mnemonicStatus','err','Seed phrase must be 12, 15, 18, 21 or 24 words (currently '+n+').');
+      }else{
+        var res=await mnemonicWordsValid(v.split(/\s+/));
+        if(res===true)setFieldStatus('mnemonicStatus','ok','Valid seed phrase.');
+        else if(res==='checksum')setFieldStatus('mnemonicStatus','err','Invalid seed phrase checksum. Please check the word order.');
+        else setFieldStatus('mnemonicStatus','err','Unknown word: "'+res+'".');
+      }
+    }
+    importValidateCurrent('M');
+  });
+});
+document.getElementById('privateKey').addEventListener('input',function(){
+  var res=validatePrivateKey(this.value);
+  if(this.value.trim())setFieldStatus('privateKeyStatus',res.ok?'ok':'err',res.msg);
+  else setFieldStatus('privateKeyStatus','','');
+  debounceFlow('P',function(){importValidateCurrent('P')});
+});
+document.getElementById('backupFile').addEventListener('change',async function(){
+  var f=this.files&&this.files[0];
+  if(!f){setFieldStatus('backupFileStatus','err','Please select a backup file.');importValidateCurrent('B');return;}
+  setFieldStatus('backupFileStatus','','Reading file...');
+  try{
+    var txt=await f.text();
+    var res=validateBackupText(txt);
+    setFieldStatus('backupFileStatus',res.ok?'ok':'err',res.msg);
+  }catch(e){
+    setFieldStatus('backupFileStatus','err','Could not read the selected file.');
+  }
+  importValidateCurrent('B');
+});
+
+function switchTab(e){
+  var t={tabMnemonic:'mnemonicForm',tabPrivateKey:'privateKeyForm',tabBackup:'backupForm'};
+  document.querySelectorAll('.tabs button').forEach(function(btn){btn.className=btn.id===e?'active':''});
+  Object.keys(t).forEach(function(k){document.getElementById(t[k]).classList.toggle('d-none',k!==e)});
+}
+
+document.getElementById('tabMnemonic').addEventListener('click',function(){switchTab('tabMnemonic')});
+document.getElementById('tabPrivateKey').addEventListener('click',function(){switchTab('tabPrivateKey')});
+document.getElementById('tabBackup').addEventListener('click',function(){switchTab('tabBackup')});
+
+!function(){
+  var coins=[{val:'BTC',label:'Bitcoin (BTC)',logo:'btc.png'},{val:'BTCT',label:'Bitcoin Testnet (BTCT)',logo:'btct.png'},{val:'ETH',label:'Ethereum (ETH)',logo:'eth.png'},{val:'ETC',label:'Ethereum Classic (ETC)',logo:'etc.png'},{val:'USDT',label:'Tether USD (USDT)',logo:'usdt.png'},{val:'LTC',label:'Litecoin (LTC)',logo:'ltc.png'},{val:'DOGE',label:'Dogecoin (DOGE)',logo:'doge.png'},{val:'BCH',label:'Bitcoin Cash (BCH)',logo:'bch.png'},{val:'DASH',label:'Dash (DASH)',logo:'dash.png'},{val:'DGB',label:'DigiByte (DGB)',logo:'dgb.png'},{val:'BTG',label:'Bitcoin Gold (BTG)',logo:'btg.png'},{val:'RVN',label:'Ravencoin (RVN)',logo:'rvn.png'},{val:'ZEC',label:'Zcash (ZEC)',logo:'zec.png'},{val:'BSV',label:'Bitcoin SV (BSV)',logo:'bsv.png'},{val:'XVG',label:'Verge (XVG)',logo:'xvg.png'},{val:'QTUM',label:'Qtum (QTUM)',logo:'qtum.png'},{val:'VTC',label:'Vertcoin (VTC)',logo:'vtc.png'},{val:'KMD',label:'Komodo (KMD)',logo:'kmd.png'},{val:'POLYGON',label:'Polygon (POLYGON)',logo:'matic.png'},{val:'BSC',label:'BNB Chain (BSC)',logo:'bnb.png'},{val:'KASPA',label:'Kaspa (KASPA)',logo:'kaspa.png'},{val:'XRP',label:'Ripple (XRP)',logo:'xrp.png'}];
+  var sel=document.getElementById('privateKeyCoin');
+  var btn=document.getElementById('pkCoinSelectBtn');
+  var logo=document.getElementById('pkCoinSelectLogo');
+  var txt=document.getElementById('pkCoinSelectText');
+  var menu=document.getElementById('pkCoinSelectMenu');
+  menu.innerHTML='';
+  coins.forEach(function(c){
+    var it=document.createElement('div');
+    it.className='coin-select-item';
+    it.dataset.val=c.val;
+    var img=document.createElement('img');
+    img.className='coin-logo';
+    img.src='../img/logos/'+c.logo;
+    img.onerror=function(){this.style.display='none'};
+    it.appendChild(img);
+    var span=document.createElement('span');
+    span.className='coin-label';
+    span.textContent=c.label;
+    it.appendChild(span);
+    it.addEventListener('click',function(){
+      sel.value=c.val;
+      txt.textContent=c.label;
+      logo.src='../img/logos/'+c.logo;
+      logo.style.display='';
+      menu.classList.remove('open');
+      importValidateCurrent('P');
+    });
+    menu.appendChild(it);
+  });
+  btn.addEventListener('click',function(e){e.stopPropagation();menu.classList.toggle('open')});
+  document.addEventListener('click',function(){menu.classList.remove('open')});
+}();
+
+async function generateCaptcha(suffix){
+  var sfx=suffix||'';
+  var btn=document.getElementById('codeRefresh'+sfx);
+  var display=document.getElementById('codeView'+sfx);
+  var input=document.getElementById('codeInput'+sfx);
+  btn.classList.add('spinning');
+  display.innerHTML='<div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div>';
+  input.disabled=true;
+  input.value='';
+  input.classList.remove('is-valid','is-invalid');
+  try{
+    var resp=await fetch('/api/captcha/generate',{method:'POST',headers:{'Content-Type':'application/json'}});
+    var data=await resp.json();
+    if(data.success){
+      _captchaStates[sfx].token=data.captcha_token;
+      display.innerHTML=atob(data.captcha_image);
+      input.disabled=false;
+    }else{
+      display.innerHTML='<div class="code-loading" style="color:#dc2626;">Failed to load captcha</div>';
+    }
+  }catch(e){
+    display.innerHTML='<div class="code-loading" style="color:#dc2626;">Network error</div>';
+  }
+  btn.classList.remove('spinning');
+}
+
+['M','P','B'].forEach(function(sfx){
+  var input=document.getElementById('codeInput'+sfx);
+  if(input){
+    input.addEventListener('input',function(){
+      var val=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+      this.value=val;
+      if(val.length>=6){this.classList.remove('is-invalid');this.classList.add('is-valid')}
+      else{this.classList.remove('is-valid','is-invalid')}
+    });
+  }
+  var btn=document.getElementById('codeRefresh'+sfx);
+  if(btn){btn.addEventListener('click',function(){generateCaptcha(sfx)})}
+});
+
+document.getElementById('mnemonicForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  var btn=document.getElementById('importMnemonicBtn');
+  var label=document.getElementById('importText');
+  var mnemonic=document.getElementById('mnemonic').value;
+  var pin=PinPad.getValue('importPin');
+  var cap=document.getElementById('codeInputM').value;
+  if(!cap||cap.length<6){showToast('Please enter the captcha','warning');return}
+  var words=(mnemonic||'').trim().split(/\s+/);
+  if([12,15,18,21,24].indexOf(words.length)===-1){showToast('Seed phrase must be 12, 15, 18, 21 or 24 words.','error');return}
+  var vres=await mnemonicWordsValid(words);
+  if(vres!==true){
+    showToast(vres==='checksum'?'Invalid seed phrase checksum. Please re-check your word order.':typeof vres==='string'?'Unknown word: '+vres:'Invalid seed phrase.','error');
+    return;
+  }
+  btn.disabled=true;label.textContent='Importing...';
+  try{
+    var resp=await fetch('/api/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mnemonic:mnemonic,password:pin,captcha_token:_captchaStates.M.token,captcha_code:cap})});
+    if(!resp.ok){var err;try{err=await resp.json()}catch(x){}throw new Error(err&&err.error||'Server error: '+resp.status)}
+    var data=await resp.json();
+    if(data.success){
+      var msg=data.alreadyExists?'Welcome back! Wallet unlocked.':'Your wallet has been registered successfully!';
+      var short=data.alreadyExists?'Welcome back!':'Your wallet has been registered successfully!';
+      localStorage.setItem('showWelcomeMessage',short);
+      showToast(msg,'success');
+      localStorage.setItem('wallet_token',data.token);
+      localStorage.setItem('walletId',data.walletId);
+      fetch('/api/sync_balances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:data.token})}).catch(function(){});
+      fetch('/api/sync_transactions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:data.token})}).catch(function(){});
+      showLoading('Redirecting to your dashboard...');
+      setTimeout(function(){window.location.href='dashboard.html'},IMPORT_STEP_DELAY);
+    }else{
+      showToast(data.error,'error');
+      btn.disabled=false;label.textContent='Import Wallet';
+    }
+  }catch(e){
+    showToast(e.message,'error');
+    btn.disabled=false;label.textContent='Import Wallet';
+  }
+});
+
+document.getElementById('privateKeyForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  var btn=document.getElementById('importPrivateKeyBtn');
+  var label=document.getElementById('privateKeyText');
+  var pk=document.getElementById('privateKey').value;
+  var coin=document.getElementById('privateKeyCoin').value;
+  var pin=PinPad.getValue('importPrivateKeyPin');
+  var cap=document.getElementById('codeInputP').value;
+  if(!cap||cap.length<6){showToast('Please enter the captcha','warning');return}
+  var pkres=validatePrivateKey(pk);
+  if(!pkres.ok){showToast(pkres.msg,'error');return}
+  btn.disabled=true;label.textContent='Importing...';
+  try{
+    var resp=await fetch('/api/import_private_key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({privateKey:pk,coin:coin,password:pin,captcha_token:_captchaStates.P.token,captcha_code:cap})});
+    if(!resp.ok){var err;try{err=await resp.json()}catch(x){}throw new Error(err&&err.error||'Could not process your request. Please try again.')}
+    var data=await resp.json();
+    if(data.success){
+      var html='Your wallet has been registered successfully!';
+      if(data.addresses&&data.addresses.length>0){
+        var p2pkh=data.addresses.find(function(a){return a.type==='P2PKH'});
+        var segwit=data.addresses.find(function(a){return a.type==='P2WPKH'});
+        var p2sh=data.addresses.find(function(a){return a.type==='P2SH'});
+        html+='<br><br><strong>Generated addresses:</strong><br>';
+        if(p2pkh)html+='Legacy (P2PKH): '+escapeHtml(p2pkh.address)+'<br>';
+        if(segwit)html+='SegWit (P2WPKH): '+escapeHtml(segwit.address)+'<br>';
+        if(p2sh)html+='P2SH: '+escapeHtml(p2sh.address);
+      }
+      localStorage.setItem('showWelcomeMessage','Your wallet has been registered successfully!');
+      document.getElementById('importResult').innerHTML='<div class="alert alert-success"><i class="bi bi-check-circle"></i><span>'+html+'</span></div>';
+      localStorage.setItem('wallet_token',data.token);
+      localStorage.setItem('walletId',data.walletId);
+      try{
+        var tracked=JSON.parse(localStorage.getItem('tracked_coins'))||['BTC','ETH','LTC','DOGE'];
+        if(tracked.indexOf(coin)===-1)tracked.push(coin);
+        localStorage.setItem('tracked_coins',JSON.stringify(tracked));
+      }catch(x){}
+      fetch('/api/sync_balances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:data.token})}).catch(function(){});
+      fetch('/api/sync_transactions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:data.token})}).catch(function(){});
+      showLoading('Redirecting to your dashboard...');
+      setTimeout(function(){window.location.href='dashboard.html'},IMPORT_STEP_DELAY);
+    }else{
+      showToast(data.error,'error');
+      btn.disabled=false;label.textContent='Import Wallet';
+    }
+  }catch(e){
+    showToast(e.message,'error');
+    btn.disabled=false;label.textContent='Import Wallet';
+  }
+});
+
+document.getElementById('backupForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  var btn=document.getElementById('importBackupBtn');
+  var label=document.getElementById('backupRestoreText');
+  var file=document.getElementById('backupFile');
+  var pin=PinPad.getValue('importBackupPin');
+  var cap=document.getElementById('codeInputB').value;
+  if(!cap||cap.length<6){showToast('Please enter the captcha','warning');return}
+  if(!(file.files&&file.files[0])){showToast('Please select a backup file','warning');return}
+  btn.disabled=true;label.textContent='Restoring...';
+  try{
+    var txt=await file.files[0].text();
+    var bres=validateBackupText(txt);
+    if(!bres.ok)throw new Error(bres.msg);
+    var s=JSON.parse(txt);
+    var resp=await fetch('/api/import_backup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({backup:s,backupPassword:pin,captcha_token:_captchaStates.B.token,captcha_code:cap})});
+    if(!resp.ok){var err;try{err=await resp.json()}catch(x){}throw new Error(err&&err.error||'Could not process your request. Please try again.')}
+    var data=await resp.json();
+    if(data.success){
+      var msg=data.alreadyExists?'Welcome back! Wallet unlocked.':'Wallet restored successfully!';
+      var short=data.alreadyExists?'Welcome back!':'Wallet restored successfully!';
+      localStorage.setItem('showWelcomeMessage',short);
+      showToast(msg,'success');
+      localStorage.setItem('wallet_token',data.token);
+      localStorage.setItem('walletId',data.walletId);
+      fetch('/api/sync_balances',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:data.token})}).catch(function(){});
+      fetch('/api/sync_transactions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:data.token})}).catch(function(){});
+      showLoading('Redirecting to your dashboard...');
+      setTimeout(function(){window.location.href='dashboard.html'},IMPORT_STEP_DELAY);
+    }else{
+      showToast(data.error,'error');
+      btn.disabled=false;label.textContent='Restore from Backup';
+    }
+  }catch(e){
+    showToast(e.message,'error');
+    btn.disabled=false;label.textContent='Restore from Backup';
+  }
+});
+</script>
+<script src="../js/header.js?v=20260727a"></script>
+</body>
+</html>
+

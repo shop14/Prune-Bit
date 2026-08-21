@@ -1,0 +1,754 @@
+/* ============================================
+   PruneBit — Glassmorphism Theme Layer
+   Frosted-glass surfaces across the whole app
+   (public pages, wallet pages and admin panel).
+   Scoped to body.bitcoin-style / body.admin-page
+   so existing markup and structure stay intact.
+   Falls back gracefully when backdrop-filter is
+   unsupported: surfaces just become translucent.
+   ============================================ */
+
+/* ---- Glass tokens ---- */
+:root,
+[data-bs-theme="light"] {
+  --glass-blur: 14px;
+  --glass-blur-lg: 22px;
+  --glass-blur-sm: 9px;
+  --glass-sat: 1.6;
+  --glass-shell: rgba(255, 255, 255, 0.72);
+  --glass-surface: rgba(255, 255, 255, 0.60);
+  --glass-surface-strong: rgba(255, 255, 255, 0.76);
+  --glass-input: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.60);
+  --glass-border-soft: rgba(15, 23, 42, 0.06);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.10);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  --glass-hover-border: rgba(255, 126, 0, 0.45);
+}
+
+[data-bs-theme="dark"] {
+  --glass-blur: 16px;
+  --glass-blur-lg: 24px;
+  --glass-blur-sm: 10px;
+  --glass-sat: 1.5;
+  --glass-shell: rgba(0, 0, 0, 0.32);
+  --glass-surface: rgba(0, 0, 0, 0.24);
+  --glass-surface-strong: rgba(255, 255, 255, 0.08);
+  --glass-input: rgba(0, 0, 0, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-soft: rgba(255, 255, 255, 0.10);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-hover-border: rgba(160, 165, 173, 0.55);
+}
+
+/* ---- Ambient gradient background so the frost reads ---- */
+body.bitcoin-style {
+  background-color: #F6F3EC;
+  background-image:
+    radial-gradient(1100px 540px at 8% -6%, rgba(255, 126, 0, 0.14), transparent 60%),
+    radial-gradient(900px 520px at 100% 0%, rgba(117, 75, 147, 0.12), transparent 55%),
+    radial-gradient(900px 620px at 50% 115%, rgba(59, 129, 151, 0.11), transparent 60%);
+  background-attachment: fixed;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style {
+  background-color: #444444;
+  background-image:
+    radial-gradient(1100px 540px at 8% -6%, rgba(255, 255, 255, 0.10), transparent 60%),
+    radial-gradient(900px 520px at 100% 0%, rgba(255, 255, 255, 0.08), transparent 55%),
+    radial-gradient(900px 620px at 50% 115%, rgba(255, 255, 255, 0.06), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Admin panels ride on the same ambient background */
+body.bitcoin-style.admin-page .admin-wrapper {
+  background: transparent !important;
+}
+body.bitcoin-style.admin-page .admin-main,
+body.bitcoin-style.admin-page .admin-sidebar {
+  background-color: transparent;
+}
+
+/* ---- Reusable utilities ---- */
+.glass { background-color: var(--glass-surface); border-color: var(--glass-border); }
+.glass-strong { background-color: var(--glass-surface-strong); border-color: var(--glass-border-soft); }
+
+/* ---- Frost blur (only where supported) ---- */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  body.bitcoin-style .app-header,
+  body.bitcoin-style .mobile-header,
+  body.bitcoin-style .mobile-bottom-nav,
+  body.bitcoin-style .head,
+  body.bitcoin-style .page-card,
+  body.bitcoin-style .feature-card-btc,
+  body.bitcoin-style .stat-card,
+  body.bitcoin-style .card,
+  body.bitcoin-style .setup-card,
+  body.bitcoin-style .send-form-container.page-card,
+  body.bitcoin-style .review-card,
+  body.bitcoin-style .step-indicator,
+  body.bitcoin-style .coin-select-menu,
+  body.bitcoin-style .swap-field,
+  body.bitcoin-style .dex-card,
+  body.bitcoin-style .check-input-group,
+  body.bitcoin-style .code-panel,
+  body.bitcoin-style .price-ticker,
+  body.bitcoin-style .dropdown-menu,
+  body.bitcoin-style .menusimple ul,
+  body.bitcoin-style .menusimple.mobile-open,
+  body.bitcoin-style .lang-selector ul,
+  body.bitcoin-style .modal-content,
+  body.bitcoin-style .offcanvas,
+  body.bitcoin-style .toast,
+  body.bitcoin-style .app-footer,
+  body.bitcoin-style .footer,
+  body.bitcoin-style.admin-page .admin-header-inner,
+  body.bitcoin-style.admin-page .admin-card,
+  body.bitcoin-style.admin-page .admin-modal-content,
+  body.bitcoin-style.admin-page .admin-sidebar {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  }
+
+  body.bitcoin-style .dropdown-menu,
+  body.bitcoin-style .menusimple ul,
+  body.bitcoin-style .menusimple.mobile-open,
+  body.bitcoin-style .lang-selector ul,
+  body.bitcoin-style .coin-select-menu,
+  body.bitcoin-style .modal-content,
+  body.bitcoin-style .offcanvas,
+  body.bitcoin-style.admin-page .admin-modal-content {
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  }
+
+  body.bitcoin-style .form-control,
+  body.bitcoin-style .form-select,
+  body.bitcoin-style .form-input,
+  body.bitcoin-style .check-input-group input,
+  body.bitcoin-style .price-ticker {
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
+  }
+}
+
+/* ---- Shells: headers, nav bars, menus, modals, footer ---- */
+body.bitcoin-style .app-header,
+body.bitcoin-style .mobile-header,
+body.bitcoin-style .mobile-bottom-nav,
+body.bitcoin-style .head {
+  background-color: var(--glass-shell) !important;
+  border-bottom-color: var(--glass-border-soft);
+  box-shadow: var(--glass-shadow);
+}
+
+body.bitcoin-style .menusimple ul,
+body.bitcoin-style .menusimple.mobile-open,
+body.bitcoin-style .lang-selector ul {
+  background-color: var(--glass-surface-strong) !important;
+  border-color: var(--glass-border-soft);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+}
+
+body.bitcoin-style .dropdown-menu {
+  background-color: var(--glass-surface-strong) !important;
+  border-color: var(--glass-border-soft);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+}
+
+body.bitcoin-style .modal-content,
+body.bitcoin-style .offcanvas,
+body.bitcoin-style.admin-page .admin-modal-content {
+  background-color: var(--glass-shell) !important;
+  border-color: var(--glass-border-soft);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
+}
+
+body.bitcoin-style .toast {
+  background-color: var(--glass-surface-strong) !important;
+  border-color: var(--glass-border-soft);
+}
+
+body.bitcoin-style .price-ticker {
+  background-color: var(--glass-surface-strong);
+  border-bottom-color: var(--glass-border-soft);
+}
+
+body.bitcoin-style .app-footer,
+body.bitcoin-style .footer {
+  background-color: var(--glass-shell);
+  border-top-color: var(--glass-border-soft);
+}
+
+/* ---- Cards & panels ---- */
+body.bitcoin-style .page-card,
+body.bitcoin-style .feature-card-btc,
+body.bitcoin-style .setup-card,
+body.bitcoin-style .send-form-container.page-card {
+  background-color: var(--glass-surface) !important;
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
+}
+
+body.bitcoin-style .review-card,
+body.bitcoin-style .step-indicator,
+body.bitcoin-style .swap-field,
+body.bitcoin-style .dex-card,
+body.bitcoin-style .check-input-group,
+body.bitcoin-style .code-panel,
+body.bitcoin-style .coin-select-menu {
+  background-color: var(--glass-surface-strong) !important;
+  border-color: var(--glass-border-soft);
+}
+
+body.bitcoin-style .card,
+body.bitcoin-style .stat-card {
+  background-color: var(--glass-surface);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+body.bitcoin-style .card-header,
+body.bitcoin-style .page-card-header {
+  background-color: transparent;
+}
+
+/* ---- Inputs ---- */
+body.bitcoin-style .form-control,
+body.bitcoin-style .form-select,
+body.bitcoin-style .form-input {
+  background-color: var(--glass-input) !important;
+  border-color: var(--glass-border-soft);
+  color: inherit;
+}
+
+body.bitcoin-style .form-control:focus,
+body.bitcoin-style .form-select:focus,
+body.bitcoin-style .form-input:focus {
+  background-color: var(--glass-surface-strong) !important;
+  border-color: var(--cv-primary, #ff7e00);
+  box-shadow: 0 0 0 3px rgba(255, 126, 0, 0.15);
+}
+
+body.bitcoin-style .form-control:disabled,
+body.bitcoin-style .form-control[readonly],
+body.bitcoin-style .form-select:disabled {
+  background-color: var(--glass-border-soft);
+  opacity: 0.85;
+}
+
+body.bitcoin-style .form-control::placeholder,
+body.bitcoin-style .form-select::placeholder {
+  color: var(--bs-secondary-color);
+  opacity: 0.8;
+}
+
+/* ---- Tables ---- */
+body.bitcoin-style .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: inherit;
+}
+
+body.bitcoin-style .table thead th {
+  background-color: rgba(127, 127, 127, 0.06);
+  color: var(--bs-secondary-color);
+}
+
+body.bitcoin-style .table tbody tr:hover,
+body.bitcoin-style .table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .table thead th {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .table tbody tr:hover,
+[data-bs-theme="dark"] body.bitcoin-style .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ---- Admin panel ---- */
+body.bitcoin-style.admin-page .admin-header-inner {
+  background-color: var(--glass-shell) !important;
+  border-bottom-color: var(--glass-border-soft);
+}
+
+body.bitcoin-style.admin-page .admin-card {
+  background-color: var(--glass-surface) !important;
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
+}
+
+body.bitcoin-style.admin-page .admin-card .card-header {
+  background-color: var(--glass-surface-strong);
+  border-bottom-color: var(--glass-border-soft);
+}
+
+body.bitcoin-style.admin-page .admin-sidebar {
+  background-color: var(--glass-shell) !important;
+  border-right-color: var(--glass-border-soft);
+}
+
+body.bitcoin-style.admin-page .admin-table {
+  --bs-table-bg: transparent;
+}
+
+body.bitcoin-style.admin-page .admin-modal-overlay .admin-modal-content {
+  background-color: var(--glass-shell) !important;
+  border-color: var(--glass-border-soft);
+}
+
+/* ---- Hover polish ---- */
+body.bitcoin-style .page-card,
+body.bitcoin-style .feature-card-btc,
+body.bitcoin-style .stat-card,
+body.bitcoin-style.admin-page .admin-card {
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+body.bitcoin-style .page-card:hover,
+body.bitcoin-style .feature-card-btc:hover,
+body.bitcoin-style .stat-card:hover,
+body.bitcoin-style.admin-page .admin-card:hover {
+  border-color: var(--glass-hover-border);
+}
+
+/* ============================================
+   Dark mode — dark-gray theme (#444444 bg, light text, gray accents)
+   Remaps every accent token and the hardcoded
+   orange used across the app to a neutral soft
+   gray, scoped to [data-bs-theme="dark"] so the
+   light theme keeps the original branding.
+   ============================================ */
+
+/* ---- Token remap (light theme untouched) ---- */
+[data-bs-theme="dark"] {
+  --btc-orange: #8a8f98;
+  --btc-bright: #a0a5ad;
+  --bs-primary: #8a8f98;
+  --bs-primary-rgb: 138, 143, 152;
+  --bs-link-color: #a0a5ad;
+  --bs-link-hover-color: #d0d4da;
+  --admin-accent: #8a8f98;
+  --glass-hover-border: rgba(138, 143, 152, 0.55);
+}
+
+[data-bs-theme="dark"] body.bitcoin-style {
+  --cv-primary: #8a8f98;
+  --cv-primary-rgb: 138, 143, 152;
+  --cv-accent: #8a8f98;
+}
+
+/* ---- Gray focus ring on glass inputs ---- */
+[data-bs-theme="dark"] body.bitcoin-style .form-control:focus,
+[data-bs-theme="dark"] body.bitcoin-style .form-select:focus,
+[data-bs-theme="dark"] body.bitcoin-style .form-input:focus {
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.25) !important;
+}
+
+/* ---- Gradient primary buttons / icons: orange -> soft gray ---- */
+[data-bs-theme="dark"] body.bitcoin-style #checkBtn,
+[data-bs-theme="dark"] body.bitcoin-style #exploreBtn,
+[data-bs-theme="dark"] body.bitcoin-style #pagination .btn-primary,
+[data-bs-theme="dark"] body.bitcoin-style #refreshHistory,
+[data-bs-theme="dark"] body.bitcoin-style #exportPdfHistory,
+[data-bs-theme="dark"] body.bitcoin-style #submitTicketBtn,
+[data-bs-theme="dark"] body.bitcoin-style .btn-blue,
+[data-bs-theme="dark"] body.bitcoin-style .btn-primary,
+[data-bs-theme="dark"] body.bitcoin-style .btn-container .btn-bright,
+[data-bs-theme="dark"] body.bitcoin-style .btn-bright,
+[data-bs-theme="dark"] body.bitcoin-style .explorer-card .btn-btc-primary,
+[data-bs-theme="dark"] body.bitcoin-style .import-card .btn-btc-primary,
+[data-bs-theme="dark"] body.bitcoin-style .setup-card .btn-btc-primary,
+[data-bs-theme="dark"] body.bitcoin-style .step-dot.active,
+[data-bs-theme="dark"] body.bitcoin-style .send-header-icon,
+[data-bs-theme="dark"] body.bitcoin-style .profile-ic,
+[data-bs-theme="dark"] body.bitcoin-style .mt-6 a.bg-primary-500,
+[data-bs-theme="dark"] body.bitcoin-style .bg-gradient-to-r.from-primary-500.to-primary-600 {
+  background-image: linear-gradient(135deg, #9aa0a8, #6b7078) !important;
+  background-color: #8a8f98 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 22px rgba(0, 0, 0, 0.10) !important;
+}
+
+[data-bs-theme="dark"] .btn-btc-primary {
+  background-color: #8a8f98 !important;
+  background-image: none !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style #checkBtn:hover,
+[data-bs-theme="dark"] body.bitcoin-style #exploreBtn:hover,
+[data-bs-theme="dark"] body.bitcoin-style #submitTicketBtn:hover,
+[data-bs-theme="dark"] body.bitcoin-style .btn-blue:hover,
+[data-bs-theme="dark"] body.bitcoin-style .btn-primary:hover,
+[data-bs-theme="dark"] body.bitcoin-style .btn-container .btn-bright:hover,
+[data-bs-theme="dark"] body.bitcoin-style .btn-bright:hover,
+[data-bs-theme="dark"] body.bitcoin-style .explorer-card .btn-btc-primary:hover,
+[data-bs-theme="dark"] body.bitcoin-style .import-card .btn-btc-primary:hover,
+[data-bs-theme="dark"] body.bitcoin-style .setup-card .btn-btc-primary:hover,
+[data-bs-theme="dark"] body.bitcoin-style .mt-6 a.bg-primary-500:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24), 0 0 30px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style #submitTicketBtn:disabled,
+[data-bs-theme="dark"] body.bitcoin-style .import-card .btn-btc-primary:disabled,
+[data-bs-theme="dark"] body.bitcoin-style .setup-card .btn-btc-primary:disabled {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* ---- Solid accent fills ---- */
+[data-bs-theme="dark"] body.bitcoin-style .import-card .tabs button.active,
+[data-bs-theme="dark"] body.bitcoin-style .import-steps .step-item.active .step-num,
+[data-bs-theme="dark"] body.bitcoin-style .step-bar .step.active .num {
+  background-color: #8a8f98 !important;
+  border-color: #8a8f98 !important;
+  color: #ffffff !important;
+}
+
+/* ---- Accent text (headings / steps / links) ---- */
+[data-bs-theme="dark"] body.bitcoin-style .explorer-card h1,
+[data-bs-theme="dark"] body.bitcoin-style .import-card h1,
+[data-bs-theme="dark"] body.bitcoin-style .setup-card h1,
+[data-bs-theme="dark"] body.bitcoin-style .btc-blocks-section h2,
+[data-bs-theme="dark"] body.bitcoin-style .networks-section h2,
+[data-bs-theme="dark"] body.bitcoin-style .step-bar .step.active,
+[data-bs-theme="dark"] body.bitcoin-style .import-steps .step-item.active,
+[data-bs-theme="dark"] body.bitcoin-style .bottom-link a {
+  color: #d0d4da !important;
+}
+
+/* ---- Cards: orange glow -> neutral gray glow ---- */
+[data-bs-theme="dark"] body.bitcoin-style .page-card,
+[data-bs-theme="dark"] body.bitcoin-style .maincard,
+[data-bs-theme="dark"] body.bitcoin-style .import-card,
+[data-bs-theme="dark"] body.bitcoin-style .explorer-card,
+[data-bs-theme="dark"] body.bitcoin-style .setup-card,
+[data-bs-theme="dark"] body.bitcoin-style .send-form-container.page-card {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), 0 0 46px rgba(255, 255, 255, 0.08), var(--glass-highlight) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .page-card:hover,
+[data-bs-theme="dark"] body.bitcoin-style .maincard:hover,
+[data-bs-theme="dark"] body.bitcoin-style .import-card:hover,
+[data-bs-theme="dark"] body.bitcoin-style .explorer-card:hover,
+[data-bs-theme="dark"] body.bitcoin-style .setup-card:hover,
+[data-bs-theme="dark"] body.bitcoin-style .send-form-container.page-card:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 64px rgba(255, 255, 255, 0.10) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .page-glow {
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05) 50%, transparent 72%) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .hero-splash {
+  background: radial-gradient(ellipse at center top, rgba(255, 255, 255, 0.08), transparent 65%) !important;
+}
+
+/* ---- Focus rings & selected / tinted states ---- */
+[data-bs-theme="dark"] body.bitcoin-style input:focus,
+[data-bs-theme="dark"] body.bitcoin-style .form-input:focus,
+[data-bs-theme="dark"] body.bitcoin-style .form-select:focus,
+[data-bs-theme="dark"] body.bitcoin-style .form-control:focus,
+[data-bs-theme="dark"] body.bitcoin-style .code-input:focus,
+[data-bs-theme="dark"] body.bitcoin-style .check-input-group:focus-within {
+  border-color: #8a8f98 !important;
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.28) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .coin-btn.active,
+[data-bs-theme="dark"] body.bitcoin-style .fee-btn.active,
+[data-bs-theme="dark"] body.bitcoin-style .quick-coin.active,
+[data-bs-theme="dark"] body.bitcoin-style .coin-option.selected {
+  background-color: rgba(138, 143, 152, 0.12) !important;
+  border-color: #8a8f98 !important;
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.20) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .quick-coin:hover,
+[data-bs-theme="dark"] body.bitcoin-style .network-item:hover,
+[data-bs-theme="dark"] body.bitcoin-style .profile-section:hover,
+[data-bs-theme="dark"] body.bitcoin-style .coin-select-btn:hover,
+[data-bs-theme="dark"] body.bitcoin-style .import-card .coin-select-btn:hover,
+[data-bs-theme="dark"] body.bitcoin-style .code-refresh:hover,
+[data-bs-theme="dark"] body.bitcoin-style .p-4.border.rounded:hover,
+[data-bs-theme="dark"] body.bitcoin-style #recentTransactions .tx-row:hover,
+[data-bs-theme="dark"] body.bitcoin-style #txList .tx-item:hover,
+[data-bs-theme="dark"] body.bitcoin-style .mainvideo-btn-open:hover,
+[data-bs-theme="dark"] body.bitcoin-style .tx-detail-close button:hover,
+[data-bs-theme="dark"] body.bitcoin-style .help-sidebar-wrap nav a:hover {
+  border-color: #8a8f98 !important;
+  box-shadow: 0 2px 10px rgba(138, 143, 152, 0.18) !important;
+  color: #d0d4da !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .tx-table tbody tr.selected {
+  background-color: rgba(138, 143, 152, 0.12) !important;
+  box-shadow: inset 3px 0 0 #8a8f98 !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .code-input.is-valid {
+  border-color: #8a8f98 !important;
+}
+
+/* ---- Panels / alerts / address box ---- */
+[data-bs-theme="dark"] body.bitcoin-style .alert-btc-warning {
+  background: rgba(138, 143, 152, 0.14) !important;
+  border-color: #8a8f98 !important;
+  color: #d0d4da !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .address-display {
+  background: rgba(138, 143, 152, 0.10) !important;
+  box-shadow: 0 0 0 1px rgba(138, 143, 152, 0.12), 0 2px 10px rgba(0, 0, 0, 0.14) !important;
+}
+
+[data-bs-theme="dark"] body.bitcoin-style .help-sidebar-wrap nav a.bg-primary-50 {
+  background: rgba(138, 143, 152, 0.14) !important;
+}
+
+/* ---- Admin panel ---- */
+[data-bs-theme="dark"] body.admin-page .admin-main .login-icon,
+[data-bs-theme="dark"] body.admin-page .admin-main .icon {
+  background: rgba(138, 143, 152, 0.14) !important;
+  color: #d0d4da !important;
+}
+
+[data-bs-theme="dark"] body.admin-page .admin-main .form-group input:focus {
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.28) !important;
+}
+
+[data-bs-theme="dark"] .admin-nav-link:hover {
+  background: rgba(138, 143, 152, 0.10) !important;
+}
+
+[data-bs-theme="dark"] .admin-nav-link.active {
+  background: rgba(138, 143, 152, 0.14) !important;
+}
+
+/* ============================================
+   Auto theme fallback: when data-bs-theme resolves
+   to auto and the OS prefers dark, the app still
+   renders dark - apply the same gray accent rules.
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+[data-bs-theme="auto"] body.bitcoin-style {
+  background-color: #444444;
+  background-image:
+    radial-gradient(1100px 540px at 8% -6%, rgba(255, 255, 255, 0.10), transparent 60%),
+    radial-gradient(900px 520px at 100% 0%, rgba(255, 255, 255, 0.08), transparent 55%),
+    radial-gradient(900px 620px at 50% 115%, rgba(255, 255, 255, 0.06), transparent 60%);
+  background-attachment: fixed;
+}
+/* ============================================
+   Dark mode — soft-gray accent (#8a8f98)
+   Remaps every accent token and the hardcoded
+   orange used across the app to a neutral gray,
+   scoped to [data-bs-theme="auto"] so the
+   light theme keeps the original branding.
+   ============================================ */
+
+/* ---- Token remap (light theme untouched) ---- */
+[data-bs-theme="auto"] {
+  --btc-orange: #8a8f98;
+  --btc-bright: #a0a5ad;
+  --bs-primary: #8a8f98;
+  --bs-primary-rgb: 138, 143, 152;
+  --bs-link-color: #a0a5ad;
+  --bs-link-hover-color: #d0d4da;
+  --admin-accent: #8a8f98;
+  --glass-hover-border: rgba(138, 143, 152, 0.55);
+}
+
+[data-bs-theme="auto"] body.bitcoin-style {
+  --cv-primary: #8a8f98;
+  --cv-primary-rgb: 138, 143, 152;
+  --cv-accent: #8a8f98;
+}
+
+/* ---- Gray focus ring on glass inputs ---- */
+[data-bs-theme="auto"] body.bitcoin-style .form-control:focus,
+[data-bs-theme="auto"] body.bitcoin-style .form-select:focus,
+[data-bs-theme="auto"] body.bitcoin-style .form-input:focus {
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.25) !important;
+}
+
+/* ---- Gradient primary buttons / icons: orange -> soft gray ---- */
+[data-bs-theme="auto"] body.bitcoin-style #checkBtn,
+[data-bs-theme="auto"] body.bitcoin-style #exploreBtn,
+[data-bs-theme="auto"] body.bitcoin-style #pagination .btn-primary,
+[data-bs-theme="auto"] body.bitcoin-style #refreshHistory,
+[data-bs-theme="auto"] body.bitcoin-style #exportPdfHistory,
+[data-bs-theme="auto"] body.bitcoin-style #submitTicketBtn,
+[data-bs-theme="auto"] body.bitcoin-style .btn-blue,
+[data-bs-theme="auto"] body.bitcoin-style .btn-primary,
+[data-bs-theme="auto"] body.bitcoin-style .btn-container .btn-bright,
+[data-bs-theme="auto"] body.bitcoin-style .btn-bright,
+[data-bs-theme="auto"] body.bitcoin-style .explorer-card .btn-btc-primary,
+[data-bs-theme="auto"] body.bitcoin-style .import-card .btn-btc-primary,
+[data-bs-theme="auto"] body.bitcoin-style .setup-card .btn-btc-primary,
+[data-bs-theme="auto"] body.bitcoin-style .step-dot.active,
+[data-bs-theme="auto"] body.bitcoin-style .send-header-icon,
+[data-bs-theme="auto"] body.bitcoin-style .profile-ic,
+[data-bs-theme="auto"] body.bitcoin-style .mt-6 a.bg-primary-500,
+[data-bs-theme="auto"] body.bitcoin-style .bg-gradient-to-r.from-primary-500.to-primary-600 {
+  background-image: linear-gradient(135deg, #9aa0a8, #6b7078) !important;
+  background-color: #8a8f98 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), 0 0 22px rgba(0, 0, 0, 0.10) !important;
+}
+
+[data-bs-theme="auto"] .btn-btc-primary {
+  background-color: #8a8f98 !important;
+  background-image: none !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style #checkBtn:hover,
+[data-bs-theme="auto"] body.bitcoin-style #exploreBtn:hover,
+[data-bs-theme="auto"] body.bitcoin-style #submitTicketBtn:hover,
+[data-bs-theme="auto"] body.bitcoin-style .btn-blue:hover,
+[data-bs-theme="auto"] body.bitcoin-style .btn-primary:hover,
+[data-bs-theme="auto"] body.bitcoin-style .btn-container .btn-bright:hover,
+[data-bs-theme="auto"] body.bitcoin-style .btn-bright:hover,
+[data-bs-theme="auto"] body.bitcoin-style .explorer-card .btn-btc-primary:hover,
+[data-bs-theme="auto"] body.bitcoin-style .import-card .btn-btc-primary:hover,
+[data-bs-theme="auto"] body.bitcoin-style .setup-card .btn-btc-primary:hover,
+[data-bs-theme="auto"] body.bitcoin-style .mt-6 a.bg-primary-500:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24), 0 0 30px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style #submitTicketBtn:disabled,
+[data-bs-theme="auto"] body.bitcoin-style .import-card .btn-btc-primary:disabled,
+[data-bs-theme="auto"] body.bitcoin-style .setup-card .btn-btc-primary:disabled {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* ---- Solid accent fills ---- */
+[data-bs-theme="auto"] body.bitcoin-style .import-card .tabs button.active,
+[data-bs-theme="auto"] body.bitcoin-style .import-steps .step-item.active .step-num,
+[data-bs-theme="auto"] body.bitcoin-style .step-bar .step.active .num {
+  background-color: #8a8f98 !important;
+  border-color: #8a8f98 !important;
+  color: #ffffff !important;
+}
+
+/* ---- Accent text (headings / steps / links) ---- */
+[data-bs-theme="auto"] body.bitcoin-style .explorer-card h1,
+[data-bs-theme="auto"] body.bitcoin-style .import-card h1,
+[data-bs-theme="auto"] body.bitcoin-style .setup-card h1,
+[data-bs-theme="auto"] body.bitcoin-style .btc-blocks-section h2,
+[data-bs-theme="auto"] body.bitcoin-style .networks-section h2,
+[data-bs-theme="auto"] body.bitcoin-style .step-bar .step.active,
+[data-bs-theme="auto"] body.bitcoin-style .import-steps .step-item.active,
+[data-bs-theme="auto"] body.bitcoin-style .bottom-link a {
+  color: #d0d4da !important;
+}
+
+/* ---- Cards: orange glow -> neutral gray glow ---- */
+[data-bs-theme="auto"] body.bitcoin-style .page-card,
+[data-bs-theme="auto"] body.bitcoin-style .maincard,
+[data-bs-theme="auto"] body.bitcoin-style .import-card,
+[data-bs-theme="auto"] body.bitcoin-style .explorer-card,
+[data-bs-theme="auto"] body.bitcoin-style .setup-card,
+[data-bs-theme="auto"] body.bitcoin-style .send-form-container.page-card {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), 0 0 46px rgba(255, 255, 255, 0.08), var(--glass-highlight) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .page-card:hover,
+[data-bs-theme="auto"] body.bitcoin-style .maincard:hover,
+[data-bs-theme="auto"] body.bitcoin-style .import-card:hover,
+[data-bs-theme="auto"] body.bitcoin-style .explorer-card:hover,
+[data-bs-theme="auto"] body.bitcoin-style .setup-card:hover,
+[data-bs-theme="auto"] body.bitcoin-style .send-form-container.page-card:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 64px rgba(255, 255, 255, 0.10) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .page-glow {
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05) 50%, transparent 72%) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .hero-splash {
+  background: radial-gradient(ellipse at center top, rgba(255, 255, 255, 0.08), transparent 65%) !important;
+}
+
+/* ---- Focus rings & selected / tinted states ---- */
+[data-bs-theme="auto"] body.bitcoin-style input:focus,
+[data-bs-theme="auto"] body.bitcoin-style .form-input:focus,
+[data-bs-theme="auto"] body.bitcoin-style .form-select:focus,
+[data-bs-theme="auto"] body.bitcoin-style .form-control:focus,
+[data-bs-theme="auto"] body.bitcoin-style .code-input:focus,
+[data-bs-theme="auto"] body.bitcoin-style .check-input-group:focus-within {
+  border-color: #8a8f98 !important;
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.28) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .coin-btn.active,
+[data-bs-theme="auto"] body.bitcoin-style .fee-btn.active,
+[data-bs-theme="auto"] body.bitcoin-style .quick-coin.active,
+[data-bs-theme="auto"] body.bitcoin-style .coin-option.selected {
+  background-color: rgba(138, 143, 152, 0.12) !important;
+  border-color: #8a8f98 !important;
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.20) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .quick-coin:hover,
+[data-bs-theme="auto"] body.bitcoin-style .network-item:hover,
+[data-bs-theme="auto"] body.bitcoin-style .profile-section:hover,
+[data-bs-theme="auto"] body.bitcoin-style .coin-select-btn:hover,
+[data-bs-theme="auto"] body.bitcoin-style .import-card .coin-select-btn:hover,
+[data-bs-theme="auto"] body.bitcoin-style .code-refresh:hover,
+[data-bs-theme="auto"] body.bitcoin-style .p-4.border.rounded:hover,
+[data-bs-theme="auto"] body.bitcoin-style #recentTransactions .tx-row:hover,
+[data-bs-theme="auto"] body.bitcoin-style #txList .tx-item:hover,
+[data-bs-theme="auto"] body.bitcoin-style .mainvideo-btn-open:hover,
+[data-bs-theme="auto"] body.bitcoin-style .tx-detail-close button:hover,
+[data-bs-theme="auto"] body.bitcoin-style .help-sidebar-wrap nav a:hover {
+  border-color: #8a8f98 !important;
+  box-shadow: 0 2px 10px rgba(138, 143, 152, 0.18) !important;
+  color: #d0d4da !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .tx-table tbody tr.selected {
+  background-color: rgba(138, 143, 152, 0.12) !important;
+  box-shadow: inset 3px 0 0 #8a8f98 !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .code-input.is-valid {
+  border-color: #8a8f98 !important;
+}
+
+/* ---- Panels / alerts / address box ---- */
+[data-bs-theme="auto"] body.bitcoin-style .alert-btc-warning {
+  background: rgba(138, 143, 152, 0.14) !important;
+  border-color: #8a8f98 !important;
+  color: #d0d4da !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .address-display {
+  background: rgba(138, 143, 152, 0.10) !important;
+  box-shadow: 0 0 0 1px rgba(138, 143, 152, 0.12), 0 2px 10px rgba(0, 0, 0, 0.14) !important;
+}
+
+[data-bs-theme="auto"] body.bitcoin-style .help-sidebar-wrap nav a.bg-primary-50 {
+  background: rgba(138, 143, 152, 0.14) !important;
+}
+
+/* ---- Admin panel ---- */
+[data-bs-theme="auto"] body.admin-page .admin-main .login-icon,
+[data-bs-theme="auto"] body.admin-page .admin-main .icon {
+  background: rgba(138, 143, 152, 0.14) !important;
+  color: #d0d4da !important;
+}
+
+[data-bs-theme="auto"] body.admin-page .admin-main .form-group input:focus {
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.28) !important;
+}
+
+[data-bs-theme="auto"] .admin-nav-link:hover {
+  background: rgba(138, 143, 152, 0.10) !important;
+}
+
+[data-bs-theme="auto"] .admin-nav-link.active {
+  background: rgba(138, 143, 152, 0.14) !important;
+}
+
+}

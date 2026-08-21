@@ -1,0 +1,697 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Settings - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<style>
+body.admin-page .password-wrap{position:relative}
+body.admin-page .password-wrap input{padding-right:44px}
+body.admin-page .password-toggle{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--admin-text);opacity:.65;cursor:pointer;padding:8px;font-size:1.05rem;line-height:1}
+body.admin-page .password-toggle:hover{opacity:1;color:var(--btc-orange,#FF7E00)}
+</style>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div class="admin-page-header">
+  <h2><i class="bi bi-gear me-2"></i>Settings</h2>
+</div>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card admin-card">
+      <div class="card-header"><strong><i class="bi bi-shield-lock me-2"></i>Change Admin Password</strong></div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">Current Password</label>
+          <div class="password-wrap">
+            <input id="adminCurPass" type="password" class="form-control" autocomplete="current-password" inputmode="password" placeholder="Enter current password">
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility" data-toggle-for="adminCurPass" data-toggle-icon="adminCurPassIcon"><i class="bi bi-eye" id="adminCurPassIcon"></i></button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">New Password</label>
+          <div class="password-wrap">
+            <input id="adminNewPass" type="password" class="form-control" autocomplete="new-password" inputmode="password" placeholder="Enter new password">
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility" data-toggle-for="adminNewPass" data-toggle-icon="adminNewPassIcon"><i class="bi bi-eye" id="adminNewPassIcon"></i></button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">Confirm New Password</label>
+          <div class="password-wrap">
+            <input id="adminConfirmPass" type="password" class="form-control" autocomplete="new-password" inputmode="password" placeholder="Confirm new password">
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility" data-toggle-for="adminConfirmPass" data-toggle-icon="adminConfirmPassIcon"><i class="bi bi-eye" id="adminConfirmPassIcon"></i></button>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="changePasswordBtn"><i class="bi bi-check-lg me-1"></i>Update Admin Password</button>
+        <div id="passwordMessage" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card admin-card">
+      <div class="card-header"><strong><i class="bi bi-info-circle me-2"></i>System Info</strong></div>
+      <div class="card-body">
+        <table class="table table-sm mb-0">
+          <tbody>
+            <tr><td class="text-secondary">Admin Token</td><td><code class="small">Loaded from localStorage</code></td></tr>
+            <tr><td class="text-secondary">Session Timeout</td><td>10 minutes</td></tr>
+            <tr><td class="text-secondary">Backend URL</td><td><code id="backendUrl" class="small">-</code></td></tr>
+            <tr><td class="text-secondary">Frontend Version</td><td>PruneBit v1.0</td></tr>
+          </tbody>
+        </table>
+</div>
+</div>
+</div>
+
+<div class="row g-4 mt-4">
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-header"><strong><i class="bi bi-file-earmark-lock me-2"></i>Environment Variables (.env)</strong></div>
+      <div class="card-body">
+        <div class="alert alert-secondary d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Status:</strong> <span id="envStatusBadge" class="badge bg-secondary ms-2">Checking...</span>
+            <span class="text-secondary ms-2 small">Key set: <span id="envKeyBadge" class="badge bg-secondary">Checking...</span></span>
+          </div>
+          <div class="btn-group" role="group">
+            <button class="btn btn-outline-primary btn-sm" id="btnRefreshEnv"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+            <button class="btn btn-outline-warning btn-sm" id="btnDecryptEnv"><i class="bi bi-unlock me-1"></i>Decrypt & View</button>
+          </div>
+        </div>
+
+        <div id="envViewer" class="mt-3 d-none">
+          <ul class="nav nav-tabs mb-3" id="envTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="tabRaw" data-bs-toggle="tab" data-bs-target="#panelRaw" type="button">Raw Text</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="tabKV" data-bs-toggle="tab" data-bs-target="#panelKV" type="button">Key-Value Editor</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="envTabsContent">
+            <div class="tab-pane fade show active" id="panelRaw" role="tabpanel">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <strong>.env Content (decrypted)</strong>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-secondary" id="btnCopyEnv"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                  <button class="btn btn-outline-danger" id="btnHideEnv"><i class="bi bi-eye-slash me-1"></i>Hide</button>
+                </div>
+              </div>
+              <textarea id="envTextarea" class="form-control font-mono" rows="12" readonly style="font-size:0.8rem;"></textarea>
+              <div class="mt-2">
+                <label class="form-label small fw-semibold">Edit & Re-encrypt</label>
+                <div class="input-group">
+                  <textarea id="envEditTextarea" class="form-control font-mono" rows="12" style="font-size:0.8rem;"></textarea>
+                </div>
+                <div class="mt-2 d-flex gap-2">
+                  <button class="btn btn-success" id="btnSaveEnv"><i class="bi bi-lock me-1"></i>Encrypt & Save</button>
+                  <button class="btn btn-outline-secondary" id="btnCancelEdit"><i class="bi bi-x me-1"></i>Cancel</button>
+                </div>
+                <div class="form-text text-danger small mt-1">Warning: Only edit if you know what you are doing. Invalid values may break the application.</div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="panelKV" role="tabpanel">
+              <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <strong>Environment Variables</strong>
+                  <button class="btn btn-sm btn-outline-primary" id="btnAddVar"><i class="bi bi-plus me-1"></i>Add Variable</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover align-middle" id="envVarsTable">
+                    <thead>
+                      <tr>
+                        <th style="width:30%">Key</th>
+                        <th style="width:55%">Value</th>
+                        <th style="width:15%">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="envVarsBody"></tbody>
+                  </table>
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-success" id="btnSaveKV"><i class="bi bi-lock me-1"></i>Encrypt & Save All</button>
+                  <button class="btn btn-outline-secondary" id="btnCancelKV"><i class="bi bi-x me-1"></i>Cancel</button>
+                </div>
+                <div class="form-text text-danger small mt-1">Changes are saved encrypted. Invalid values may break the application.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="row g-4 mt-4">
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-header"><strong><i class="bi bi-key me-2"></i>Environment Encryption Key</strong></div>
+      <div class="card-body">
+        <p class="text-muted small mb-4" data-i18n="This key encrypts your .env file. If not set, environment variables cannot be encrypted/decrypted in admin panel.">This key encrypts your .env file. If not set, environment variables cannot be encrypted/decrypted in admin panel.</p>
+        <div class="alert alert-info d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Status:</strong> <span id="envKeyStatusBadge" class="badge bg-secondary ms-2">Checking...</span>
+          </div>
+          <button class="btn btn-sm btn-outline-primary" id="btnRefreshEnvKey"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+        </div>
+        <div id="envKeyActions" class="mt-3 d-none">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold" data-i18n="Encryption Key">Encryption Key (64 hex chars)</label>
+            <div class="input-group">
+              <input id="envKeyInput" type="text" class="form-control font-mono" readonly placeholder="Click Generate to create a new key">
+              <button class="btn btn-outline-secondary" id="btnCopyEnvKey" type="button" data-i18n="Copy">Copy</button>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="btnGenerateEnvKey" class="btn btn-warning" data-i18n="Generate New Key"><i class="bi bi-key me-1"></i>Generate New Key</button>
+            <button id="btnSaveEnvKey" class="btn btn-success" data-i18n="Save Key"><i class="bi bi-save me-1"></i>Save Key</button>
+          </div>
+          <div class="form-text text-danger small mt-1" data-i18n="Warning: Changing this key will make existing encrypted .env unreadable. Only do this if you know what you are doing.">Warning: Changing this key will make existing encrypted .env unreadable. Only do this if you know what you are doing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row g-4 mt-4">
+  <div class="col-12">
+    <div class="card admin-card">
+      <div class="card-header"><strong><i class="bi bi-wrench me-2"></i>Environment Setup Wizard</strong></div>
+      <div class="card-body">
+        <div class="alert alert-info mb-4">
+          <i class="bi bi-info-circle me-2"></i>
+          <strong>Setup Wizard:</strong> Fill in your environment variables below, then click <strong>Encrypt & Save</strong>.
+          This will create a new encrypted <code>.env</code> file using the fixed encryption key.
+          <br><small class="text-muted">API keys (BlockCypher, Etherscan, CryptoAPIs, ChangeNOW) are managed separately in <code>config/api_keys.php</code>.</small>
+        </div>
+
+        <div id="envSetupForm"></div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button class="btn btn-success btn-lg" id="btnEncryptSaveSetup"><i class="bi bi-lock me-1"></i>Encrypt & Save .env</button>
+          <button class="btn btn-outline-secondary" id="btnLoadExampleSetup"><i class="bi bi-file-earmark-text me-1"></i>Load from .env.example</button>
+        </div>
+
+        <div id="setupResult" class="mt-4"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+function toggleAdminPassword(inputId, iconId) {
+  var input = document.getElementById(inputId);
+  var icon = document.getElementById(iconId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.remove('bi-eye');
+    icon.classList.add('bi-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.remove('bi-eye-slash');
+    icon.classList.add('bi-eye');
+  }
+}
+
+document.querySelectorAll('.password-toggle').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    toggleAdminPassword(btn.getAttribute('data-toggle-for'), btn.getAttribute('data-toggle-icon'));
+  });
+});
+
+async function changeAdminPassword() {
+  var current = document.getElementById('adminCurPass').value;
+  var newPass = document.getElementById('adminNewPass').value;
+  var confirmPass = document.getElementById('adminConfirmPass').value;
+
+  if (!current || !newPass) {
+    showToast('Please fill in all fields','warning');
+    return;
+  }
+  if (newPass !== confirmPass) {
+    showToast('Passwords do not match','warning');
+    return;
+  }
+  if (newPass.length < 4) {
+    showToast('Password must be at least 4 characters','warning');
+    return;
+  }
+
+  try {
+    var data = await adminPost('/api/admin/change_password', {
+      current_password: current,
+      new_password: newPass
+    });
+    if (data.success) {
+      showToast('Admin password updated successfully','success');
+      document.getElementById('adminCurPass').value = '';
+      document.getElementById('adminNewPass').value = '';
+      document.getElementById('adminConfirmPass').value = '';
+    } else {
+      showToast(data.error || 'Failed to update password','error');
+    }
+  } catch(e) {
+    showToast(e.message,'error');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('backendUrl').textContent = window.location.origin;
+  document.getElementById('changePasswordBtn').addEventListener('click', changeAdminPassword);
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  async function initEnvManager() {
+  const token = localStorage.getItem('admin_token');
+  if (!token) return;
+
+  const btnRefresh = document.getElementById('btnRefreshEnv');
+  const btnDecrypt = document.getElementById('btnDecryptEnv');
+  const btnCopy = document.getElementById('btnCopyEnv');
+  const btnHide = document.getElementById('btnHideEnv');
+  const btnSave = document.getElementById('btnSaveEnv');
+  const btnCancel = document.getElementById('btnCancelEdit');
+  const viewer = document.getElementById('envViewer');
+  const textarea = document.getElementById('envTextarea');
+  const editArea = document.getElementById('envEditTextarea');
+  const statusBadge = document.getElementById('envStatusBadge');
+  const keyBadge = document.getElementById('envKeyBadge');
+
+  // Key-Value elements
+  const btnAddVar = document.getElementById('btnAddVar');
+  const btnSaveKV = document.getElementById('btnSaveKV');
+  const btnCancelKV = document.getElementById('btnCancelKV');
+  const envVarsBody = document.getElementById('envVarsBody');
+  const envTabs = document.getElementById('envTabs');
+
+  let currentVars = {};
+  let editingKey = null;
+
+  async function adminPost(action, body) {
+    const token = localStorage.getItem('admin_token');
+    if (!token) throw new Error('No token');
+    const res = await fetch('/api/admin/env', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Origin': window.location.origin },
+      body: JSON.stringify({ token, action, ...body })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    return data;
+  }
+
+  function updateBadges(data) {
+    if (data.exists) {
+      statusBadge.textContent = data.encrypted ? 'Encrypted' : 'Plaintext';
+      statusBadge.className = 'badge ' + (data.encrypted ? 'bg-success' : 'bg-warning') + ' ms-2';
+    } else {
+      statusBadge.textContent = 'Not found';
+      statusBadge.className = 'badge bg-danger ms-2';
+    }
+    keyBadge.textContent = data.env_key_set ? 'Yes' : 'No';
+    keyBadge.className = 'badge ' + (data.env_key_set ? 'bg-success' : 'bg-danger');
+  }
+
+  async function refreshStatus() {
+    try {
+      const data = await adminPost('status');
+      updateBadges(data);
+    } catch(e) {
+      statusBadge.textContent = 'Error';
+      statusBadge.className = 'badge bg-danger ms-2';
+      showToast('Failed to check .env status: ' + e.message, 'error');
+    }
+  }
+
+  function parseEnv(plaintext) {
+    const vars = {};
+    if (!plaintext) return vars;
+    plaintext.split('\n').forEach(line => {
+      line = line.trim();
+      if (!line || line.startsWith('#')) return;
+      const eqIdx = line.indexOf('=');
+      if (eqIdx > 0) {
+        const key = line.substring(0, eqIdx).trim();
+        const value = line.substring(eqIdx + 1).trim();
+        if (key) vars[key] = value;
+      }
+    });
+    return vars;
+  }
+
+  function formatEnv(vars) {
+    return Object.entries(vars).map(([k, v]) => `${k}=${v}`).join('\n');
+  }
+
+  function renderVarsTable() {
+    envVarsBody.innerHTML = '';
+    Object.entries(currentVars).forEach(([key, value]) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><code class="small">${escapeHtml(key)}</code></td>
+        <td><input type="text" class="form-control form-control-sm var-value" data-key="${escapeHtml(key)}" value="${escapeHtml(value)}"></td>
+        <td>
+          <button class="btn btn-sm btn-outline-danger btn-delete" data-key="${escapeHtml(key)}" title="Delete"><i class="bi bi-trash"></i></button>
+        </td>
+      `;
+      envVarsBody.appendChild(tr);
+    });
+    // Add event listeners for value changes
+    document.querySelectorAll('.var-value').forEach(input => {
+      input.addEventListener('change', function() {
+        currentVars[this.dataset.key] = this.value;
+      });
+    });
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const key = this.dataset.key;
+        if (confirm(`Delete variable "${key}"?`)) {
+          delete currentVars[key];
+          renderVarsTable();
+        }
+      });
+    });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function unescapeHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  }
+
+  async function decryptEnv() {
+    try {
+      const data = await adminPost('decrypt');
+      if (data.success) {
+        textarea.value = data.plaintext;
+        editArea.value = data.plaintext;
+        currentVars = parseEnv(data.plaintext);
+        renderVarsTable();
+        viewer.classList.remove('d-none');
+        btnDecrypt.classList.add('d-none');
+        showToast('.env decrypted successfully', 'success');
+      } else {
+        showToast(data.error || 'Failed to decrypt', 'error');
+      }
+    } catch(e) {
+      showToast(e.message, 'error');
+    }
+  }
+
+  function hideViewer() {
+    viewer.classList.add('d-none');
+    btnDecrypt.classList.remove('d-none');
+    editArea.value = '';
+    currentVars = {};
+  }
+
+  async function saveEnv() {
+    const plaintext = editArea.value.trim();
+    if (!plaintext) {
+      showToast('Content cannot be empty', 'warning');
+      return;
+    }
+    try {
+      const data = await adminPost('encrypt', { plaintext });
+      if (data.success) {
+        textarea.value = plaintext;
+        showToast('.env encrypted and saved', 'success');
+        await refreshStatus();
+      } else {
+        showToast(data.error || 'Failed to save', 'error');
+      }
+    } catch(e) {
+      showToast(e.message, 'error');
+    }
+  }
+
+  async function saveKV() {
+    const plaintext = formatEnv(currentVars);
+    try {
+      const data = await adminPost('encrypt_new', { vars: Object.entries(currentVars).map(([key, value]) => ({ key, value })) });
+      if (data.success) {
+        textarea.value = plaintext;
+        editArea.value = plaintext;
+        showToast('.env encrypted and saved', 'success');
+        await refreshStatus();
+      } else {
+        showToast(data.error || 'Failed to save', 'error');
+      }
+    } catch(e) {
+      showToast(e.message, 'error');
+    }
+  }
+
+  function formatEnv(vars) {
+    return Object.entries(vars).map(([k, v]) => `${k}=${v}`).join('\n');
+  }
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      showToast('Copied to clipboard', 'success');
+    });
+  }
+
+  function addVariable() {
+    const key = prompt('Enter variable name:');
+    if (!key) return;
+    if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) {
+      showToast('Invalid variable name. Use only letters, numbers, and underscore.', 'warning');
+      return;
+    }
+    if (currentVars[key] !== undefined) {
+      showToast('Variable already exists', 'warning');
+      return;
+    }
+    const value = prompt(`Enter value for ${key}:`);
+    currentVars[key] = value || '';
+    renderVarsTable();
+  }
+
+  btnRefresh.addEventListener('click', refreshStatus);
+  btnDecrypt.addEventListener('click', decryptEnv);
+  btnHide.addEventListener('click', hideViewer);
+  btnCopy.addEventListener('click', copyToClipboard);
+  btnSave.addEventListener('click', saveEnv);
+  btnCancel.addEventListener('click', hideViewer);
+  btnAddVar.addEventListener('click', addVariable);
+  btnSaveKV.addEventListener('click', saveKV);
+  btnCancelKV.addEventListener('click', () => {
+    // Reset to current decrypted values
+    decryptEnv();
+    // Switch to raw tab
+    const rawTab = envTabs.querySelector('#tabRaw');
+    if (rawTab) rawTab.click();
+  });
+
+  // Environment Encryption Key Management
+  async function loadEnvKeyStatus() {
+    try {
+      const res = await fetch('/api/admin/env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Origin': window.location.origin },
+        body: JSON.stringify({ token, action: 'status' })
+      });
+      const data = await res.json();
+      const badge = document.getElementById('envKeyStatusBadge');
+      const actions = document.getElementById('envKeyActions');
+      if (data.env_key_set) {
+        badge.textContent = 'Set';
+        badge.className = 'badge bg-success ms-2';
+        actions.classList.remove('d-none');
+      } else {
+        badge.textContent = 'Not Set';
+        badge.className = 'badge bg-danger ms-2';
+        actions.classList.remove('d-none');
+      }
+    } catch(e) {
+      document.getElementById('envKeyStatusBadge').textContent = 'Error';
+      document.getElementById('envKeyStatusBadge').className = 'badge bg-danger ms-2';
+    }
+  }
+
+  function generateEnvKey() {
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  document.getElementById('btnRefreshEnvKey').addEventListener('click', loadEnvKeyStatus);
+
+  document.getElementById('btnGenerateEnvKey').addEventListener('click', () => {
+    const key = generateEnvKey();
+    document.getElementById('envKeyInput').value = key;
+    showToast('New encryption key generated', 'success');
+  });
+
+  document.getElementById('btnCopyEnvKey').addEventListener('click', () => {
+    const input = document.getElementById('envKeyInput');
+    if (input.value) {
+      navigator.clipboard.writeText(input.value).then(() => {
+        showToast('Copied to clipboard', 'success');
+      });
+    }
+  });
+
+  document.getElementById('btnSaveEnvKey').addEventListener('click', async () => {
+    const key = document.getElementById('envKeyInput').value.trim();
+    if (!key) {
+      showToast('Generate a key first', 'warning');
+      return;
+    }
+    if (!/^[a-fA-F0-9]{64}$/.test(key)) {
+      showToast('Invalid key format. Must be 64 hex characters.', 'error');
+      return;
+    }
+    try {
+      const res = await fetch('/api/admin/env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Origin': window.location.origin },
+        body: JSON.stringify({ token, action: 'set_encryption_key', key })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('Encryption key saved', 'success');
+        loadEnvKeyStatus();
+      } else {
+        showToast(data.error || 'Failed to save key', 'error');
+      }
+    } catch(e) {
+      showToast(e.message, 'error');
+    }
+  });
+
+  loadEnvKeyStatus();
+
+  // Environment Setup Wizard
+  const setupForm = document.getElementById('envSetupForm');
+  const setupResult = document.getElementById('setupResult');
+
+  const requiredVars = [
+    {key:'ADMIN_ENCRYPTION_KEY', label:'Admin Encryption Key', required:true, help:'64-char hex (auto-generated below)'},
+    {key:'DB_HOST', label:'Database Host', required:true, value:'localhost'},
+    {key:'DB_PORT', label:'Database Port', required:true, value:'3306'},
+    {key:'DB_USER', label:'Database User', required:true, value:'root'},
+    {key:'DB_PASSWORD', label:'Database Password', required:true, type:'password'},
+    {key:'DB_NAME', label:'Database Name', required:true, value:'wallet_db'},
+  ];
+
+  const optionalVars = [
+    {key:'SESSION_TIMEOUT', label:'Session Timeout (sec)', value:'600'},
+    {key:'LOG_LEVEL', label:'Log Level', value:'info'},
+  ];
+
+  function renderSetupForm() {
+    const container = document.getElementById('envSetupForm');
+    let html = '<h5 class="fw-bold mb-3">Required Variables</h5>';
+    requiredVars.forEach(v => {
+      html += `
+        <div class="env-row">
+          <label for="setup_${v.key}">${v.label}${v.required?'<span class="text-danger">*</span>':''}</label>
+          <input id="setup_${v.key}" type="${v.type||'text'}" class="form-control form-control-sm" value="${v.value||''}" ${v.required?'required':''} placeholder="${v.help||''}">
+          ${v.help?`<div class="var-help">${v.help}</div>`:''}
+        </div>`;
+    });
+    html += '<hr class="my-3"><h5 class="fw-bold mb-3">Optional Variables</h5>';
+    optionalVars.forEach(v => {
+      html += `
+        <div class="env-row">
+          <label for="setup_${v.key}">${v.label}</label>
+          <input id="setup_${v.key}" type="${v.type||'text'}" class="form-control form-control-sm" value="${v.value||''}" placeholder="${v.help||''}">
+        </div>`;
+    });
+    document.getElementById('envSetupForm').innerHTML = html;
+  }
+
+  function collectVars() {
+    const vars = [];
+    [...requiredVars, ...optionalVars].forEach(v => {
+      const val = document.getElementById('setup_'+v.key)?.value?.trim();
+      if (val) vars.push({key:v.key, value:val});
+    });
+    return vars;
+  }
+
+  function showSetupResult(msg, type='success') {
+    const div = document.getElementById('setupResult');
+    div.innerHTML = '<div class="alert alert-'+type+'">'+msg+'</div>';
+  }
+
+  async function encryptAndSaveSetup() {
+    const btn = document.getElementById('btnEncryptSaveSetup');
+    const vars = collectVars();
+    if (!vars.length) return showSetupResult('No variables to save', 'warning');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Encrypting...';
+
+    try {
+      const res = await fetch('/api/admin/env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Origin': window.location.origin },
+        body: JSON.stringify({ token, action: 'encrypt_new', vars })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showSetupResult('<i class="bi bi-check-circle me-2"></i>.env encrypted and saved successfully!', 'success');
+      } else {
+        showSetupResult('Failed: ' + (data.error || 'Unknown error'), 'danger');
+      }
+    } catch(e) {
+      showSetupResult('Error: ' + e.message, 'danger');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-lock me-1"></i>Encrypt & Save .env';
+    }
+  }
+
+  async function loadExampleSetup() {
+    try {
+      const res = await fetch('../secret/.env.example');
+      const text = await res.text();
+      const lines = text.split('\n');
+      let loaded = 0;
+      lines.forEach(line => {
+        line = line.trim();
+        if (!line || line.startsWith('#')) return;
+        const eq = line.indexOf('=');
+        if (eq > 0) {
+          const key = line.substring(0, eq).trim();
+          const val = line.substring(eq+1).trim();
+          const input = document.getElementById('setup_'+key);
+          if (input) { input.value = val; loaded++; }
+        }
+      });
+      showSetupResult('Loaded '+loaded+' variables from .env.example', 'info');
+    } catch(e) {
+      showSetupResult('Failed to load example: '+e.message, 'danger');
+    }
+  }
+
+  document.getElementById('btnEncryptSaveSetup').addEventListener('click', encryptAndSaveSetup);
+  document.getElementById('btnLoadExampleSetup').addEventListener('click', loadExampleSetup);
+
+  renderSetupForm();
+  }
+  initEnvManager();
+  });
+</script>
+</body>
+</html>

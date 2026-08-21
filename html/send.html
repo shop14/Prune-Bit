@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Send - PruneBit">Send - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<style>
+body.bitcoin-style .send-form-container{max-width:61.2rem;margin:0 auto}
+body.bitcoin-style .send-form-container.page-card{border-radius:18px;border:1px solid var(--cv-border);box-shadow:0 8px 30px rgba(0,0,0,.07)}
+body.bitcoin-style .send-form-row{margin-bottom:14px}
+body.bitcoin-style .send-form-label{margin-bottom:6px;font-weight:600;font-size:.82rem;letter-spacing:.2px;color:var(--bs-body-color);display:flex;align-items:center;gap:6px}
+body.bitcoin-style .send-form-label i{color:var(--cv-primary);font-size:.95rem}
+body.bitcoin-style .send-header{display:flex;align-items:center;gap:12px}
+body.bitcoin-style .send-header-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--cv-primary),#ffb45e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 6px 16px rgba(255,126,0,.3);flex-shrink:0}
+body.bitcoin-style .step-indicator{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:18px;padding:12px 14px;background:var(--cv-surface);border:1px solid var(--cv-border);border-radius:16px}
+body.bitcoin-style .step-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;transition:all .25s ease;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+body.bitcoin-style .step-dot.active{background:linear-gradient(135deg,var(--cv-primary),#ffa94d);color:#fff;box-shadow:0 4px 12px rgba(255,126,0,.35)}
+body.bitcoin-style .step-dot.done{background:var(--cv-success);color:#fff;box-shadow:0 4px 12px rgba(22,163,74,.3)}
+body.bitcoin-style .step-dot.pending{background:var(--bs-tertiary-bg);color:var(--bs-secondary-color);border:1px solid var(--cv-border)}
+body.bitcoin-style .step-line{width:34px;height:3px;align-self:center;border-radius:3px;background:var(--cv-border);transition:background .25s}
+body.bitcoin-style .step-line.done{background:var(--cv-success)}
+body.bitcoin-style .coin-select-wrap{position:relative;flex:1}
+body.bitcoin-style .coin-select-btn{display:flex;align-items:center;gap:8px;width:100%;cursor:pointer;border:1px solid var(--cv-border);border-radius:12px;background:var(--cv-surface);color:var(--bs-body-color);font-size:.85rem;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style .coin-select-btn:hover{border-color:var(--cv-primary);box-shadow:0 2px 10px rgba(255,126,0,.15)}
+body.bitcoin-style .coin-select-btn .coin-logo{width:26px;height:26px;object-fit:contain;flex-shrink:0}
+body.bitcoin-style .coin-select-menu{display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:50;max-height:260px;overflow-y:auto;border:1px solid var(--cv-border);border-radius:14px;background:var(--cv-surface);box-shadow:0 12px 32px rgba(0,0,0,.15);padding:6px}
+body.bitcoin-style .coin-select-menu.open{display:block}
+body.bitcoin-style .coin-select-item{display:flex;align-items:center;gap:10px;padding:9px 10px;cursor:pointer;border-radius:9px;color:var(--bs-body-color);transition:background .15s}
+body.bitcoin-style .coin-select-item:hover{background:var(--bs-tertiary-bg)}
+body.bitcoin-style .coin-select-item .coin-logo{width:24px;height:24px;object-fit:contain;flex-shrink:0}
+body.bitcoin-style .coin-select-item .coin-label{flex:1;min-width:0;font-size:.85rem;font-weight:600}
+body.bitcoin-style .coin-select-item .coin-bal{font-size:.75rem;color:var(--bs-secondary-color);white-space:nowrap}
+body.bitcoin-style .form-input{border:1px solid var(--cv-border);border-radius:10px;background:var(--cv-surface);color:var(--bs-body-color);transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style .form-input:focus{outline:none;border-color:var(--cv-primary);box-shadow:0 0 0 3px rgba(255,126,0,.18)}
+body.bitcoin-style .input-icon-wrap{position:relative;flex:1}
+body.bitcoin-style .input-icon-wrap .input-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--bs-secondary-color);font-size:.9rem;pointer-events:none}
+body.bitcoin-style .input-icon-wrap .form-input{padding:9px 12px 9px 36px;font-size:.85rem}
+body.bitcoin-style .balance-chip{display:inline-flex;align-items:center;gap:6px;background:var(--cv-success-light);color:var(--cv-success);border:1px solid rgba(22,163,74,.2);border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:600}
+body.bitcoin-style .fee-option-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+body.bitcoin-style .fee-btn{display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid var(--cv-border);border-radius:12px;background:var(--cv-surface);color:var(--bs-body-color);cursor:pointer;padding:9px 4px;transition:border-color .2s,background .2s,box-shadow .2s}
+body.bitcoin-style .fee-btn:hover{border-color:var(--cv-primary)}
+body.bitcoin-style .fee-btn.active{border-color:var(--cv-primary);background:rgba(255,126,0,.08);box-shadow:0 0 0 3px rgba(255,126,0,.15)}
+body.bitcoin-style .fee-label{display:flex;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:.78rem}
+body.bitcoin-style .fee-icon{font-size:.7rem;color:var(--bs-secondary-color)}
+body.bitcoin-style .fee-btn.active .fee-icon{color:var(--cv-primary)}
+body.bitcoin-style .fee-amount,body.bitcoin-style .fee-time{font-size:.68rem;color:var(--bs-secondary-color);text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.bitcoin-style .send-summary{background:var(--bs-tertiary-bg);border:1px solid var(--cv-border);border-radius:14px;padding:12px 14px;margin-top:10px}
+body.bitcoin-style .sum-row{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:5px 0}
+body.bitcoin-style .sum-total{border-top:1px dashed var(--cv-border);margin-top:4px;padding-top:9px}
+body.bitcoin-style .detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--cv-border)}
+body.bitcoin-style .detail-row:last-child{border-bottom:none}
+body.bitcoin-style .detail-label{color:var(--bs-secondary-color);font-size:.8rem}
+body.bitcoin-style .detail-value{font-weight:600;font-size:.85rem;word-break:break-all;text-align:right;max-width:60%;color:var(--bs-body-color)}
+body.bitcoin-style .review-card{border:1px solid var(--cv-border);border-radius:16px;background:var(--cv-surface);box-shadow:0 2px 8px rgba(0,0,0,.04);padding:14px 16px;margin-bottom:14px}
+body.bitcoin-style .btn-blue{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--cv-primary),#ffa94d);border:1px solid transparent;border-radius:12px;color:#fff;box-shadow:0 6px 16px rgba(255,126,0,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .btn-blue:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,126,0,.38);color:#fff;filter:brightness(1.03)}
+body.bitcoin-style .btn-blue:disabled{opacity:.65;transform:none}
+body.bitcoin-style .btn-outline-gray{border-radius:12px;transition:background .15s,border-color .15s}
+body.bitcoin-style .btn-outline-gray:hover{background:var(--bs-tertiary-bg);border-color:var(--bs-secondary-color)}
+body.bitcoin-style .result-icon-wrap{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;animation:pop .4s ease}
+body.bitcoin-style .result-icon-wrap.success{background:#dcfce7;color:#16a34a}
+body.bitcoin-style .result-icon-wrap.fail{background:#fee2e2;color:#dc2626}
+@keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+@media (max-width:480px){body.bitcoin-style .fee-option-grid{grid-template-columns:repeat(2,1fr)}body.bitcoin-style .step-line{width:20px}}
+body.bitcoin-style .send-form-container.page-card{position:relative;z-index:1;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease}
+body.bitcoin-style .send-form-container.page-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .send-header-icon{box-shadow:0 6px 16px rgba(255,126,0,.3),0 0 26px rgba(255,126,0,.45)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style .btn-blue{box-shadow:0 6px 16px rgba(255,126,0,.28),0 0 22px rgba(255,126,0,.3)}
+body.bitcoin-style .btn-blue:hover{box-shadow:0 8px 20px rgba(255,126,0,.38),0 0 30px rgba(255,126,0,.42)}
+body.bitcoin-style .step-dot.active{box-shadow:0 4px 12px rgba(255,126,0,.35),0 0 18px rgba(255,126,0,.4)}
+body.bitcoin-style .step-dot.done{box-shadow:0 4px 12px rgba(22,163,74,.3),0 0 18px rgba(22,163,74,.35)}
+</style>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-content">
+<div class="page-card send-form-container">
+<div class="page-card-header">
+  <div class="send-header">
+    <div class="send-header-icon"><i class="bi bi-send-fill"></i></div>
+    <div>
+      <h1 class="fs-5 fw-bold mb-0" data-i18n="Send Cryptocurrency">Send Cryptocurrency</h1>
+      <p class="text-muted small mb-0" data-i18n="Transfer funds securely">Transfer funds securely</p>
+    </div>
+  </div>
+</div>
+<div class="step-indicator" id="stepIndicator">
+  <div class="step-dot active" id="s1">1</div>
+  <div class="step-line" id="sl1"></div>
+  <div class="step-dot pending" id="s2">2</div>
+  <div class="step-line" id="sl2"></div>
+  <div class="step-dot pending" id="s3">3</div>
+</div>
+<div class="page-card-body">
+  <div id="step1">
+    <form id="sendForm">
+      <div class="send-form-row">
+        <label class="send-form-label"><i class="bi bi-wallet2"></i><span data-i18n="Send From">Send From</span></label>
+        <div class="d-flex align-items-center gap-1">
+          <div class="coin-select-wrap">
+            <select id="fromSelect" style="display:none"><option value="" data-i18n="Loading...">Loading...</option></select>
+            <div class="coin-select-btn px-2 py-1" id="coinSelectBtn"><img class="coin-logo" id="coinSelectLogo" src="../img/logos/btc.png" alt=""> <span id="coinSelectText">Select coin...</span> <i class="bi bi-chevron-down ms-auto"></i></div>
+            <div class="coin-select-menu" id="coinSelectMenu"></div>
+          </div>
+          <button type="button" id="refreshBalanceBtn" class="btn btn-outline-secondary py-1 px-2" title="Refresh Balances" style="white-space:nowrap;font-size:.8rem"><i class="bi bi-arrow-clockwise"></i></button>
+        </div>
+        <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+          <span class="balance-chip"><i class="bi bi-cash-coin"></i> <span id="availableBalance">0.0000</span> <span id="availableCoin">-</span> <span id="pendingBalance" class="text-amber-600" style="display:none"></span></span>
+          <span class="small text-muted">Selected: <span id="selectedInfo">None</span></span>
+        </div>
+      </div>
+      <div class="send-form-row">
+        <label class="send-form-label"><i class="bi bi-crosshair"></i><span data-i18n="Recipient Address">Recipient Address</span></label>
+        <div class="input-icon-wrap">
+          <i class="bi bi-link-45deg input-icon"></i>
+          <input id="sendAddress" class="form-input font-mono" placeholder="Enter address" required>
+        </div>
+      </div>
+      <div class="send-form-row">
+        <label class="send-form-label"><i class="bi bi-coin"></i><span data-i18n="Amount">Amount</span></label>
+        <div class="d-flex align-items-center gap-1">
+          <div class="input-icon-wrap">
+            <i class="bi bi-currency-bitcoin input-icon"></i>
+            <input type="number" step="any" id="sendAmount" class="form-input" placeholder="0.00" required>
+          </div>
+          <button type="button" id="maxBtn" class="btn btn-outline-secondary py-1 px-2" style="white-space:nowrap;font-weight:600;font-size:.8rem" data-i18n="Max">Max</button>
+        </div>
+      </div>
+      <div class="send-form-row">
+        <label class="send-form-label"><i class="bi bi-lightning-charge"></i><span data-i18n="Fee Level">Fee Level</span></label>
+        <div class="fee-option-grid" id="feeOptions">
+          <button type="button" class="fee-btn py-1" data-fee="low">
+            <div class="fee-label"><i class="bi bi-skip-backward-fill fee-icon"></i><span data-i18n="Low">Low</span></div>
+            <div class="fee-amount text-xs text-gray-500">...</div>
+            <div class="fee-time text-xs text-gray-500"></div>
+          </button>
+          <button type="button" class="fee-btn active py-1" data-fee="medium">
+            <div class="fee-label"><i class="bi bi-play-fill fee-icon"></i><span data-i18n="Medium">Medium</span></div>
+            <div class="fee-amount text-xs text-gray-500">...</div>
+            <div class="fee-time text-xs"></div>
+          </button>
+          <button type="button" class="fee-btn py-1" data-fee="high">
+            <div class="fee-label"><i class="bi bi-fast-forward-fill fee-icon"></i><span data-i18n="High">High</span></div>
+            <div class="fee-amount text-xs text-gray-500">...</div>
+            <div class="fee-time text-xs text-gray-500"></div>
+          </button>
+          <button type="button" class="fee-btn py-1" data-fee="custom">
+            <div class="fee-label"><i class="bi bi-sliders fee-icon"></i><span data-i18n="Custom">Custom</span></div>
+            <div class="fee-amount text-xs text-gray-500"><input type="number" step="any" id="customFeeInput" class="form-control form-control-sm" placeholder="0.0001" style="width:100px;font-size:.75rem;padding:2px 6px;display:none"></div>
+            <div class="fee-time text-xs text-gray-500"></div>
+          </button>
+        </div>
+        <div class="send-summary">
+          <div class="sum-row"><span class="text-muted" data-i18n="You Send (Amount)">You Send (Amount)</span> <span id="youSend" class="font-semibold">...</span></div>
+          <div class="sum-row"><span class="text-muted" data-i18n="Network Fee">Network Fee</span> <span id="estimatedFee" class="font-semibold">...</span></div>
+          <div class="sum-row sum-total"><span class="fw-bold" data-i18n="Total Received">Total Received</span> <span id="totalAmount" class="font-semibold">...</span></div>
+        </div>
+      </div>
+      <button type="button" class="w-full btn-blue text-white fw-semibold py-2 px-3 rounded-xl transition-all hover:shadow-lg" id="toStep2Btn" style="font-size:.9rem"><i class="bi bi-arrow-right-circle me-2"></i><span data-i18n="Review Transaction">Review Transaction</span></button>
+    </form>
+    <div id="step1Error" class="mt-3"></div>
+  </div>
+  <div id="step2" style="display:none">
+    <div class="bg-blue-50 border border-blue-200 text-blue-700 p-2 rounded mb-3 small"><i class="bi bi-info-circle me-1"></i><span data-i18n="Please review the transaction details before signing.">Please review the transaction details before signing.</span></div>
+    <div class="review-card">
+      <h5 class="fw-bold mb-2 small"><i class="bi bi-receipt me-1"></i><span data-i18n="Transaction Details">Transaction Details</span></h5>
+      <div class="detail-row"><span class="detail-label" data-i18n="From">From</span> <span class="detail-value font-mono" id="reviewFrom">-</span></div>
+      <div class="detail-row"><span class="detail-label" data-i18n="Coin">Coin</span> <span class="detail-value" id="reviewCoin">-</span></div>
+      <div class="detail-row"><span class="detail-label" data-i18n="To">To</span> <span class="detail-value font-mono" id="reviewTo">-</span></div>
+      <div class="detail-row"><span class="detail-label" data-i18n="Amount">Amount</span> <span class="detail-value" id="reviewAmount">-</span></div>
+      <div class="detail-row"><span class="detail-label" data-i18n="Network Fee">Network Fee</span> <span class="detail-value" id="reviewFee">-</span></div>
+      <div class="detail-row"><span class="detail-label fw-bold" data-i18n="Total Received">Total Received</span> <span class="detail-value fw-bold" id="reviewTotal">-</span></div>
+    </div>
+    <div class="mb-3">
+      <label class="send-form-label"><i class="bi bi-shield-lock"></i><span data-i18n="Enter PIN Code">Enter PIN Code</span></label>
+      <div id="sendPinContainer"></div>
+    </div>
+    <div class="flex gap-2">
+      <button type="button" class="flex-1 btn-outline-gray fw-semibold py-2 px-3 rounded-xl" id="backToStep1Btn" style="font-size:.85rem"><i class="bi bi-arrow-left me-1"></i><span data-i18n="Back">Back</span></button>
+      <button type="button" class="flex-1 btn-blue text-white fw-semibold py-2 px-3 rounded-xl transition-all hover:shadow-lg" id="signAndSendBtn" style="font-size:.85rem"><i class="bi bi-shield-check me-1"></i><span data-i18n="Sign & Send">Sign &amp; Send</span></button>
+    </div>
+    <div id="step2Error" class="mt-2"></div>
+  </div>
+  <div id="step3" style="display:none">
+    <div id="sendingSpinner" class="text-center py-3">
+      <div class="spinner-border text-primary mb-2" role="status" style="width:2rem;height:2rem"></div>
+      <p class="small text-muted" data-i18n="Signing and broadcasting transaction...">Signing and broadcasting transaction...</p>
+    </div>
+    <div id="resultContent" style="display:none">
+      <div class="text-center mb-3" id="resultSuccessIcon">
+        <div class="result-icon-wrap success"><i class="bi bi-check-circle" style="font-size:2.2rem"></i></div>
+        <h5 class="fw-bold text-green-700 mt-1 small" data-i18n="Transaction Broadcasted">Transaction Broadcasted</h5>
+      </div>
+      <div class="text-center mb-3" id="resultFailIcon" style="display:none">
+        <div class="result-icon-wrap fail"><i class="bi bi-x-circle" style="font-size:2.2rem"></i></div>
+        <h5 class="fw-bold text-red-700 mt-1 small" data-i18n="Transaction Failed">Transaction Failed</h5>
+      </div>
+      <div class="review-card">
+        <h5 class="fw-bold mb-2 small"><i class="bi bi-file-text me-1"></i><span data-i18n="Result">Result</span></h5>
+        <div class="detail-row"><span class="detail-label" data-i18n="Transaction ID">Transaction ID</span> <span class="detail-value font-mono" id="resultTxId">-</span></div>
+        <div class="detail-row"><span class="detail-label" data-i18n="Status">Status</span> <span class="detail-value" id="resultStatus">-</span></div>
+        <div class="detail-row"><span class="detail-label" data-i18n="From">From</span> <span class="detail-value font-mono" id="resultFrom">-</span></div>
+        <div class="detail-row"><span class="detail-label" data-i18n="To">To</span> <span class="detail-value font-mono" id="resultTo">-</span></div>
+        <div class="detail-row"><span class="detail-label" data-i18n="Amount">Amount</span> <span class="detail-value" id="resultAmount">-</span></div>
+        <div class="detail-row"><span class="detail-label" data-i18n="Network Fee">Network Fee</span> <span class="detail-value" id="resultFee">-</span></div>
+        <div class="detail-row"><span class="detail-label" data-i18n="Explorer">Explorer</span> <a id="resultExplorer" href="#" target="_blank" class="text-primary small fw-semibold"><span data-i18n="View on Explorer">View on Explorer</span> <i class="bi bi-box-arrow-up-right"></i></a></div>
+        <div class="detail-row" id="resultErrorRow" style="display:none"><span class="detail-label" data-i18n="Error">Error</span> <span class="detail-value text-red-600" id="resultErrorMsg">-</span></div>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" class="flex-1 btn-outline-gray fw-semibold py-2 px-3 rounded-xl" id="newTxBtn" style="font-size:.85rem"><i class="bi bi-plus-circle me-1"></i><span data-i18n="New Transaction">New Transaction</span></button>
+        <a href="dashboard.html" class="flex-1 btn-blue text-white fw-semibold py-2 px-3 rounded-xl text-center" style="font-size:.85rem"><i class="bi bi-wallet2 me-1"></i><span data-i18n="Dashboard">Dashboard</span></a>
+      </div>
+    </div>
+    <div id="step3Error" class="mt-2"></div>
+  </div>
+</div>
+</div>
+</div>
+<script>!function(){PinPad.create({id:"sendPin",container:"sendPinContainer"});const e=localStorage.getItem("wallet_token");if(!e)return void(window.location.href="import.html");let t="medium",n=null,o=[],s={};const a=e=>document.getElementById(e);function r(e){["step1","step2","step3"].forEach((t,n)=>a(t).style.display=n+1===e?"":"none"),["s1","s2","s3"].forEach((t,n)=>{a(t).className="step-dot "+(n+1<e?"done":n+1===e?"active":"pending")}),["sl1","sl2"].forEach((t,n)=>{a(t).className="step-line"+(n+1<e?" done":"")})}function i(){const e=a("fromSelect")&&a("fromSelect").selectedOptions[0];return e?e.dataset.coin:""}function c(e){const t=a("fromSelect");e<1||e>=t.options.length||(t.selectedIndex=e,a("coinSelectMenu").classList.remove("open"),l(),t.dispatchEvent(new Event("change")))}function l(){const e=a("fromSelect").selectedOptions[0];if(!e||!e.value)return a("coinSelectText").textContent="Select coin...",void(a("coinSelectLogo").src="../img/logos/btc.png");a("coinSelectText").textContent=e.textContent.split(" - Bal:")[0],a("coinSelectLogo").src="../img/logos/"+e.dataset.coin.toLowerCase()+".png"}async function d(){const t=a("fromSelect");if(t)try{const r=await fetch("/api/addresses_with_balance",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:e})});if(!r.ok)throw new Error("Server error: "+r.status);const i=await r.json();if(i.success&&i.addresses.length>0){t.innerHTML='<option value="">Select address</option>',o=i.addresses.sort((e,t)=>Number(t.balance)-Number(e.balance));var n=new Set(function(){try{return JSON.parse(localStorage.getItem("tracked_coins"))||["BTC","ETH","LTC","DOGE"]}catch(e){return["BTC","ETH","LTC","DOGE"]}}());if(o=o.filter(e=>n.has(e.coin)),0===o.length)return t.innerHTML='<option value="">No tracked coin addresses</option>',u("BTC"),void p();var s=new Set;if(o.forEach(e=>{if(s.has(e.coin))return;s.add(e.coin);const n=document.createElement("option"),a=o.filter(t=>t.coin===e.coin),r=a.reduce((e,t)=>Number(t.balance)>Number(e.balance)?t:e,a[0]);n.value=r.address,n.dataset.coin=r.coin,n.dataset.type=r.type;const i=Number(r.balance)||0,c=Number(r.unconfirmed)||0;n.dataset.balance=i.toString(),n.dataset.pending=c.toString();const l=a.map(e=>e.type).filter((e,t,n)=>n.indexOf(e)===t).join("/");let d=`${r.coin} (${l}) - Bal: ${i.toFixed(8)}`;0!==c&&(d+=` (${c>0?"+":""}${c.toFixed(8)} pend)`),n.textContent=d,t.appendChild(n)}),function(){const e=a("coinSelectMenu");e.innerHTML="";const t=a("fromSelect");for(let n=1;n<t.options.length;n++){const o=t.options[n],s=document.createElement("div");s.className="coin-select-item",s.dataset.index=n;const a=document.createElement("img");a.className="coin-logo",a.src="../img/logos/"+o.dataset.coin.toLowerCase()+".png",a.onerror=function(){this.style.display="none"},s.appendChild(a);const r=document.createElement("span");r.className="coin-label",r.textContent=o.textContent.split(" - Bal:")[0],s.appendChild(r);const i=document.createElement("span");i.className="coin-bal";const l=o.textContent.split(" - Bal: ");i.textContent=l[1]||"",s.appendChild(i),s.addEventListener("click",function(){c(parseInt(this.dataset.index))}),e.appendChild(s)}}(),function(){if(t.options.length>1){let e=o.find(e=>Number(e.balance)>0);e||(e=o.find(e=>e.coin==="BTC")||o[0]);let n=1;for(let r=1;r<t.options.length;r++)if(t.options[r].dataset.coin===e.coin){n=r;break}u(e.coin),t.selectedIndex=n,l();const c=t.selectedOptions[0];a("selectedInfo").textContent=`${c.dataset.coin} (${c.dataset.type}) - ${c.value.substring(0,18)}...`;const d=parseFloat(c.dataset.balance)||0,v=parseFloat(c.dataset.pending)||0;a("availableBalance").textContent=d.toFixed(8),a("availableCoin").textContent=c.dataset.coin;const b=a("pendingBalance");0!==v?(b.textContent=`(${v>0?"+":""}${v.toFixed(8)} unconfirmed)`,b.style.display="inline"):b.style.display="none"}p()}(),t.options.length>1){}}else t.innerHTML='<option value="">No addresses with balance found</option>',o=[],a("coinSelectMenu").innerHTML=""}catch(e){t.innerHTML='<option value="">Network error</option>',o=[],a("coinSelectMenu").innerHTML=""}}async function u(e){if(e)try{const t=await fetch("/api/fee_estimation",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({coin:e})});if(!t.ok)throw new Error("Server error: "+t.status);const o=await t.json();o.success&&o.fees&&(n=o.fees,document.querySelectorAll(".fee-btn").forEach(t=>{const n=t.dataset.fee,s=o.fees[n];if(s){const n=t.querySelector(".fee-amount");n&&(n.textContent=s.fee+" "+e);const o=t.querySelector(".fee-time");o&&(o.textContent=s.time||"")}}),p())}catch(e){console.error("Fee error:",e)}}function p(){const e=i()||"BTC",o=parseFloat(a("sendAmount").value)||0;let s=1e-4;"custom"===t?s=parseFloat(a("customFeeInput").value)||0:n&&n[t]&&(s=parseFloat(n[t].fee)||s);const r=Math.max(0,o-s);a("youSend").textContent=o.toFixed(8)+" "+e,a("estimatedFee").textContent="-"+s.toFixed(8)+" "+e,a("totalAmount").textContent="= "+r.toFixed(8)+" "+e}function m(){a("refreshBalanceBtn").addEventListener("click",async function(){this.disabled=!0,this.innerHTML='<span class="spinner-border spinner-border-sm"></span>',await async function(){try{await fetch("/api/sync_balances",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:e})}),await d()}catch(e){}}(),this.disabled=!1,this.innerHTML='<i class="bi bi-arrow-clockwise"></i>'}),window.addEventListener("ws_balance_sync_complete",async function(){const sel=a("fromSelect"),prev=sel&&sel.selectedIndex>=0?sel.options[sel.selectedIndex].value:null;try{await fetch("/api/sync_balances",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:e})}),await d()}catch(e){}if(prev){const s=a("fromSelect");if(s){for(let i=1;i<s.options.length;i++){if(s.options[i].value===prev){s.selectedIndex=i;break}}s.dispatchEvent(new Event("change"))}}}),a("coinSelectBtn").addEventListener("click",function(e){e.stopPropagation(),a("coinSelectMenu").classList.toggle("open")}),document.addEventListener("click",function(e){const t=document.querySelector(".coin-select-wrap");t&&!t.contains(e.target)&&a("coinSelectMenu").classList.remove("open")}),a("fromSelect").addEventListener("change",function(){const e=this.selectedOptions[0];if(!e||!e.value)return;a("selectedInfo").textContent=`${e.dataset.coin} (${e.dataset.type}) - ${e.value.substring(0,18)}...`;const t=parseFloat(e.dataset.balance)||0,n=parseFloat(e.dataset.pending)||0;a("availableBalance").textContent=t.toFixed(8),a("availableCoin").textContent=e.dataset.coin;const o=a("pendingBalance");0!==n?(o.textContent=`(${n>0?"+":""}${n.toFixed(8)} unconfirmed)`,o.style.display="inline"):o.style.display="none",u(e.dataset.coin)}),document.querySelectorAll(".fee-btn").forEach(e=>{e.addEventListener("click",function(){document.querySelectorAll(".fee-btn").forEach(e=>e.classList.remove("active")),this.classList.add("active"),t=this.dataset.fee;a("customFeeInput").style.display="custom"===t?"":"none",p()})}),a("customFeeInput").addEventListener("input",p),a("sendAmount").addEventListener("input",p),a("maxBtn").addEventListener("click",function(){const e=parseFloat(a("availableBalance").textContent)||0;a("sendAmount").value=e.toFixed(8),p()}),a("toStep2Btn").addEventListener("click",function(){const e=i(),o=a("fromSelect").value,c=a("sendAddress").value,l=a("sendAmount").value;if(a("step1Error").innerHTML="",!(e&&o&&c&&l))return void(showToast("Please fill all fields",'warning'));if(!function(e,t){if(!t)return!1;if(/\s/.test(t))return!1;const n=e.toUpperCase();return"BTC"===n?/^[13][a-km-zA-HJ-NP-Z1-9]{25,62}$/.test(t)||/^bc1[a-z0-9]{39,62}$/.test(t):"BTCT"===n?/^[mn2][a-km-zA-HJ-NP-Z1-9]{25,62}$/.test(t)||/^tb1[a-z0-9]{39,62}$/.test(t):["ETH","ETC","POLYGON","BSC","USDT"].includes(n)?/^0x[a-fA-F0-9]{40}$/.test(t):"LTC"===n?/^[LM3][a-km-zA-HJ-NP-Z1-9]{25,62}$/.test(t)||/^ltc1[a-z0-9]{39,62}$/.test(t):"DOGE"===n?/^D[a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t):"BCH"===n?/^(bitcoincash:)?[qp][a-z0-9]{25,62}$/.test(t):"DASH"===n?/^X[a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t):"DGB"===n?/^D[a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t)||/^dgb1[a-z0-9]{39,62}$/.test(t):"RVN"===n?/^R[a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t):"BTG"===n?/^[AG][a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t)||/^btg1[a-z0-9]{39,62}$/.test(t):"ZEC"===n?/^t[a-z0-9]{34,50}$/.test(t)||/^zs[a-z0-9]{75,80}$/.test(t):"BSV"===n?/^[13][a-km-zA-HJ-NP-Z1-9]{25,62}$/.test(t):"XVG"===n?/^[DYZ][a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t):"QTUM"===n?/^[MQ][a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t):"VTC"===n?/^[V3][a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t)||/^vtc1[a-z0-9]{39,62}$/.test(t):"KMD"===n?/^R[a-km-zA-HJ-NP-Z1-9]{25,50}$/.test(t):"KASPA"===n?/^(kaspa:)?[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{30,70}$/.test(t):"XRP"!==n||/^r[a-zA-Z0-9]{25,40}$/.test(t)}(e,c))return void(showToast("Invalid "+e+" address format",'error'));if(parseFloat(l)<=0)return void(showToast("Amount must be greater than 0",'error'));const d=parseFloat(a("availableBalance").textContent)||0;"custom"===t?parseFloat(a("customFeeInput").value):n&&n[t]&&parseFloat(n[t].fee);if(parseFloat(l)>d)return void(showToast("Insufficient balance (total debit exceeds available)",'error'));const u=a("fromSelect").selectedOptions[0],p=u&&u.dataset.type||"P2PKH",m="custom"===t?a("customFeeInput").value||"0.0001":n&&n[t]?.fee||"0.0001";s={coin:e,from:o,to:c,amount:Math.max(0,parseFloat(l)-parseFloat(m)).toFixed(8),fee:m,feeLevel:t,addressType:p},a("reviewFrom").textContent=o,a("reviewCoin").textContent=e,a("reviewTo").textContent=c;const f=Math.max(0,parseFloat(l)-parseFloat(m));a("reviewAmount").textContent=f.toFixed(8)+" "+e,a("reviewFee").textContent="-"+m+" "+e,a("reviewTotal").textContent=f.toFixed(8)+" "+e,r(2)}),a("backToStep1Btn").addEventListener("click",()=>r(1)),a("signAndSendBtn").addEventListener("click",async function(){const t=PinPad.getValue("sendPin");if(t){a("step2Error").innerHTML="",this.disabled=!0,this.innerHTML='<span class="spinner-border spinner-border-sm me-1"></span> Signing...',r(3),a("sendingSpinner").style.display="",a("resultContent").style.display="none",a("step3Error").innerHTML="";try{const n=await fetch("/api/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:e,coin:s.coin,from_address:s.from,to_address:s.to,amount:s.amount,fee:s.fee,password:t,address_type:s.addressType})});if(!n.ok){const e=await n.json().catch(()=>({}));throw new Error(e.error||"Server error: "+n.status)}const o=await n.json();if(a("sendingSpinner").style.display="none",a("resultContent").style.display="",o.success){const e=o.result?.txid||o.txid||"pending";a("resultSuccessIcon").style.display="",a("resultFailIcon").style.display="none",a("resultTxId").textContent=e,a("resultStatus").textContent="Broadcasted",a("resultStatus").className="detail-value text-green-600 font-semibold",a("resultFrom").textContent=o.result?.fromAddress||s.from||"-",a("resultTo").textContent=s.to,a("resultAmount").textContent=s.amount+" "+s.coin,a("resultFee").textContent=s.fee+" "+s.coin,a("resultExplorer").href=function(e,t){return{BTC:`https://blockstream.info/tx/${t}`,BTCT:`https://mempool.space/testnet/tx/${t}`,LTC:`https://blockchair.com/litecoin/transaction/${t}`,DOGE:`https://blockchair.com/dogecoin/transaction/${t}`,BCH:`https://blockchair.com/bitcoin-cash/transaction/${t}`,DASH:`https://blockchair.com/dash/transaction/${t}`,DGB:`https://blockchair.com/digibyte/transaction/${t}`,RVN:`https://blockchair.com/ravencoin/transaction/${t}`,BTG:`https://blockchair.com/bitcoin-gold/transaction/${t}`,ETH:`https://etherscan.io/tx/${t}`,ETC:`https://etc.blockscout.com/tx/${t}`,USDT:`https://etherscan.io/tx/${t}`,POLYGON:`https://polygonscan.com/tx/${t}`,BSC:`https://bscscan.com/tx/${t}`,ZEC:`https://blockchair.com/zcash/transaction/${t}`,BSV:`https://blockchair.com/bitcoin-sv/transaction/${t}`,XVG:`https://blockchair.com/verge/transaction/${t}`,QTUM:`https://blockchair.com/qtum/transaction/${t}`,VTC:`https://blockchair.com/vertcoin/transaction/${t}`,KMD:`https://kmd.explorer.dexstats.info/tx/${t}`,KASPA:`https://kaspa.org/address/${t}`,XRP:`https://livenet.xrpl.org/transactions/${t}`}[e.toUpperCase()]||"#"}(s.coin,e),a("resultErrorRow").style.display="none",d(),document.dispatchEvent(new CustomEvent("ws_sync_complete")),document.dispatchEvent(new CustomEvent("ws_balance_sync_complete"))}else a("resultSuccessIcon").style.display="none",a("resultFailIcon").style.display="",a("resultStatus").textContent="Failed",a("resultStatus").className="detail-value text-red-600 font-semibold",a("resultFrom").textContent=s.from||"-",a("resultTo").textContent=s.to,a("resultAmount").textContent=s.amount+" "+s.coin,a("resultFee").textContent=s.fee+" "+s.coin,a("resultExplorer").href="#",a("resultErrorRow").style.display="",a("resultErrorMsg").textContent=o.error||"Unknown error"}catch(e){a("sendingSpinner").style.display="none",a("resultContent").style.display="",a("resultSuccessIcon").style.display="none",a("resultFailIcon").style.display="",a("resultStatus").textContent="Error",a("resultStatus").className="detail-value text-red-600 font-semibold",a("resultErrorRow").style.display="",a("resultErrorMsg").textContent=e.message}this.disabled=!1,this.innerHTML='<i class="bi bi-shield-check me-2"></i> Sign & Send'}else showToast("Please enter your wallet PIN",'warning')}),a("newTxBtn").addEventListener("click",()=>{a("sendAddress").value="",a("sendAmount").value="",t="medium",document.querySelectorAll(".fee-btn").forEach(e=>e.classList.remove("active")),document.querySelector('.fee-btn[data-fee="medium"]').classList.add("active"),p(),r(1)})}window.addEventListener("DOMContentLoaded",function(){m(),d()})}()</script><script src="../js/websocket.js?v=20260815a"></script><script>var wsTokSend=localStorage.getItem("wallet_token");wsTokSend&&connectWebSocket(wsTokSend)</script><script src="../js/header.js?v=20260727a"></script>

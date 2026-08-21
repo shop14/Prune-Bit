@@ -1,0 +1,98 @@
+<!doctype html><html lang="en" data-bs-theme="light"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verify You Are Human - PruneBit</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #141623; background-image: radial-gradient(900px 480px at 10% -5%, rgba(176,176,176,.16), transparent 60%), radial-gradient(700px 420px at 100% 0%, rgba(176,176,176,.10), transparent 55%), radial-gradient(700px 480px at 50% 115%, rgba(176,176,176,.07), transparent 60%); background-attachment: fixed; color: #e9edf5; font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .card { background: rgba(28,31,44,.55); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; max-width: 420px; width: 100%; padding: 28px 24px; box-shadow: 0 10px 36px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.07); -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5); }
+  .icon { width: 56px; height: 56px; margin: 0 auto 16px; border-radius: 50%; background: rgba(176,176,176,.12); color: #a6a6a6; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  h1 { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  p.sub { text-align: center; color: #98a2b3; font-size: 13.5px; line-height: 1.5; margin-bottom: 20px; }
+  .captcha-box { background: rgba(15,18,25,.6); border: 1px dashed #3a4256; border-radius: 10px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: center; align-items: center; min-height: 88px; }
+  .captcha-box svg { max-width: 100%; height: auto; border-radius: 8px; }
+  .loading { color: #98a2b3; font-size: 13px; text-align: center; }
+  .row { display: flex; gap: 10px; margin-bottom: 14px; }
+  input { flex: 1; background: rgba(15,18,25,.55); border: 1px solid #3a4256; color: #e9edf5; border-radius: 10px; padding: 12px 14px; font-size: 16px; text-align: center; letter-spacing: 4px; text-transform: uppercase; outline: none; }
+  input:focus { border-color: #B0B0B0; }
+  button { background: #B0B0B0; color: #13161F; border: 0; border-radius: 10px; padding: 0 18px; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  button:hover { background: #C0C0C0; }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  button.refresh { background: #2a3040; color: #e9edf5; padding: 0 14px; }
+  .error { color: #ff5f56; font-size: 13px; text-align: center; min-height: 18px; margin-bottom: 6px; }
+  .success { color: #22c55e; font-size: 13px; text-align: center; min-height: 18px; margin-bottom: 6px; }
+  .note { color: #6b7488; font-size: 11.5px; text-align: center; line-height: 1.5; }
+</style>
+<body>
+  <div class="card">
+    <div class="icon">&#128272;</div>
+    <h1>Verify You Are Human</h1>
+    <p class="sub">Too many requests were detected from your connection. Solve the captcha below to regain access. Your IP will be restored immediately.</p>
+    <div class="captcha-box" id="codeView"><div class="loading">Loading captcha&#8230;</div></div>
+    <div class="row">
+      <input id="codeInput" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Enter code" disabled>
+      <button class="refresh" id="refreshBtn" title="New captcha">&#8635;</button>
+    </div>
+    <div class="error" id="errMsg"></div>
+    <div class="success" id="okMsg"></div>
+    <button id="verifyBtn" style="width:100%;padding:13px 0" disabled>Verify &amp; Continue</button>
+    <p class="note" style="margin-top:14px">Access is restored right away &#8212; no restart needed. If the problem continues, please try again later.</p>
+  </div>
+<script>
+  (function () {
+    var token = null;
+    var codeView = document.getElementById('codeView');
+    var input = document.getElementById('codeInput');
+    var refreshBtn = document.getElementById('refreshBtn');
+    var verifyBtn = document.getElementById('verifyBtn');
+    var errMsg = document.getElementById('errMsg');
+    var okMsg = document.getElementById('okMsg');
+
+    function setBusy(busy) { verifyBtn.disabled = busy; refreshBtn.disabled = busy; input.disabled = busy || !token; }
+
+    function generateCaptcha() {
+      errMsg.textContent = ''; okMsg.textContent = '';
+      codeView.innerHTML = '<div class="loading">Loading captcha&#8230;</div>';
+      input.value = ''; input.disabled = true;
+      fetch('/api/captcha/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.success) {
+            token = data.captcha_token;
+            codeView.innerHTML = atob(data.captcha_image);
+            input.disabled = false;
+            verifyBtn.disabled = false;
+            input.focus();
+          } else {
+            codeView.innerHTML = '<div class="loading" style="color:#ff5f56">Failed to load captcha</div>';
+          }
+        })
+        .catch(function () { codeView.innerHTML = '<div class="loading" style="color:#ff5f56">Network error</div>'; });
+    }
+
+    function verify() {
+      var code = (input.value || '').trim();
+      if (!code || code.length < 4 || !token) { errMsg.textContent = 'Please enter the captcha code.'; return; }
+      setBusy(true);
+      errMsg.textContent = ''; okMsg.textContent = '';
+      fetch('/api/captcha/unblock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ captcha_token: token, captcha_code: code }) })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (res.ok && res.d.success) {
+            okMsg.textContent = 'Verified! Restoring access&#8230;';
+            setBusy(true);
+            setTimeout(function () { location.reload(); }, 800);
+          } else {
+            setBusy(false);
+            errMsg.textContent = (res.d && res.d.error) ? res.d.error : 'Verification failed. Try again.';
+            generateCaptcha();
+          }
+        })
+        .catch(function () { setBusy(false); errMsg.textContent = 'Network error. Try again.'; });
+    }
+
+    refreshBtn.addEventListener('click', generateCaptcha);
+    verifyBtn.addEventListener('click', verify);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') verify(); });
+    input.addEventListener('input', function () { if (input.value.length >= 6) verify(); });
+    generateCaptcha();
+  })();
+</script>
+</body></html>

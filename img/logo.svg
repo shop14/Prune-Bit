@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="coinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="90" fill="url(#coinGrad)" stroke="#d97706" stroke-width="4"/>
+  <circle cx="100" cy="100" r="75" fill="none" stroke="#fde68a" stroke-width="2" opacity="0.5"/>
+  <circle cx="100" cy="100" r="60" fill="none" stroke="#fde68a" stroke-width="1.5" opacity="0.3"/>
+  <path d="M85 55 L130 55 L95 105 L120 105 L70 155 L90 95 L68 95 Z" fill="url(#boltGrad)" stroke="#92400e" stroke-width="2" stroke-linejoin="round"/>
+</svg>

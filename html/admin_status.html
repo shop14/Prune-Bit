@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Status - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div class="admin-page-header">
+  <h2><i class="bi bi-activity me-2"></i>System Status &amp; Incidents</h2>
+  <div>
+    <button class="btn btn-sm btn-outline-primary me-1" id="updateStatusBtn"><i class="bi bi-pencil me-1"></i>Update Status</button>
+    <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+  </div>
+</div>
+
+<div class="card admin-card mb-4">
+  <div class="card-header"><strong>System Status</strong></div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table admin-table align-middle mb-0">
+        <thead><tr><th>Service</th><th>Status</th><th>Message</th><th>Last Updated</th></tr></thead>
+        <tbody id="statusTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="admin-page-header">
+  <h4 style="margin:0;"><i class="bi bi-exclamation-triangle me-2"></i>Incidents</h4>
+  <button class="btn btn-sm btn-primary" id="addIncidentBtn"><i class="bi bi-plus me-1"></i>Add Incident</button>
+</div>
+
+<div id="addIncidentForm" class="card admin-card mb-3" style="display:none;">
+  <div class="card-body">
+    <h5 class="card-title mb-3">Report New Incident</h5>
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label small fw-semibold">Title</label>
+        <input id="incidentTitle" type="text" class="form-control" placeholder="Incident title">
+      </div>
+      <div class="col-12">
+        <label class="form-label small fw-semibold">Description</label>
+        <textarea id="incidentDescription" class="form-control" rows="3" placeholder="Describe the incident..."></textarea>
+      </div>
+      <div class="col-12">
+        <button class="btn btn-primary btn-sm" id="submitIncidentBtn">Submit Incident</button>
+        <button class="btn btn-outline-secondary btn-sm ms-2" id="cancelIncidentBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="incidentsContainer"></div>
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+async function loadStatusAndIncidents() {
+  loadStatus();
+  loadIncidents();
+}
+
+async function loadStatus() {
+  try {
+    var data = await adminGet('/api/status');
+    if (data.success) {
+      var isOperational = data.status === 'operational';
+      document.getElementById('statusTableBody').innerHTML =
+        '<tr>' +
+          '<td class="fw-semibold">System Status</td>' +
+          '<td>' + (isOperational
+            ? '<span class="badge bg-success">Operational</span>'
+            : '<span class="badge bg-warning text-dark">' + escapeHtml(data.status || 'Unknown') + '</span>') +
+          '</td>' +
+          '<td class="text-secondary">' + escapeHtml(data.message || '-') + '</td>' +
+          '<td class="text-secondary small">' + escapeHtml(data.updated_at || '-') + '</td>' +
+        '</tr>';
+    }
+  } catch(e) { console.error('Error loading status:', e); }
+}
+
+async function updateSystemStatus() {
+  var newStatus = prompt('Enter new status (operational, degraded, major_outage):', 'operational');
+  if (!newStatus) return;
+  var newMessage = prompt('Enter status message:', 'All systems operational');
+  try {
+    var resp = await fetch('/api/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ admin_token: adminToken, status: newStatus, message: newMessage || '' })
+    });
+    var data = await resp.json();
+    if (data.success) loadStatus();
+    else alert(data.error || 'Failed to update status');
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+async function loadIncidents() {
+  try {
+    var data = await fetch('/api/incidents').then(function(r) { return r.json(); });
+    if (data.success) {
+      var incidents = data.incidents || [];
+      if (incidents.length === 0) {
+        document.getElementById('incidentsContainer').innerHTML = '<div class="card admin-card"><div class="card-body text-center text-muted py-4">No active incidents</div></div>';
+        return;
+      }
+      document.getElementById('incidentsContainer').innerHTML = incidents.map(function(inc) {
+        var isResolved = inc.resolved === 1 || inc.resolved === true;
+        var statusBadge = isResolved
+          ? '<span class="badge bg-success">Resolved</span>'
+          : '<span class="badge bg-danger">Active</span>';
+        return '<div class="card admin-card mb-3">' +
+          '<div class="card-body">' +
+            '<div class="d-flex justify-content-between align-items-start mb-2">' +
+              '<div><h5 class="mb-1">' + escapeHtml(inc.title || 'Untitled') + '</h5>' +
+              statusBadge + ' ' +
+              '<span class="text-secondary small">' + escapeHtml(inc.created_at || '-') + '</span></div>' +
+              '<div>' +
+                (!isResolved
+                  ? '<button class="btn btn-sm btn-outline-success me-1" data-action="resolve-incident" data-id="' + escapeHtml(inc.id) + '"><i class="bi bi-check-lg"></i> Resolve</button>'
+                  : '') +
+                '<button class="btn btn-sm btn-outline-danger" data-action="delete-incident" data-id="' + escapeHtml(inc.id) + '"><i class="bi bi-trash"></i></button>' +
+              '</div>' +
+            '</div>' +
+            '<p class="mb-0 text-secondary">' + escapeHtml(inc.description || '') + '</p>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+  } catch(e) { console.error('Error loading incidents:', e); }
+}
+
+function showAddIncidentForm() { document.getElementById('addIncidentForm').style.display = 'block'; }
+function hideAddIncidentForm() { document.getElementById('addIncidentForm').style.display = 'none'; }
+
+async function addIncident() {
+  var title = document.getElementById('incidentTitle').value;
+  var description = document.getElementById('incidentDescription').value;
+  if (!title) return alert('Title is required');
+  try {
+    var data = await adminPost('/api/admin/incident/create', { title: title, description: description });
+    if (data.success) {
+      document.getElementById('incidentTitle').value = '';
+      document.getElementById('incidentDescription').value = '';
+      hideAddIncidentForm();
+      loadIncidents();
+    } else { alert(data.error || 'Failed to add incident'); }
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+async function resolveIncident(id) {
+  try {
+    var data = await adminPost('/api/admin/incident/resolve', { incident_id: id });
+    if (data.success) loadIncidents();
+    else alert(data.error || 'Failed to resolve');
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+async function deleteIncident(id) {
+  if (!confirm('Delete this incident?')) return;
+  try {
+    var data = await adminPost('/api/admin/incident/delete', { incident_id: id });
+    if (data.success) loadIncidents();
+    else alert(data.error || 'Failed to delete');
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadStatusAndIncidents();
+  document.getElementById('refreshBtn').addEventListener('click', loadStatusAndIncidents);
+  document.getElementById('updateStatusBtn').addEventListener('click', updateSystemStatus);
+  document.getElementById('addIncidentBtn').addEventListener('click', showAddIncidentForm);
+  document.getElementById('submitIncidentBtn').addEventListener('click', addIncident);
+  document.getElementById('cancelIncidentBtn').addEventListener('click', hideAddIncidentForm);
+
+  document.getElementById('incidentsContainer').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    var id = btn.getAttribute('data-id');
+    if (action === 'resolve-incident') resolveIncident(id);
+    else if (action === 'delete-incident') deleteIncident(id);
+  });
+});
+</script>
+</body>
+</html>

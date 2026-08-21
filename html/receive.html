@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Receive - PruneBit">Receive - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<style>
+body.bitcoin-style .send-form-container{max-width:61.2rem;margin:0 auto}
+body.bitcoin-style .send-form-container.page-card{border-radius:18px;border:1px solid var(--cv-border);box-shadow:0 8px 30px rgba(0,0,0,.07)}
+body.bitcoin-style .send-header{display:flex;align-items:center;gap:12px}
+body.bitcoin-style .send-header-icon{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--cv-primary),#ffb45e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 6px 16px rgba(255,126,0,.3);flex-shrink:0}
+body.bitcoin-style .send-form-label{margin-bottom:6px;font-weight:600;font-size:.82rem;letter-spacing:.2px;color:var(--bs-body-color);display:flex;align-items:center;gap:6px}
+body.bitcoin-style .send-form-label i{color:var(--cv-primary);font-size:.95rem}
+body.bitcoin-style .form-select{border:1px solid var(--cv-border);border-radius:10px;background:var(--cv-surface);color:var(--bs-body-color);padding:9px 12px;transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style .form-select:focus{border-color:var(--cv-primary);box-shadow:0 0 0 3px rgba(255,126,0,.18)}
+body.bitcoin-style .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,var(--cv-primary),#ffa94d);border:1px solid transparent;border-radius:12px;color:#fff;box-shadow:0 6px 16px rgba(255,126,0,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,126,0,.38);color:#fff;filter:brightness(1.03)}
+body.bitcoin-style .btn-primary:disabled{opacity:.65;transform:none}
+body.bitcoin-style .btn-outline-secondary{border-radius:12px;transition:background .15s,border-color .15s}
+body.bitcoin-style .btn-outline-secondary:hover{background:var(--bs-tertiary-bg);border-color:var(--bs-secondary-color)}
+body.bitcoin-style .coin-btn{transition:border-color .2s,box-shadow .2s}
+body.bitcoin-style .coin-btn:hover{border-color:var(--cv-primary)}
+body.bitcoin-style .coin-btn.active{border-color:var(--cv-primary);box-shadow:0 0 0 3px rgba(255,126,0,.15)}
+body.bitcoin-style .qr-panel{background:var(--bs-tertiary-bg);border:1px solid var(--cv-border);border-radius:16px;padding:20px 16px;margin-bottom:16px;display:flex;flex-direction:column;justify-content:center;min-height:420px}
+body.bitcoin-style .page-card-body{display:flex;flex-direction:column}
+body.bitcoin-style .qr-frame{width:200px;height:200px;margin:0 auto;border:2px dashed var(--cv-border);border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--cv-surface);overflow:hidden}
+body.bitcoin-style .address-display{background:rgba(255,126,0,.05);border:1px solid var(--cv-primary);border-radius:12px;padding:12px 14px;font-family:var(--bs-font-monospace);font-size:.92rem;font-weight:600;color:var(--bs-body-color);word-break:break-all;text-align:center;margin:8px auto 0;max-width:480px;width:100%;box-shadow:0 0 0 1px rgba(255,126,0,.06),0 2px 10px rgba(255,126,0,.1)}
+body.bitcoin-style .privkey-panel{border:1px solid var(--cv-border);border-radius:14px;padding:12px;background:var(--cv-surface)}
+#pinModalPad .pinpad-wrapper{max-width:320px;margin-left:auto;margin-right:auto}
+#pinModalPad .pinpad-keypad{position:relative;left:auto;transform:none;margin-top:8px}
+body.bitcoin-style .send-form-container.page-card{position:relative;z-index:1;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease}
+body.bitcoin-style .send-form-container.page-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .send-header-icon{box-shadow:0 6px 16px rgba(255,126,0,.3),0 0 26px rgba(255,126,0,.45)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style .btn-primary{box-shadow:0 6px 16px rgba(255,126,0,.28),0 0 22px rgba(255,126,0,.3)}
+body.bitcoin-style .btn-primary:hover{box-shadow:0 8px 20px rgba(255,126,0,.38),0 0 30px rgba(255,126,0,.42)}
+body.bitcoin-style .coin-btn.active{border-color:var(--cv-primary);box-shadow:0 0 0 3px rgba(255,126,0,.15),0 0 18px rgba(255,126,0,.2)}
+body.bitcoin-style #copyAddress, body.bitcoin-style #showPrivateKey{font-size:.8rem;padding:7px 14px;border-radius:9px}
+</style>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-content">
+  <div class="page-card send-form-container">
+    <div class="page-card-header">
+      <div class="send-header">
+        <div class="send-header-icon"><i class="bi bi-inbox-fill"></i></div>
+        <div>
+          <h1 class="fs-5 fw-bold mb-0" data-i18n="Receive Cryptocurrency">Receive Cryptocurrency</h1>
+          <p class="text-muted small mb-0" data-i18n="Get a deposit address for any supported coin">Get a deposit address for any supported coin</p>
+        </div>
+      </div>
+    </div>
+    <div class="page-card-body">
+      <div class="form-group">
+        <label class="send-form-label"><i class="bi bi-grid-1x2"></i><span data-i18n="Select Coin">Select Coin</span></label>
+        <div class="coin-selector" id="coinGrid"></div>
+      </div>
+      <div class="form-group" id="typeSelectorBlock">
+        <label for="addressType" class="send-form-label"><i class="bi bi-tag"></i><span data-i18n="Address Type">Address Type</span></label>
+        <select class="form-select" id="addressType"></select>
+      </div>
+      <div class="qr-panel mb-4">
+        <div class="qr-frame">
+          <img id="qrImage" style="display:none;max-width:100%;max-height:100%;height:auto;" alt="QR Code">
+          <i class="bi bi-qr-code fs-1 text-muted" id="qrPlaceholder"></i>
+        </div>
+        <p class="small text-muted mt-3 mb-2" id="qrCaption" data-i18n="Scan to receive">Scan to receive</p>
+        <p class="small fw-semibold text-center mb-1" id="addressLabel" data-i18n="Receive Address">Receive Address</p>
+        <div class="address-display" id="receiveAddress" data-i18n="Select a coin to view address">Select a coin to view address</div>
+        <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+          <button id="copyAddress" class="btn btn-primary"><i class="bi bi-clipboard"></i><span data-i18n="Copy Address">Copy Address</span></button>
+          <button id="showPrivateKey" class="btn btn-outline-secondary"><i class="bi bi-key"></i><span data-i18n="Show Private Key">Show Private Key</span></button>
+        </div>
+        <div id="privateKeyPanel" class="privkey-panel mt-3" style="display:none;">
+          <div class="alert alert-warning py-2 px-3 mb-2 text-start"><i class="bi bi-exclamation-triangle me-1"></i><span data-i18n="Never share your private key. Anyone with it can steal your funds.">Never share your private key. Anyone with it can steal your funds.</span></div>
+          <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center">
+            <span class="badge bg-warning text-dark fw-semibold" id="privKeyFormat" style="font-size:10px;letter-spacing:0.5px;"></span>
+            <code class="text-xs font-mono break-all" id="privKeyValue" style="word-break:break-all;color:var(--bs-body-color);"></code>
+            <button class="btn btn-sm btn-outline-secondary flex-shrink-0" id="copyPrivKey"><i class="bi bi-clipboard"></i></button>
+            <button class="btn btn-sm btn-outline-secondary flex-shrink-0" id="hidePrivKey"><i class="bi bi-eye-slash"></i><span data-i18n="Hide"> Hide</span></button>
+          </div>
+        </div>
+        <p id="receiveStatus" class="mt-3 small text-info d-none"></p>
+      </div>
+      <div class="alert alert-warning mb-0 rounded-3"><i class="bi bi-exclamation-triangle"></i><div><h4 class="fw-semibold" data-i18n="Important">Important</h4><p class="small mb-0" data-i18n="Only send the selected cryptocurrency to this address. Sending other coins may result in permanent loss.">Only send the selected cryptocurrency to this address. Sending other coins may result in permanent loss.</p></div></div>
+    </div>
+  </div>
+</div>
+<div id="pinModal" class="pin-modal" style="display:none;">
+  <div class="pin-modal-backdrop" data-action="close-pin"></div>
+  <div class="pin-modal-dialog">
+    <div class="page-card pin-modal-card">
+      <div class="page-card-header">
+        <h3 class="fw-bold mb-0 fs-6" data-i18n="Enter Wallet PIN">Enter Wallet PIN</h3>
+        <button type="button" class="btn-close" id="pinModalClose" aria-label="Close" data-i18n="Close">&times;</button>
+      </div>
+      <div class="page-card-body text-center">
+        <p class="small text-muted mb-3" data-i18n="Enter your PIN to view the private key">Enter your PIN to view the private key</p>
+        <div id="pinModalPad"></div>
+        <div id="pinModalError" class="text-danger small mt-2" style="display:none;"></div>
+        <div class="d-flex gap-2 mt-3">
+          <button type="button" class="btn btn-outline-secondary flex-fill" id="pinModalCancel"><span data-i18n="Cancel">Cancel</span></button>
+          <button type="button" class="btn btn-primary flex-fill" id="pinModalConfirm"><span data-i18n="Confirm">Confirm</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem('wallet_token');
+if (!token) window.location.href = 'import.html';
+
+function getTrackedCoins() {
+  try { return JSON.parse(localStorage.getItem('tracked_coins')) || ['BTC', 'ETH', 'LTC', 'DOGE']; }
+  catch (e) { return ['BTC', 'ETH', 'LTC', 'DOGE']; }
+}
+
+const allCoinData = {
+  BTC: { label: 'Bitcoin', logo: '../img/logos/btc.png' },
+  BTCT: { label: 'Bitcoin Testnet', logo: '../img/logos/btc.png' },
+  ETH: { label: 'Ethereum', logo: '../img/logos/eth.png' },
+  ETC: { label: 'Ethereum Classic', logo: '../img/logos/etc.png' },
+  USDT: { label: 'Tether USD', logo: '../img/logos/usdt.png' },
+  LTC: { label: 'Litecoin', logo: '../img/logos/ltc.png' },
+  DOGE: { label: 'Dogecoin', logo: '../img/logos/doge.png' },
+  BCH: { label: 'Bitcoin Cash', logo: '../img/logos/bch.png' },
+  DASH: { label: 'Dash', logo: '../img/logos/dash.png' },
+  DGB: { label: 'DigiByte', logo: '../img/logos/dgb.png' },
+  RVN: { label: 'Ravencoin', logo: '../img/logos/rvn.png' },
+  BTG: { label: 'Bitcoin Gold', logo: '../img/logos/btg.png' },
+  ZEC: { label: 'Zcash', logo: '../img/logos/zec.png' },
+  BSV: { label: 'Bitcoin SV', logo: '../img/logos/bsv.png' },
+  XVG: { label: 'Verge', logo: '../img/logos/xvg.png' },
+  QTUM: { label: 'Qtum', logo: '../img/logos/qtum.png' },
+  VTC: { label: 'Vertcoin', logo: '../img/logos/vtc.png' },
+  KMD: { label: 'Komodo', logo: '../img/logos/kmd.png' },
+  POLYGON: { label: 'Polygon', logo: '../img/logos/matic.png' },
+  BSC: { label: 'BNB Chain', logo: '../img/logos/bnb.png' },
+  KASPA: { label: 'Kaspa', logo: '../img/logos/kaspa.png' },
+  XRP: { label: 'Ripple', logo: '../img/logos/xrp.png' }
+};
+
+let currentCoin = 'BTC';
+let currentType = 'P2PKH';
+let currentIndex = 0;
+let availableCoins = ['BTC', 'BTCT', 'ETH', 'ETC', 'USDT', 'LTC', 'DOGE', 'BCH', 'DASH', 'DGB', 'RVN', 'BTG', 'ZEC', 'BSV', 'XVG', 'QTUM', 'VTC', 'KMD', 'POLYGON', 'BSC', 'KASPA', 'XRP'];
+
+function buildCoinGrid(list) {
+  const grid = document.getElementById('coinGrid');
+  grid.innerHTML = list.map(function(coin, i) {
+    const data = allCoinData[coin] || { label: coin, logo: '' };
+    return '<button data-coin="' + escapeHtml(coin) + '" class="coin-btn' + (i === 0 ? ' active' : '') + '">'
+      + (data.logo ? '<img class="coin-logo" src="' + escapeHtml(data.logo) + '" alt="' + escapeHtml(data.label) + ' logo" width="24" height="24">' : '')
+      + '<span class="coin-label">' + escapeHtml(data.label) + '</span></button>';
+  }).join('');
+  grid.style.display = 'flex';
+}
+
+function showStatus(msg, ok) {
+  const el = document.getElementById('receiveStatus');
+  el.textContent = msg;
+  el.className = 'mt-3 small ' + (ok ? 'text-success' : 'text-info');
+  el.classList.remove('d-none');
+}
+
+const typeOrder = {
+  BTC: ['P2PKH', 'P2WPKH', 'P2SH'],
+  BTCT: ['P2PKH', 'P2WPKH', 'P2SH'],
+  LTC: ['P2PKH', 'P2WPKH', 'P2SH'],
+  DGB: ['P2PKH', 'P2WPKH'],
+  BCH: ['P2PKH'],
+  DOGE: ['P2PKH'],
+  DASH: ['P2PKH'],
+  RVN: ['P2PKH'],
+  BTG: ['P2PKH'],
+  ETH: ['P2PKH-ETH', 'P2PKH'],
+  ETC: ['P2PKH-ETH', 'P2PKH'],
+  USDT: ['P2PKH-ETH', 'P2PKH'],
+  POLYGON: ['P2PKH-ETH', 'P2PKH'],
+  BSC: ['P2PKH-ETH', 'P2PKH'],
+  ZEC: ['P2PKH'],
+  BSV: ['P2PKH'],
+  XVG: ['P2PKH'],
+  QTUM: ['P2PKH'],
+  VTC: ['P2PKH'],
+  KMD: ['P2PKH'],
+  KASPA: ['P2PKH'],
+  XRP: ['P2PKH']
+};
+
+function normalizeAddressType(t) { return t === 'BECH32' ? 'P2WPKH' : t; }
+
+function getTypeOrder(coin) { return typeOrder[coin] || ['P2PKH', 'P2WPKH', 'P2SH']; }
+
+function getAvailableTypes(coin, list) {
+  const order = getTypeOrder(coin);
+  const present = list.map(function(a) { return normalizeAddressType(a.type); }).filter(function(t) { return order.indexOf(t) >= 0; });
+  const set = present.filter(function(v, i, arr) { return arr.indexOf(v) === i; });
+  return set.length > 0 ? order.filter(function(t) { return set.indexOf(t) >= 0; }) : order;
+}
+
+function updateTypeSelector(coin, selected, types) {
+  const block = document.getElementById('typeSelectorBlock');
+  const sel = document.getElementById('addressType');
+  const list = types || getAvailableTypes(coin);
+  sel.innerHTML = '';
+  list.forEach(function(type) {
+    const labelMap = {
+      P2WPKH: 'BTCT' === coin ? 'Native SegWit (tb1q...)' : 'Native SegWit (bc1q...)',
+      P2SH: 'BTCT' === coin ? 'Nested SegWit (2...)' : 'Nested SegWit (3...)',
+      P2PKH: 'USDT' === coin ? 'ERC-20' : 'ETH' === coin || 'ETC' === coin || 'POLYGON' === coin || 'BSC' === coin ? 'EOA' : 'BTCT' === coin ? 'Legacy (m/n...)' : 'ZEC' === coin ? 'Transparent (t1...)' : 'XVG' === coin ? 'Pay-To-Address (D...)' : 'QTUM' === coin ? 'Address (Q...)' : 'VTC' === coin ? 'Address (V...)' : 'KMD' === coin ? 'Address (R...)' : 'KASPA' === coin ? 'Address (kaspa:...)' : 'XRP' === coin ? 'Address (r...)' : 'Legacy (1...)',
+      'P2PKH-ETH': 'EOA'
+    };
+    const opt = document.createElement('option');
+    opt.value = type;
+    opt.textContent = labelMap[type] || type;
+    sel.appendChild(opt);
+  });
+  sel.value = list.indexOf(selected) >= 0 ? selected : list[0];
+  block.style.display = list.length > 1 ? 'block' : 'none';
+}
+
+function hidePrivateKeyPanel() {
+  document.getElementById('privateKeyPanel').style.display = 'none';
+}
+
+async function loadAddress(coin, typeOverride) {
+  if (!coin) return;
+  currentCoin = coin;
+  const addrEl = document.getElementById('receiveAddress');
+  const qrImg = document.getElementById('qrImage');
+  const qrPh = document.getElementById('qrPlaceholder');
+  const qrCap = document.getElementById('qrCaption');
+  const addrLbl = document.getElementById('addressLabel');
+  if (addrLbl) {
+    addrLbl.removeAttribute('data-i18n');
+    addrLbl.textContent = 'Your ' + (allCoinData[coin] ? allCoinData[coin].label : coin) + ' Address';
+  }
+  addrEl.removeAttribute('data-i18n');
+  qrCap.removeAttribute('data-i18n');
+  addrEl.textContent = 'Loading...';
+  qrImg.style.display = 'none';
+  qrPh.style.display = 'block';
+  qrCap.textContent = 'Scan to receive';
+  hidePrivateKeyPanel();
+  try {
+    const res = await fetch('/api/addresses_with_balance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token }) });
+    if (!res.ok) return;
+    const data = await res.json();
+    const matches = data.success && data.addresses ? data.addresses.filter(function(a) { return a.coin === coin; }) : [];
+    const byType = {};
+    matches.forEach(function(a) { byType[a.type] = a; });
+    const types = getAvailableTypes(coin, matches);
+    const sel = document.getElementById('addressType');
+    const picked = typeOverride || (types.indexOf(sel.value) >= 0 ? sel.value : types[0]);
+    updateTypeSelector(coin, picked, types);
+
+    const addrRes = await fetch('/api/get_addresses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token, coin: coin, address_type: picked }) });
+    if (addrRes.status === 401 || addrRes.status === 403) {
+      localStorage.removeItem('wallet_token');
+      localStorage.removeItem('walletId');
+      window.location.href = 'import.html';
+      return;
+    }
+    const addrText = await addrRes.text();
+    let addrData = {};
+    try { addrData = JSON.parse(addrText); } catch (e) {}
+    let addrs = addrData.success && addrData.addresses && addrData.addresses[coin] ? addrData.addresses[coin] : [];
+    let type = addrs.length > 0 ? normalizeAddressType(addrs[0].type) : picked;
+    let address = addrs.length > 0 ? addrs[0].address : null;
+    let idx = addrs.length > 0 ? (addrs[0].index || 0) : 0;
+    const typeSel = document.getElementById('addressType');
+
+    if (!address) {
+      for (let i = 0; i < types.length; i++) {
+        const t = types[i];
+        if (t === picked) continue;
+        const r = await fetch('/api/get_addresses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token, coin: coin, address_type: t }) });
+        const txt = await r.text();
+        let j = {};
+        try { j = JSON.parse(txt); } catch (e) {}
+        const list = j.success && j.addresses && j.addresses[coin] ? j.addresses[coin] : [];
+        if (list.length > 0) {
+          type = normalizeAddressType(list[0].type);
+          address = list[0].address;
+          idx = list[0].index || 0;
+          break;
+        }
+      }
+    }
+
+    if (!address && matches.length > 0) {
+      const a = byType['P2PKH-ETH'] || byType['P2PKH'] || byType['P2WPKH'] || byType['BECH32'] || matches[0];
+      type = normalizeAddressType(a.type);
+      address = a.address;
+      idx = a.index || 0;
+      typeSel.value = type;
+    }
+
+    if (!address && (coin === 'USDT' || coin === 'ETC') && data.success && data.addresses) {
+      const eth = data.addresses.find(function(a) { return a.coin === 'ETH' && (a.type === 'P2PKH' || a.type === 'P2PKH-ETH'); });
+      if (eth) {
+        type = normalizeAddressType(eth.type);
+        address = eth.address;
+        idx = eth.index || 0;
+        typeSel.value = type;
+      }
+    }
+
+    currentType = type;
+    currentIndex = idx;
+    if (address && types.indexOf(type) >= 0) typeSel.value = type;
+
+    addrEl.textContent = address || 'No address found for this coin';
+    if (address) {
+      const qrRes = await fetch('/api/generate_qr', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ address: address }) });
+      const qrData = await qrRes.json();
+      if (qrData.success && qrData.qr) {
+        qrImg.src = qrData.qr;
+        qrImg.style.display = 'block';
+        qrPh.style.display = 'none';
+        qrCap.textContent = 'Scan to receive ' + coin;
+      } else {
+        qrImg.style.display = 'none';
+        qrPh.style.display = 'block';
+        qrCap.textContent = 'QR will appear when address is ready';
+      }
+    } else {
+      qrImg.style.display = 'none';
+      qrPh.style.display = 'block';
+      qrCap.textContent = 'QR will appear when address is ready';
+    }
+  } catch (e) {
+    addrEl.textContent = 'Error loading address';
+    qrCap.textContent = 'Error';
+  }
+}
+
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+}
+
+function requestPin() {
+  return new Promise(function(resolve) {
+    let settled = false;
+    const errorEl = document.getElementById('pinModalError');
+    const confirmBtn = document.getElementById('pinModalConfirm');
+    const cancelBtn = document.getElementById('pinModalCancel');
+    const closeBtn = document.getElementById('pinModalClose');
+    const pad = document.getElementById('pinModalPad');
+
+    const finish = function(value) {
+      if (settled) return;
+      settled = true;
+      document.getElementById('pinModal').style.display = 'none';
+      if (PinPad.instances['privKeyPin']) PinPad.destroy('privKeyPin');
+      pad.innerHTML = '';
+      confirmBtn.removeEventListener('click', confirmHandler);
+      cancelBtn.removeEventListener('click', cancelHandler);
+      closeBtn.removeEventListener('click', cancelHandler);
+      resolve(value);
+    };
+    const confirmHandler = function() {
+      const pin = PinPad.getValue('privKeyPin');
+      if (!pin || pin.length < 4) {
+        errorEl.textContent = 'Please enter your 4-digit PIN';
+        errorEl.style.display = '';
+        return;
+      }
+      finish(pin);
+    };
+    const cancelHandler = function() { finish(null); };
+
+    pad.innerHTML = '';
+    if (PinPad.instances['privKeyPin']) PinPad.destroy('privKeyPin');
+    PinPad.create({ id: 'privKeyPin', container: 'pinModalPad', maxLength: 4 });
+    errorEl.style.display = 'none';
+    document.getElementById('pinModal').style.display = 'flex';
+    confirmBtn.addEventListener('click', confirmHandler);
+    cancelBtn.addEventListener('click', cancelHandler);
+    closeBtn.addEventListener('click', cancelHandler);
+  });
+}
+
+async function revealPrivateKey() {
+  const addr = document.getElementById('receiveAddress').textContent;
+  if (!addr || addr === 'Select a coin to view address' || addr === 'No address found for this coin' || addr === 'Loading...') {
+    showToast('Select a coin and address first', 'error');
+    return;
+  }
+  const pin = await requestPin();
+  if (!pin) return;
+  try {
+    const res = await fetch('/api/get_private_key', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token, coin: currentCoin, address_type: currentType, address_index: currentIndex, password: pin }) });
+    const data = await res.json();
+    if (!data.success) {
+      showToast(data.error || 'Failed to get private key', 'error');
+      return;
+    }
+    document.getElementById('privKeyFormat').textContent = data.format === 'WIF' ? 'WIF' : 'Hex';
+    document.getElementById('privKeyValue').textContent = data.privateKey;
+    document.getElementById('privateKeyPanel').style.display = 'block';
+    showStatus('Private key revealed', true);
+  } catch (e) {
+    showToast('Error: ' + e.message, 'error');
+  }
+}
+
+document.getElementById('copyAddress').addEventListener('click', async function() {
+  const text = document.getElementById('receiveAddress').textContent;
+  if (!text || text === 'Select a coin to view address' || text === 'No address found for this coin' || text === 'Loading...') return;
+  await copyToClipboard(text);
+  const btn = this;
+  const html = btn.innerHTML;
+  btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
+  setTimeout(function() { btn.innerHTML = html; }, 2000);
+});
+
+document.getElementById('showPrivateKey').addEventListener('click', revealPrivateKey);
+
+document.getElementById('hidePrivKey').addEventListener('click', function() {
+  hidePrivateKeyPanel();
+});
+
+document.getElementById('copyPrivKey').addEventListener('click', function() {
+  const value = document.getElementById('privKeyValue').textContent;
+  if (!value) return;
+  copyToClipboard(value);
+  const btn = this;
+  btn.innerHTML = '<i class="bi bi-check"></i>';
+  setTimeout(function() { btn.innerHTML = '<i class="bi bi-clipboard"></i>'; }, 1500);
+});
+
+document.getElementById('coinGrid').addEventListener('click', function(e) {
+  const btn = e.target.closest('.coin-btn');
+  if (!btn) return;
+  document.querySelectorAll('.coin-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  loadAddress(btn.getAttribute('data-coin'));
+});
+
+document.getElementById('addressType').addEventListener('change', function(e) {
+  loadAddress(currentCoin, e.target.value);
+});
+
+document.addEventListener('click', function(e) {
+  const t = e.target.closest('[data-action]');
+  if (!t) return;
+  const action = t.dataset.action;
+  if (action === 'close-pin') document.getElementById('pinModalClose').click();
+});
+
+fetch('/api/get_wallets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token }) })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && (data.wallet || (data.wallets && data.wallets.length > 0))) {
+      const w = data.wallet || data.wallets[0];
+      let profile = w.profile;
+      if (typeof profile === 'string') {
+        try { profile = JSON.parse(profile); } catch (e) { profile = {}; }
+      }
+      const keyType = profile && profile.key_type;
+      const coins = getTrackedCoins();
+      buildCoinGrid(coins);
+      availableCoins = coins;
+      if (keyType === 'WIF' || keyType === 'HD' || keyType === 'HEX' || keyType === 'PRIVATE_KEY') {
+        availableCoins = [profile.default_coin || w.id_coin || 'BTC'];
+        const single = availableCoins[0];
+        const data2 = allCoinData[single] || { logo: '', label: single };
+        document.getElementById('coinGrid').innerHTML = '<button data-coin="' + escapeHtml(single) + '" class="coin-btn active">'
+          + (data2.logo ? '<img class="coin-logo" src="' + escapeHtml(data2.logo) + '" alt="' + escapeHtml(data2.label) + ' logo" width="24" height="24">' : '')
+          + '<span class="coin-label">' + escapeHtml(data2.label) + '</span></button>';
+      }
+    }
+    const initialCoin = availableCoins.indexOf('BTC') >= 0 ? 'BTC' : availableCoins[0];
+    if (initialCoin !== availableCoins[0]) {
+      document.querySelectorAll('.coin-btn').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-coin') === initialCoin); });
+    }
+    loadAddress(initialCoin);
+  })
+  .catch(function(e) {
+    console.error('Error loading wallet:', e);
+    const coins = getTrackedCoins();
+    buildCoinGrid(coins);
+    const initialCoin = coins.indexOf('BTC') >= 0 ? 'BTC' : coins[0];
+    if (initialCoin !== coins[0]) {
+      document.querySelectorAll('.coin-btn').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-coin') === initialCoin); });
+    }
+    loadAddress(initialCoin);
+  });
+</script><script src="../js/websocket.js?v=20260815a"></script><script>if(typeof token!=="undefined"&&token){connectWebSocket(token);document.addEventListener("ws_balance_sync_complete",function(){const pk=document.getElementById("privateKeyPanel"),pin=document.getElementById("pinModal");if(pk&&pk.style.display==="block")return;if(pin&&pin.style.display!=="none")return;fetch("/api/sync_balances",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:token})}).catch(function(){}).then(function(){if(currentCoin)loadAddress(currentCoin)})})}</script><script src="../js/header.js?v=20260801a"></script></body></html>
+

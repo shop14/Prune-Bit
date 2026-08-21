@@ -1,0 +1,661 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg"><link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png"><link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Help Center - PruneBit">Help Center - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<link rel="stylesheet" href="../css/tailwind-compat.css?v=20260816h">
+<style>
+/* === Professional Help Center Styling === */
+body.bitcoin-style .page-glow{position:fixed;top:-60px;left:50%;transform:translateX(-50%);width:960px;height:420px;background:radial-gradient(closest-side,rgba(255,126,0,.20),rgba(255,126,0,.08) 40%,transparent 70%);pointer-events:none;z-index:0;filter:blur(14px)}
+@media(max-width:639px){body.bitcoin-style .page-glow{top:-40px;width:260vw;height:320px}}
+body.bitcoin-style .p-6{position:relative;z-index:2}
+body.bitcoin-style .help-page-grid{position:relative;z-index:1}
+
+/* Sidebar Cards */
+body.bitcoin-style .help-sidebar-wrap .bg-white,
+body.bitcoin-style .help-main-col > .bg-white{
+  border:1px solid var(--cv-border);
+  box-shadow:0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  background-color:#FBFAF7;
+  border-radius:1rem;
+}
+
+/* Sidebar Navigation */
+.help-sidebar-wrap .bg-white{padding:1.5rem}
+.help-sidebar-wrap h3{font-size:0.875rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--bs-secondary-color);margin-bottom:1rem}
+.help-sidebar-wrap nav a{
+  display:flex;align-items:center;gap:0.75rem;
+  padding:0.625rem 1rem;
+  border-radius:0.5rem;
+  font-size:0.875rem;
+  font-weight:500;
+  color:var(--bs-body-color);
+  transition:all 0.15s ease;
+}
+.help-sidebar-wrap nav a:hover{background:var(--bs-tertiary-bg);color:var(--cv-primary)}
+.help-sidebar-wrap nav a.bg-primary-50{background:rgba(255,126,0,.1);color:var(--cv-primary)}
+.help-sidebar-wrap nav a i{font-size:1rem;flex-shrink:0;width:1.25rem;text-align:center}
+
+/* Main Content Cards */
+.help-main-col > .bg-white{padding:2rem}
+.help-main-col h1{font-size:2rem;font-weight:800;letter-spacing:-0.02em;color:var(--bs-body-color);margin-bottom:0.5rem}
+.help-main-col > p{font-size:1rem;line-height:1.7;color:var(--bs-secondary-color);margin-bottom:2rem}
+
+/* Section Headings */
+section[id]{margin-bottom:2.5rem}
+section h2{
+  display:flex;align-items:center;gap:0.75rem;
+  font-size:1.25rem;font-weight:700;letter-spacing:-0.01em;color:var(--bs-body-color);
+  margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--cv-border)
+}
+section h2 span{display:flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:0.5rem;font-size:0.75rem;font-weight:700;flex-shrink:0}
+section > p{font-size:0.95rem;line-height:1.7;color:var(--bs-secondary-color);margin-bottom:1.25rem}
+
+/* Sub-headings */
+h4.font-semibold{font-size:0.9375rem;font-weight:600;color:var(--bs-body-color);margin-bottom:0.75rem}
+h4.flex.items-center.gap-2{font-size:0.9375rem;font-weight:600;color:var(--bs-body-color);margin-bottom:0.75rem}
+
+/* Body Text */
+.text-gray-600{font-size:0.9375rem;line-height:1.75;color:var(--bs-secondary-color)}
+.text-gray-700{font-size:0.875rem;line-height:1.7}
+
+/* Lists */
+ul.list-disc, ol.list-decimal{font-size:0.9375rem;line-height:1.8;color:var(--bs-secondary-color)}
+ul.list-disc li, ol.list-decimal li{margin-bottom:0.375rem}
+ul.space-y-2 li{margin-bottom:0.5rem}
+ul.space-y-2 li i{margin-top:0.125rem}
+
+/* Numbered Steps */
+.flex.gap-4{margin-bottom:1rem}
+.flex.gap-4 > div:first-child{display:flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:50%;background:var(--cv-primary);color:#fff;font-weight:700;font-size:0.875rem;flex-shrink:0;box-shadow:0 2px 6px rgba(255,126,0,.3)}
+.flex.gap-4 h4{font-size:0.9375rem;font-weight:600;color:var(--bs-body-color);margin-bottom:0.25rem}
+.flex.gap-4 p{font-size:0.875rem;line-height:1.6;color:var(--bs-secondary-color);margin:0}
+
+/* Alert/Info Boxes */
+.bg-blue-50,.bg-amber-50,.bg-green-50,.bg-gray-50{border:1px solid var(--cv-border);border-radius:0.75rem;padding:1.25rem}
+.bg-blue-50{border-color:#bfdbfe;background:#eff6ff}
+.bg-amber-50{border-color:#fde68a;background:#fffbeb}
+.bg-green-50{border-color:#bbf7d0;background:#f0fdf4}
+.bg-gray-50{border-color:#E5E0D5;background:#f9fafb}
+.bg-blue-50 h4,.bg-amber-50 h4,.bg-green-50 h4{font-size:0.9375rem;font-weight:600;margin-bottom:0.5rem}
+.bg-blue-50 h4{color:#1e40af}.bg-amber-50 h4{color:#92400e}.bg-green-50 h4{color:#166534}
+.bg-blue-50 p,.bg-amber-50 p,.bg-green-50 p{font-size:0.875rem;line-height:1.7}
+.bg-blue-50 p{color:#1e40af}.bg-amber-50 p{color:#92400e}.bg-green-50 p{color:#166534}
+.bg-blue-50 a,.bg-amber-50 a,.bg-green-50 a{text-decoration:underline;font-weight:500}
+
+/* Tables */
+.help-table{width:100%;border-collapse:collapse;font-size:0.875rem}
+.help-table thead{background:#f9fafb}
+.help-table th{font-weight:600;color:var(--bs-secondary-color);text-transform:uppercase;letter-spacing:0.05em;font-size:0.75rem;padding:0.875rem 1rem;text-align:left;border-bottom:2px solid var(--cv-border)}
+.help-table td{padding:1rem;color:var(--bs-body-color);border-bottom:1px solid var(--cv-border);vertical-align:middle}
+.help-table tbody tr:hover{background:#f9fafb}
+.help-table .badge{font-size:0.75rem;font-weight:600;padding:0.375rem 0.75rem;border-radius:9999px}
+.badge.bg-green-100{background:#dcfce7;color:#166534}
+.badge.bg-amber-100{background:#fef3c7;color:#92400e}
+.badge.bg-blue-100{background:#dbeafe;color:#1e40af}
+
+/* FAQ Accordion */
+.faq-answer{display:none;padding:0 1.5rem 1.5rem;border-top:1px solid var(--cv-border);animation:fadeIn 0.2s ease}
+body.bitcoin-style .faq-answer.open{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.faq-answer p{font-size:0.9375rem;line-height:1.75;color:var(--bs-secondary-color);margin-bottom:0.75rem}
+.faq-answer ol{font-size:0.9375rem;line-height:1.8;color:var(--bs-secondary-color);padding-left:1.25rem}
+.faq-answer strong{font-weight:600;color:var(--bs-body-color)}
+.faq-toggle i{font-size:1rem;color:var(--bs-secondary-color);transition:transform 0.2s}
+.faq-toggle[aria-expanded="true"] i{transform:rotate(180deg)}
+
+/* Cards Grid */
+.grid.grid-cols-1.md\:grid-cols-2.gap-4 > div{border:1px solid var(--cv-border);border-radius:0.75rem;background:#FBFAF7;transition:box-shadow 0.2s,transform 0.15s}
+.grid.grid-cols-1.md\:grid-cols-2.gap-4 > div:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+.grid.grid-cols-1.md\:grid-cols-2.gap-4 .w-10.h-10{display:flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:0.75rem}
+.grid.grid-cols-1.md\:grid-cols-2.gap-4 h4{font-size=0.9375rem;font-weight:600;color:var(--bs-body-color);margin-bottom:0.5rem}
+.grid.grid-cols-1.md\:grid-cols-2.gap-4 p{font-size=0.875rem;line-height=1.7;color:var(--bs-secondary-color);margin-bottom:1rem}
+.grid.grid-cols-1.md\:grid-cols-2.gap-4 ol{font-size=0.875rem;line-height=1.8;color:var(--bs-secondary-color)}
+
+/* CTA Button */
+.mt-6 a.bg-primary-500{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.875rem 2rem;
+  font-size=0.9375rem;font-weight=600;letter-spacing:0.01em;
+  border-radius=0.75rem;
+  background:linear-gradient(135deg,var(--cv-primary),#ff9500);
+  color:#fff;box-shadow:0 4px 14px rgba(255,126,0,.3);
+  transition:all 0.2s
+}
+.mt-6 a.bg-primary-500:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,126,0,.4)}
+
+/* CTA Banner */
+.bg-gradient-to-r.from-primary-500.to-primary-600{
+  border-radius:1rem;padding:2.5rem;
+  background:linear-gradient(135deg,var(--cv-primary),#ff9500) !important
+}
+.bg-gradient-to-r h3{font-size=1.25rem;font-weight=700;margin-bottom=0.75rem}
+.bg-gradient-to-r p{font-size=1rem;opacity=0.9;margin-bottom=1.5rem}
+.bg-gradient-to-r a{display:inline-flex;align-items:center;gap=0.5rem;padding=0.875rem 2rem;font-size=0.9375rem;font-weight=600;border-radius=0.75rem;background:#FBFAF7;color:var(--cv-primary);transition:all 0.2s}
+.bg-gradient-to-r a:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+
+/* Sidebar Toggle Button */
+.help-sidebar-toggle{width:3rem;height:3rem;font-size=1.25rem;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:all 0.2s}
+.help-sidebar-toggle:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(0,0,0,.25)}
+
+/* Mobile Sidebar */
+@media(max-width:991px){
+  .help-sidebar-wrap .bg-white{width:280px;border-radius:0 1rem 1rem 0;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+  .help-sidebar-wrap h3{font-size=0.8125rem;padding-left:1rem}
+  .help-sidebar-wrap nav a{padding=0.5rem 1rem;font-size=0.875rem}
+  .help-main-col{padding=1rem !important}
+  .help-main-col > .bg-white{padding=1.5rem}
+  .help-main-col h1{font-size=1.5rem}
+  .help-main-col h2{font-size=1.125rem}
+}
+
+/* Focus States for Accessibility */
+a:focus-visible,button:focus-visible,.faq-toggle:focus-visible{outline:2px solid var(--cv-primary);outline-offset:2px}
+
+/* Reduced Motion */
+@media(prefers-reduced-motion:reduce){
+  *, *::before, *::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important}
+}
+
+/* Original Glow + Layout (preserved) */
+body.bitcoin-style .page-glow{position:fixed;top:-60px;left:50%;transform:translateX(-50%);width:960px;height:420px;background:radial-gradient(closest-side,rgba(255,126,0,.20),rgba(255,126,0,.08) 40%,transparent 70%);pointer-events:none;z-index:0;filter:blur(14px)}
+@media(max-width:639px){body.bitcoin-style .page-glow{top:-40px;width:260vw;height:320px}}
+body.bitcoin-style .p-6{position:relative;z-index:2}
+body.bitcoin-style .help-page-grid{position:relative;z-index:1}
+body.bitcoin-style .help-sidebar-wrap .bg-white,
+body.bitcoin-style .help-main-col > .bg-white{border:1px solid var(--cv-border);box-shadow:0 4px 16px rgba(0,0,0,.06);background-color:#FBFAF7}
+body.bitcoin-style .faq-answer{display:none;padding:1rem 1.25rem;background:#FBFAF7;border-top:1px solid #E5E0D5}
+body.bitcoin-style .faq-answer.open{display:block}
+.help-table{width:100%;border-collapse:collapse;border:1px solid #E5E0D5;border-radius:.75rem;overflow:hidden}
+.help-table thead{background:#f9fafb}
+.help-table th,.help-table td{padding:.75rem 1rem;text-align:left;font-size:.875rem;border-bottom:1px solid #E5E0D5}
+.help-table tr:last-child td{border-bottom:none}
+.help-sidebar-toggle{display:none;position:fixed;bottom:80px;right:20px;z-index:950;width:50px;height:50px;border-radius:50%;background:var(--btc-orange,#FF7E00);color:#fff;border:none;box-shadow:0 4px 12px rgba(0,0,0,.25);font-size:1.25rem;cursor:pointer}
+@media(max-width:991px){
+  .help-page-grid{grid-template-columns:1fr !important}
+  .help-sidebar-wrap{
+    display:none;position:fixed;inset:0;z-index:899;background:rgba(0,0,0,.4);padding-top:60px
+  }
+  .help-sidebar-wrap.open{display:block}
+  .help-sidebar-wrap .bg-white{position:absolute;left:0;top:0;bottom:0;width:260px;overflow-y:auto;border-radius:0 .75rem .75rem 0}
+  .help-sidebar-toggle{display:flex;align-items:center;justify-content:center}
+  .help-main-col{grid-column:span 1 !important;padding:1rem !important}
+  .help-main-col h1{font-size:1.5rem}
+  .help-main-col h2{font-size:1.125rem}
+  .help-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .help-table thead{display:table-header-group}
+  .help-table tr{display:table-row}
+  .help-table th,.help-table td{display:table-cell;white-space:nowrap}
+}
+
+/* === Dark Mode Overrides === */
+[data-bs-theme="dark"] body.bitcoin-style .help-sidebar-wrap .bg-white,
+[data-bs-theme="dark"] body.bitcoin-style .help-main-col > .bg-white { background-color: transparent !important; }
+[data-bs-theme="dark"] .bg-blue-50 { background: rgba(59,130,225,0.08) !important; border-color: rgba(59,130,225,0.3) !important; }
+[data-bs-theme="dark"] .bg-amber-50 { background: rgba(245,158,11,0.08) !important; border-color: rgba(245,158,11,0.3) !important; }
+[data-bs-theme="dark"] .bg-green-50 { background: rgba(34,197,94,0.08) !important; border-color: rgba(34,197,94,0.3) !important; }
+[data-bs-theme="dark"] .bg-gray-50 { background: rgba(255,255,255,0.04) !important; border-color: var(--bs-border-color) !important; }
+[data-bs-theme="dark"] .bg-blue-50 h4,
+[data-bs-theme="dark"] .bg-blue-50 p { color: #93c5fd !important; }
+[data-bs-theme="dark"] .bg-amber-50 h4,
+[data-bs-theme="dark"] .bg-amber-50 p { color: #fbbf24 !important; }
+[data-bs-theme="dark"] .bg-green-50 h4,
+[data-bs-theme="dark"] .bg-green-50 p { color: #4ade80 !important; }
+[data-bs-theme="dark"] .bg-blue-100 h4,
+[data-bs-theme="dark"] .bg-blue-100 p { color: #93c5fd !important; }
+[data-bs-theme="dark"] .bg-amber-100 h4,
+[data-bs-theme="dark"] .bg-amber-100 p { color: #fbbf24 !important; }
+[data-bs-theme="dark"] .bg-green-100 h4,
+[data-bs-theme="dark"] .bg-green-100 p { color: #4ade80 !important; }
+[data-bs-theme="dark"] .help-table thead { background: rgba(255,255,255,0.04) !important; }
+[data-bs-theme="dark"] .help-table tbody tr:hover { background: rgba(255,255,255,0.04) !important; }
+[data-bs-theme="dark"] body.bitcoin-style .faq-answer { background: transparent !important; border-top-color: var(--bs-border-color) !important; }
+[data-bs-theme="dark"] .grid.grid-cols-1.md\:grid-cols-2.gap-4 > div { background: transparent !important; border-color: var(--bs-border-color) !important; }
+[data-bs-theme="dark"] .badge.bg-green-100 { background: rgba(34,197,94,0.15) !important; color: #4ade80 !important; }
+[data-bs-theme="dark"] .badge.bg-amber-100 { background: rgba(245,158,11,0.15) !important; color: #fbbf24 !important; }
+[data-bs-theme="dark"] .badge.bg-blue-100 { background: rgba(59,130,225,0.15) !important; color: #93c5fd !important; }
+[data-bs-theme="dark"] .help-table { border-color: var(--bs-border-color) !important; }
+[data-bs-theme="dark"] .help-table th,
+[data-theme="dark"] .help-table td { border-bottom-color: var(--bs-border-color) !important; }
+[data-bs-theme="dark"] .bg-gradient-to-r a { background: rgba(255,255,255,0.08) !important; }
+</style>
+<script src="../js/security.js"></script>
+</head>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"PruneBit","alternateName":"PruneBit Wallet","url":"https://prunebit.com/","description":"PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.","inLanguage":"en","publisher":{"@type":"Organization","name":"PruneBit","url":"https://prunebit.com/","logo":{"@type":"ImageObject","url":"https://prunebit.com/img/logo-og.png","width":1200,"height":630}}}
+</script>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="p-6" style="max-width:61.2rem;margin-left:auto;margin-right:auto">
+<div class="help-page-grid grid grid-cols-1 lg:grid-cols-4 gap-6">
+<div class="lg:col-span-1">
+<div class="help-sidebar-wrap">
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sticky top-24">
+<h3 class="font-bold text-gray-900 mb-4 px-2" data-i18n="Help Topics">Help Topics</h3>
+<nav class="space-y-1">
+<a href="#getting-started" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary-50 text-primary-700 font-medium" data-i18n="Getting Started"><i class="bi bi-rocket-takeoff"></i> Getting Started </a>
+<a href="#creating-wallet" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Creating Wallet"><i class="bi bi-plus-circle"></i> Creating Wallet </a>
+<a href="#accessing-wallet" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Accessing Wallet"><i class="bi bi-box-arrow-in-right"></i> Accessing Wallet </a>
+<a href="#importing-wallet" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Importing Wallet"><i class="bi bi-download"></i> Importing Wallet </a>
+<a href="#sending-crypto" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Sending Crypto"><i class="bi bi-send"></i> Sending Crypto </a>
+<a href="#receiving-crypto" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Receiving Crypto"><i class="bi bi-arrow-down-circle"></i> Receiving Crypto </a>
+<a href="#security" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Security"><i class="bi bi-shield-check"></i> Security </a>
+<a href="#address-check" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Address Check"><i class="bi bi-search"></i> Address Check </a>
+<a href="#check-prices" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Check Prices"><i class="bi bi-graph-up"></i> Check Prices </a>
+<a href="#exchange-crypto" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Exchange Crypto"><i class="bi bi-arrow-left-right"></i> Exchange Crypto </a>
+<a href="exchanges.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Open Exchange"><i class="bi bi-arrow-repeat"></i> Open Exchange</a>
+<a href="#troubleshooting" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Troubleshooting"><i class="bi bi-question-circle"></i> Troubleshooting </a>
+<a href="ticket.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Contact Support"><i class="bi bi-chat-dots"></i> Contact Support</a>
+</nav>
+</div>
+</div>
+</div>
+
+<div class="help-main-col lg:col-span-3">
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm p-8">
+<h1 class="text-3xl font-bold text-gray-900 mb-2" data-i18n="Help Center">Help Center</h1>
+<p class="text-gray-600 mb-8" data-i18n="Find answers to common questions and learn how to use PruneBit effectively.">Find answers to common questions and learn how to use PruneBit effectively.</p>
+
+<section id="getting-started" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Getting Started"><span class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600 text-sm">1</span> Getting Started</h2>
+<p class="text-gray-600 mb-4" data-i18n="Welcome to PruneBit! This guide will help you get started with managing your cryptocurrency securely.">Welcome to PruneBit! This guide will help you get started with managing your cryptocurrency securely.</p>
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+<div class="flex items-start gap-3">
+<i class="bi bi-info-circle text-blue-600 mt-0.5"></i>
+<div>
+<h4 class="font-semibold text-blue-800" data-i18n="New to Crypto?">New to Crypto?</h4>
+<p class="text-blue-700 text-sm" data-i18n="If you're new to cryptocurrency, we recommend reading our Terms of Service and Privacy Policy first.">If you're new to cryptocurrency, we recommend reading our <a href="terms.html" class="underline">Terms of Service</a> and <a href="privacy.html" class="underline">Privacy Policy</a> first.</p>
+</div>
+</div>
+</div>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="What You'll Need">What You'll Need</h4>
+<ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
+<li data-i18n="A modern web browser (Chrome, Firefox, Safari, or Edge)">A modern web browser (Chrome, Firefox, Safari, or Edge)</li>
+<li data-i18n="A secure internet connection">A secure internet connection</li>
+<li data-i18n="A strong password (minimum 8 characters recommended)">A strong password (minimum 8 characters recommended)</li>
+</ul>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="First Steps">First Steps</h4>
+<ol class="list-decimal list-inside text-gray-600 space-y-1">
+<li data-i18n="Choose whether to create a new wallet or import an existing one">Choose whether to create a new wallet or import an existing one</li>
+<li data-i18n="Set a strong, unique password">Set a strong, unique password</li>
+<li data-i18n="Write down your seed phrase and store it securely">Write down your seed phrase and store it securely</li>
+<li data-i18n="Start managing your cryptocurrency!">Start managing your cryptocurrency!</li>
+</ol>
+</section>
+
+<section id="creating-wallet" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Creating a New Wallet"><span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-sm">2</span> Creating a New Wallet</h2>
+<p class="text-gray-600 mb-4" data-i18n="Creating a new wallet generates a unique BIP39/BIP32 mnemonic phrase that gives you full control over your funds.">Creating a new wallet generates a unique BIP39/BIP32 mnemonic phrase that gives you full control over your funds.</p>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Navigate to Create Wallet">Navigate to Create Wallet</h4><p class="text-gray-600 text-sm" data-i18n="Click &quot;Create New Wallet&quot; on the homepage or go to setup.html.">Click "Create New Wallet" on the homepage or go to setup.html.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Choose Your Coin">Choose Your Coin</h4><p class="text-gray-600 text-sm" data-i18n="Select the cryptocurrency you want to create a wallet for.">Select the cryptocurrency you want to create a wallet for.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Set a Strong Password">Set a Strong Password</h4><p class="text-gray-600 text-sm" data-i18n="Create a password that you'll use to access your wallet.">Create a password that you'll use to access your wallet.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">4</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Save Your Seed Phrase">Save Your Seed Phrase</h4><p class="text-gray-600 text-sm" data-i18n="You'll receive a 12 or 24-word seed phrase. Write this down and store it safely.">You'll receive a 12 or 24-word seed phrase. <strong>Write this down and store it safely.</strong></p></div>
+</div>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4">
+<div class="flex items-start gap-3">
+<i class="bi bi-exclamation-triangle text-amber-600 mt-0.5"></i>
+<div>
+<h4 class="font-semibold text-amber-800" data-i18n="Important">Important</h4>
+<p class="text-amber-700 text-sm" data-i18n="Never share your seed phrase with anyone. Anyone with access to your seed phrase can control your wallet.">Never share your seed phrase with anyone. Anyone with access to your seed phrase can control your wallet.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="accessing-wallet" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Accessing Your Wallet"><span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">3</span> Accessing Your Wallet</h2>
+<p class="text-gray-600 mb-4" data-i18n="To access your existing wallet, you'll need your password.">To access your existing wallet, you'll need your password.</p>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="Steps to Access">Steps to Access</h4>
+<ol class="list-decimal list-inside text-gray-600 space-y-1 mb-4">
+<li data-i18n="Click &quot;Access Wallet&quot; on the homepage or go to import.html">Click "Access Wallet" on the homepage or go to import.html</li>
+<li data-i18n="Enter your wallet password">Enter your wallet password</li>
+<li data-i18n="Click &quot;Unlock Wallet&quot;">Click "Unlock Wallet"</li>
+<li data-i18n="You'll be redirected to your dashboard">You'll be redirected to your dashboard</li>
+</ol>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="Session Management">Session Management</h4>
+<p class="text-gray-600" data-i18n="Your session will remain active for 15 minutes of inactivity. After that, you'll need to log in again.">Your session will remain active for 15 minutes of inactivity. After that, you'll need to log in again.</p>
+</section>
+
+<section id="importing-wallet" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Importing an Existing Wallet"><span class="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center text-cyan-600 text-sm">4</span> Importing an Existing Wallet</h2>
+<p class="text-gray-600 mb-4" data-i18n="You can import a wallet using a mnemonic phrase or private key from another wallet.">You can import a wallet using a mnemonic phrase or private key from another wallet.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center"><i class="bi bi-key text-primary-600"></i></div>
+<h4 class="font-semibold text-gray-900" data-i18n="Mnemonic Phrase">Mnemonic Phrase</h4>
+</div>
+<p class="text-gray-600 text-sm mb-3" data-i18n="Import using your 12 or 24-word seed phrase from another wallet.">Import using your 12 or 24-word seed phrase from another wallet.</p>
+<ol class="list-decimal list-inside text-gray-600 text-sm space-y-1">
+<li data-i18n="Go to import.html">Go to import.html</li>
+<li data-i18n="Select &quot;Mnemonic Phrase&quot;">Select "Mnemonic Phrase"</li>
+<li data-i18n="Enter your seed phrase">Enter your seed phrase</li>
+<li data-i18n="Set a new password">Set a new password</li>
+</ol>
+</div>
+<div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center"><i class="bi bi-key-fill text-green-600"></i></div>
+<h4 class="font-semibold text-gray-900" data-i18n="Private Key">Private Key</h4>
+</div>
+<p class="text-gray-600 text-sm mb-3" data-i18n="Import using a private key (WIF format for BTC/BTCT, hex for ETH).">Import using a private key (WIF format for BTC/BTCT, hex for ETH).</p>
+<ol class="list-decimal list-inside text-gray-600 text-sm space-y-1">
+<li data-i18n="Go to import.html">Go to import.html</li>
+<li data-i18n="Select &quot;Private Key&quot;">Select "Private Key"</li>
+<li data-i18n="Enter your private key">Enter your private key</li>
+<li data-i18n="Set a new password">Set a new password</li>
+</ol>
+</div>
+</div>
+</section>
+
+<section id="sending-crypto" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Sending Cryptocurrency"><span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 text-sm">5</span> Sending Cryptocurrency</h2>
+<p class="text-gray-600 mb-4" data-i18n="Send cryptocurrency to any valid address with custom fee control.">Send cryptocurrency to any valid address with custom fee control.</p>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="How to Send">How to Send</h4>
+<ol class="list-decimal list-inside text-gray-600 space-y-1 mb-4">
+<li data-i18n="Access your wallet and go to the &quot;Send&quot; page">Access your wallet and go to the "Send" page</li>
+<li data-i18n="Select the cryptocurrency you want to send">Select the cryptocurrency you want to send</li>
+<li data-i18n="Enter the recipient's address">Enter the recipient's address</li>
+<li data-i18n="Enter the amount to send">Enter the amount to send</li>
+<li data-i18n="Choose your fee (Low, Medium, High, or Custom)">Choose your fee (Low, Medium, High, or Custom)</li>
+<li data-i18n="Review the transaction details">Review the transaction details</li>
+<li data-i18n="Click &quot;Send Transaction&quot;">Click "Send Transaction"</li>
+</ol>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="Fee Guide">Fee Guide</h4>
+<div class="overflow-x-auto">
+<table class="help-table">
+<thead>
+<tr><th class="py-3 px-4 text-left text-sm font-semibold text-gray-600" data-i18n="Fee Level">Fee Level</th><th class="py-3 px-4 text-left text-sm font-semibold text-gray-600" data-i18n="Confirmation Time">Confirmation Time</th><th class="py-3 px-4 text-left text-sm font-semibold text-gray-600" data-i18n="Use Case">Use Case</th></tr>
+</thead>
+<tbody>
+<tr><td class="py-3 px-4"><span class="badge bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm" data-i18n="Low">Low</span></td><td class="py-3 px-4 text-gray-600" data-i18n="~30 minutes">~30 minutes</td><td class="py-3 px-4 text-gray-600" data-i18n="Non-urgent transactions">Non-urgent transactions</td></tr>
+<tr><td class="py-3 px-4"><span class="badge bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-sm" data-i18n="Medium">Medium</span></td><td class="py-3 px-4 text-gray-600" data-i18n="~10 minutes">~10 minutes</td><td class="py-3 px-4 text-gray-600" data-i18n="Standard transactions">Standard transactions</td></tr>
+<tr><td class="py-3 px-4"><span class="badge bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-sm" data-i18n="High">High</span></td><td class="py-3 px-4 text-gray-600" data-i18n="~5 minutes">~5 minutes</td><td class="py-3 px-4 text-gray-600" data-i18n="Urgent transactions">Urgent transactions</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="receiving-crypto" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Receiving Cryptocurrency"><span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-sm">6</span> Receiving Cryptocurrency</h2>
+<p class="text-gray-600 mb-4" data-i18n="Receive cryptocurrency by sharing your wallet address with the sender.">Receive cryptocurrency by sharing your wallet address with the sender.</p>
+<h4 class="font-semibold text-gray-900 mb-2" data-i18n="How to Receive">How to Receive</h4>
+<ol class="list-decimal list-inside text-gray-600 space-y-1 mb-4">
+<li data-i18n="Access your wallet and go to the &quot;Receive&quot; page">Access your wallet and go to the "Receive" page</li>
+<li data-i18n="Select the cryptocurrency you want to receive">Select the cryptocurrency you want to receive</li>
+<li data-i18n="Copy your wallet address or show the QR code">Copy your wallet address or show the QR code</li>
+<li data-i18n="Share the address with the sender">Share the address with the sender</li>
+</ol>
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+<div class="flex items-start gap-3">
+<i class="bi bi-lightbulb text-blue-600 mt-0.5"></i>
+<div>
+<h4 class="font-semibold text-blue-800" data-i18n="Tip">Tip</h4>
+<p class="text-blue-700 text-sm" data-i18n="Always verify that the sender is sending the correct cryptocurrency to the correct address. Cryptocurrency transactions are irreversible.">Always verify that the sender is sending the correct cryptocurrency to the correct address. Cryptocurrency transactions are irreversible.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="security" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Security Best Practices"><span class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 text-sm">7</span> Security Best Practices</h2>
+<p class="text-gray-600 mb-4" data-i18n="Follow these guidelines to keep your cryptocurrency safe.">Follow these guidelines to keep your cryptocurrency safe.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-green-50 border border-green-200 rounded-xl p-5">
+<h4 class="font-semibold text-green-800 mb-3 flex items-center gap-2" data-i18n="Do"><i class="bi bi-check-circle"></i> Do</h4>
+<ul class="space-y-2 text-green-700 text-sm">
+<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Write down your seed phrase">Write down your seed phrase</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Store seed phrase offline">Store seed phrase offline</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Use a strong, unique password">Use a strong, unique password</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Verify addresses before sending">Verify addresses before sending</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Keep your software updated">Keep your software updated</span></li>
+</ul>
+</div>
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-5">
+<h4 class="font-semibold text-blue-800 mb-3 flex items-center gap-2" data-i18n="Don't"><i class="bi bi-x-circle"></i> Don't</h4>
+<ul class="space-y-2 text-blue-700 text-sm">
+<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Share your seed phrase">Share your seed phrase</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Store seed phrase digitally">Store seed phrase digitally</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Reuse passwords">Reuse passwords</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Click suspicious links">Click suspicious links</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Enter seed phrase on websites">Enter seed phrase on websites</span></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="address-check" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Address Check"><span class="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center text-cyan-600 text-sm">9</span> Address Check</h2>
+<p class="text-gray-600 mb-4" data-i18n="Verify and validate cryptocurrency addresses before sending funds to ensure they are correct and supported.">Verify and validate cryptocurrency addresses before sending funds to ensure they are correct and supported.</p>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Go to Address Check">Go to Address Check</h4><p class="text-gray-600 text-sm" data-i18n="Navigate to the &quot;Address Check&quot; page from the dashboard or main menu.">Navigate to the "Address Check" page from the dashboard or main menu.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Enter the Address">Enter the Address</h4><p class="text-gray-600 text-sm" data-i18n="Paste or type the cryptocurrency address you want to verify. The tool supports Bitcoin, Litecoin, Ethereum, XRP, and more.">Paste or type the cryptocurrency address you want to verify. The tool supports Bitcoin, Litecoin, Ethereum, XRP, and more.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Review Results">Review Results</h4><p class="text-gray-600 text-sm" data-i18n="The tool will validate the address format, detect the network type, and confirm whether it's a valid address for the specified cryptocurrency.">The tool will validate the address format, detect the network type, and confirm whether it's a valid address for the specified cryptocurrency.</p></div>
+</div>
+</div>
+<div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4">
+<div class="flex items-start gap-3">
+<i class="bi bi-lightbulb text-blue-600 mt-0.5"></i>
+<div>
+<h4 class="font-semibold text-blue-800" data-i18n="Why Use Address Check?">Why Use Address Check?</h4>
+<p class="text-blue-700 text-sm" data-i18n="Sending cryptocurrency to an invalid or incorrect address can result in permanent loss of funds. Always verify the address before initiating a transaction.">Sending cryptocurrency to an invalid or incorrect address can result in permanent loss of funds. Always verify the address before initiating a transaction.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="check-prices" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Check Prices"><span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-sm">10</span> Check Prices</h2>
+<p class="text-gray-600 mb-4" data-i18n="Stay informed with real-time cryptocurrency prices, market trends, and conversion rates for supported coins.">Stay informed with real-time cryptocurrency prices, market trends, and conversion rates for supported coins.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center"><i class="bi bi-currency-bitcoin text-primary-600"></i></div>
+<h4 class="font-semibold text-gray-900" data-i18n="Price View">Price View</h4>
+</div>
+<p class="text-gray-600 text-sm" data-i18n="View the current market prices of Bitcoin, Litecoin, Dogecoin, Ethereum, XRP, and more in multiple fiat currencies.">View the current market prices of Bitcoin, Litecoin, Dogecoin, Ethereum, XRP, and more in multiple fiat currencies.</p>
+</div>
+<div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center"><i class="bi bi-graph-up-arrow text-green-600"></i></div>
+<h4 class="font-semibold text-gray-900" data-i18n="Market Trends">Market Trends</h4>
+</div>
+<p class="text-gray-600 text-sm" data-i18n="Track price changes over different time periods (30min, 1h, 24h) to make informed decisions about your cryptocurrency.">Track price changes over different time periods (30min, 1h, 24h) to make informed decisions about your cryptocurrency.</p>
+</div>
+</div>
+<h4 class="font-semibold text-gray-900 mt-4 mb-2" data-i18n="How to Use">How to Use</h4>
+<ol class="list-decimal list-inside text-gray-600 space-y-1">
+<li data-i18n="Go to the &quot;Prices&quot; page from the dashboard or main menu">Go to the "Prices" page from the dashboard or main menu</li>
+<li data-i18n="View the list of supported cryptocurrencies with current prices">View the list of supported cryptocurrencies with current prices</li>
+<li data-i18n="Prices are updated automatically every 30 seconds">Prices are updated automatically every 30 seconds</li>
+<li data-i18n="Use the checkboxes to select which coins to display">Use the checkboxes to select which coins to display</li>
+</ol>
+</section>
+
+<section id="exchange-crypto" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Exchange Crypto"><span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">11</span> Exchange Crypto</h2>
+<p class="text-gray-600 mb-4" data-i18n="Exchange one cryptocurrency for another directly through PruneBit. Our exchange feature supports multiple coin pairs with competitive rates.">Exchange one cryptocurrency for another directly through PruneBit. Our exchange feature supports multiple coin pairs with competitive rates.</p>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Select Exchange Pair">Select Exchange Pair</h4><p class="text-gray-600 text-sm" data-i18n="Choose the cryptocurrency you want to exchange from and the one you want to receive. Supported pairs include BTC, LTC, DGB, ETH, XRP, and more.">Choose the cryptocurrency you want to exchange from and the one you want to receive. Supported pairs include BTC, LTC, DGB, ETH, XRP, and more.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Enter Amount">Enter Amount</h4><p class="text-gray-600 text-sm" data-i18n="Enter the amount you want to exchange. The estimated receiving amount will be calculated automatically based on current rates.">Enter the amount you want to exchange. The estimated receiving amount will be calculated automatically based on current rates.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Provide Receiving Address">Provide Receiving Address</h4><p class="text-gray-600 text-sm" data-i18n="Enter the destination address where you want to receive the exchanged cryptocurrency.">Enter the destination address where you want to receive the exchanged cryptocurrency.</p></div>
+</div>
+<div class="flex gap-4">
+<div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">4</div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Confirm and Exchange">Confirm and Exchange</h4><p class="text-gray-600 text-sm" data-i18n="Review the exchange details including rate, fees, and estimated time, then confirm to initiate the exchange.">Review the exchange details including rate, fees, and estimated time, then confirm to initiate the exchange.</p></div>
+</div>
+</div>
+<div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mt-4">
+<div class="flex items-start gap-3">
+<i class="bi bi-exclamation-triangle text-amber-600 mt-0.5"></i>
+<div>
+<h4 class="font-semibold text-amber-800" data-i18n="Important">Important</h4>
+<p class="text-amber-700 text-sm" data-i18n="Exchange rates are estimated and may change slightly before confirmation. The final rate is locked once you confirm the exchange.">Exchange rates are estimated and may change slightly before confirmation. The final rate is locked once you confirm the exchange.</p>
+</div>
+</div>
+</div>
+<div class="mt-6 text-center">
+<a href="exchanges.html" class="inline-flex items-center gap-2 bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all" data-i18n="Open Exchange"><i class="bi bi-arrow-left-right"></i> Open Exchange</a>
+</div>
+</section>
+
+<section id="troubleshooting" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Troubleshooting"><span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 text-sm">12</span> Troubleshooting</h2>
+<div class="space-y-3">
+<div class="border border-gray-200 rounded-xl overflow-hidden">
+<button class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors">
+<span class="font-semibold text-gray-900" data-i18n="I forgot my password. Can I recover my wallet?">I forgot my password. Can I recover my wallet?</span>
+<i class="bi bi-chevron-down text-gray-500"></i>
+</button>
+<div class="faq-answer">
+<p class="text-gray-600" data-i18n="If you forgot your password but have your seed phrase, you can import your wallet using the seed phrase and set a new password. Go to import.html and select &quot;Mnemonic Phrase&quot;.">If you forgot your password but have your seed phrase, you can import your wallet using the seed phrase and set a new password. Go to import.html and select "Mnemonic Phrase".</p>
+<p class="text-gray-600 mt-2"><strong data-i18n="Note:">Note:</strong> <span data-i18n="Without your password AND seed phrase, your wallet cannot be recovered.">Without your password AND seed phrase, your wallet cannot be recovered.</span></p>
+</div>
+</div>
+<div class="border border-gray-200 rounded-xl overflow-hidden">
+<button class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors">
+<span class="font-semibold text-gray-900" data-i18n="My transaction is taking too long. What should I do?">My transaction is taking too long. What should I do?</span>
+<i class="bi bi-chevron-down text-gray-500"></i>
+</button>
+<div class="faq-answer">
+<p class="text-gray-600" data-i18n="Transaction confirmation times depend on network congestion and the fee you paid. If your transaction is taking too long:">Transaction confirmation times depend on network congestion and the fee you paid. If your transaction is taking too long:</p>
+<ol class="list-decimal list-inside text-gray-600 mt-2 space-y-1">
+<li data-i18n="Check the transaction status on a blockchain explorer">Check the transaction status on a blockchain explorer</li>
+<li data-i18n="If using Bitcoin, you can use RBF (Replace-By-Fee) to speed it up">If using Bitcoin, you can use RBF (Replace-By-Fee) to speed it up</li>
+<li data-i18n="For future transactions, consider using a higher fee">For future transactions, consider using a higher fee</li>
+</ol>
+</div>
+</div>
+<div class="border border-gray-200 rounded-xl overflow-hidden">
+<button class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors">
+<span class="font-semibold text-gray-900" data-i18n="I lost my seed phrase. Can I still access my wallet?">I lost my seed phrase. Can I still access my wallet?</span>
+<i class="bi bi-chevron-down text-gray-500"></i>
+</button>
+<div class="faq-answer">
+<p class="text-gray-600" data-i18n="If you have your password, you can still access your wallet. However, if you lose both your password and seed phrase, your wallet cannot be recovered. This is why it's crucial to back up your seed phrase in a secure location.">If you have your password, you can still access your wallet. However, if you lose both your password and seed phrase, your wallet cannot be recovered. This is why it's crucial to back up your seed phrase in a secure location.</p>
+</div>
+</div>
+<div class="border border-gray-200 rounded-xl overflow-hidden">
+<button class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors">
+<span class="font-semibold text-gray-900" data-i18n="Is PruneBit free to use?">Is PruneBit free to use?</span>
+<i class="bi bi-chevron-down text-gray-500"></i>
+</button>
+<div class="faq-answer">
+<p class="text-gray-600" data-i18n="Yes, PruneBit is free to use. We don't charge any fees for wallet creation, management, or transactions. However, blockchain network fees (miner fees) still apply when sending transactions.">Yes, PruneBit is free to use. We don't charge any fees for wallet creation, management, or transactions. However, blockchain network fees (miner fees) still apply when sending transactions.</p>
+</div>
+</div>
+<div class="border border-gray-200 rounded-xl overflow-hidden">
+<button class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors">
+<span class="font-semibold text-gray-900" data-i18n="How secure is PruneBit?">How secure is PruneBit?</span>
+<i class="bi bi-chevron-down text-gray-500"></i>
+</button>
+<div class="faq-answer">
+<p class="text-gray-600" data-i18n="PruneBit uses industry-standard security measures:">PruneBit uses industry-standard security measures:</p>
+<ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+<li data-i18n="AES-256-GCM encryption for seed phrases">AES-256-GCM encryption for seed phrases</li>
+<li data-i18n="Bcrypt hashing (work factor 12) for passwords">Bcrypt hashing (work factor 12) for passwords</li>
+<li data-i18n="BIP39/BIP32 standard for wallet generation">BIP39/BIP32 standard for wallet generation</li>
+<li data-i18n="No storage of private keys on our servers">No storage of private keys on our servers</li>
+</ul>
+<p class="text-gray-600 mt-2" data-i18n="Your funds are as secure as your seed phrase and password.">Your funds are as secure as your seed phrase and password.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-6 text-white text-center">
+<h3 class="text-xl font-bold mb-2" data-i18n="Still Need Help?">Still Need Help?</h3>
+<p class="text-white-50 mb-4" data-i18n="Can't find what you're looking for? Contact our support team.">Can't find what you're looking for? Contact our support team.</p>
+<a href="ticket.html" class="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all" data-i18n="Contact Support"><i class="bi bi-envelope"></i> Contact Support</a>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div>
+
+<button class="help-sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+<i class="bi bi-list"></i>
+</button>
+
+<script src="/js/lib/bootstrap.bundle.min.js"></script>
+<script src="../js/header.js?v=20260727a"></script>
+<script>
+(function(){
+var wrap=document.querySelector('.help-sidebar-wrap');
+var tg=document.getElementById('sidebarToggle');
+if(tg&&wrap){
+tg.addEventListener('click',function(){
+wrap.classList.toggle('open');
+});
+}
+if(wrap){
+wrap.addEventListener('click',function(e){
+if(e.target===wrap)wrap.classList.remove('open');
+});
+}
+var links=wrap?wrap.querySelectorAll('a[href^="#"]'):[];
+links.forEach(function(a){
+a.addEventListener('click',function(){
+if(window.innerWidth<992&&wrap)wrap.classList.remove('open');
+});
+});
+document.querySelectorAll('.faq-toggle').forEach(function(btn){
+btn.addEventListener('click',function(){
+var answer=this.nextElementSibling;
+var icon=this.querySelector('i');
+if(answer)answer.classList.toggle('open');
+if(icon){icon.classList.toggle('bi-chevron-down');icon.classList.toggle('bi-chevron-up');}
+});
+});
+})();
+</script>
+</body>
+</html>

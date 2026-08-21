@@ -1,0 +1,22 @@
+# Secrets — never commit
+secret/
+*.env
+!.env.example
+
+# Real API keys
+config/api_keys.php
+
+# Logs & runtime artifacts
+error_log
+*.log
+
+# Site-specific verification / binaries
+*.apk
+.well-known/
+well-known/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

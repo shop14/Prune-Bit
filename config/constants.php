@@ -1,0 +1,45 @@
+<?php
+
+return [
+    'SUPPORTED_COINS' => [
+        'BTC', 'BTCT', 'BCH', 'ETH', 'ETC', 'USDT', 'LTC', 'DASH', 'DGB', 'RVN', 'BTG',
+        'DOGE', 'ZEC', 'BSV', 'XVG', 'QTUM', 'VTC', 'KMD', 'POLYGON', 'BSC', 'KASPA', 'XRP',
+    ],
+    'BLOCK_EXPLORERS' => [
+        'BTC' => 'https://mempool.space/address/',
+        'BTCT' => 'https://mempool.space/testnet/address/',
+        'LTC' => 'https://litecoinspace.org/address/',
+        'DOGE' => 'https://dogechain.info/address/',
+        'BCH' => 'https://blockchair.com/bitcoin-cash/address/',
+        'ETH' => 'https://etherscan.io/address/',
+        'ETC' => 'https://etc.blockscout.com/address/',
+        'DASH' => 'https://blockchair.com/dash/address/',
+        'DGB' => 'https://digiexplorer.info/address/',
+        'RVN' => 'https://ravencoin.network/address/',
+        'BTG' => 'https://btgexplorer.com/address/',
+        'ZEC' => 'https://blockchair.com/zcash/address/',
+        'BSV' => 'https://whatsonchain.com/address/',
+        'XVG' => 'https://verge-blockchain.info/address/',
+        'QTUM' => 'https://qtum.info/address/',
+        'VTC' => 'https://vtcexplorer.com/address/',
+        'KMD' => 'https://kmdexplorer.io/address/',
+        'KASPA' => 'https://kaspa.org/explorer/',
+        'XRP' => 'https://xrpscan.com/account/',
+        'USDT' => 'https://etherscan.io/address/',
+        'POLYGON' => 'https://polygonscan.com/address/',
+        'BSC' => 'https://bscscan.com/address/',
+    ],
+    'COIN_TO_GECKO' => [
+        'BTC' => 'bitcoin', 'ETH' => 'ethereum', 'LTC' => 'litecoin', 'DOGE' => 'dogecoin',
+        'BCH' => 'bitcoin-cash', 'DASH' => 'dash', 'DGB' => 'digibyte', 'RVN' => 'ravencoin',
+        'BTG' => 'bitcoin-gold', 'ZEC' => 'zcash', 'BSV' => 'bitcoin-sv', 'XVG' => 'verge',
+        'QTUM' => 'qtum', 'VTC' => 'vertcoin', 'KMD' => 'komodo', 'ETC' => 'ethereum-classic',
+        'USDT' => 'tether', 'POLYGON' => 'matic-network', 'BSC' => 'binancecoin', 'KASPA' => 'kaspa', 'XRP' => 'ripple',
+    ],
+    'COIN_DECIMALS' => [
+        'BTC' => 8, 'BTCT' => 8, 'LTC' => 8, 'DOGE' => 8, 'BCH' => 8, 'DASH' => 8, 'DGB' => 8,
+        'RVN' => 8, 'BTG' => 8, 'ZEC' => 8, 'BSV' => 8, 'XVG' => 8, 'QTUM' => 8, 'VTC' => 8,
+        'KMD' => 8, 'ETC' => 18, 'KASPA' => 8, 'XRP' => 6, 'USDT' => 6, 'POLYGON' => 18, 'BSC' => 18,
+    ],
+    'SESSION_TIMEOUT' => 5 * 60,
+];

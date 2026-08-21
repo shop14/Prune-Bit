@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard - PruneBit</title>
+<link rel="stylesheet" href="../css/admin.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+</head>
+<body class="bitcoin-style admin-page font-inter">
+<div class="admin-main">
+<div class="admin-page-header">
+  <h2><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</h2>
+  <button class="btn btn-sm btn-primary" id="refreshBtn"><i class="bi bi-arrow-clockwise me-1"></i>Refresh</button>
+</div>
+
+<div class="row g-2 mb-4">
+  <div class="col-6 col-md-4">
+    <div class="card admin-card stat-card">
+      <div class="card-body text-center py-2 px-2">
+        <i class="bi bi-wallet2 fs-5 text-primary mb-1 d-block"></i>
+        <h4 class="mb-0" style="font-size:1.1rem;" id="totalWallets">-</h4>
+        <p class="text-secondary mb-0" style="font-size:0.7rem;">Wallets</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-4">
+    <div class="card admin-card stat-card">
+      <div class="card-body text-center py-2 px-2">
+        <i class="bi bi-cash-coin fs-5 text-success mb-1 d-block"></i>
+        <h4 class="mb-0" style="font-size:1.1rem;" id="totalBalance">-</h4>
+        <p class="text-secondary mb-0" style="font-size:0.7rem;">Total Balance (All Wallets)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card admin-card mb-4">
+  <div class="card-header">
+    <i class="bi bi-person-check me-2"></i>Latest 20 Logins
+    <small class="text-secondary ms-2">(IP, Country, Browser)</small>
+  </div>
+  <div class="card-body p-0 table-wrapper">
+    <table class="table table-sm admin-table mb-0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Login Time</th>
+          <th>Wallet</th>
+          <th>Coin</th>
+          <th>IP</th>
+          <th>Country</th>
+          <th>Browser</th>
+        </tr>
+      </thead>
+      <tbody id="loginActivityBody">
+        <tr><td colspan="7" class="text-center text-secondary">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+<script src="../js/admin_shared.js?v=20260725a"></script>
+<script>
+function formatBalance(val) {
+  if (val === null || val === undefined || val === '') return '0';
+  var n = parseFloat(val);
+  if (isNaN(n)) return '0';
+  return n.toLocaleString(undefined, { maximumFractionDigits: 8 });
+}
+
+function formatWalletId(id) {
+  if (!id) return '-';
+  return id.length > 24 ? id.substring(0, 12) + '...' + id.substring(id.length - 6) : id;
+}
+
+function parseBrowser(ua) {
+  if (!ua) return '-';
+  var m;
+  if ((m = ua.match(/Edg(?:\/|A\/)([\d.]+)/))) return 'Edge ' + m[1].split('.')[0];
+  if ((m = ua.match(/OPR\/([\d.]+)/))) return 'Opera ' + m[1].split('.')[0];
+  if ((m = ua.match(/SamsungBrowser\/([\d.]+)/))) return 'Samsung Internet ' + m[1].split('.')[0];
+  if ((m = ua.match(/CriOS\/([\d.]+)/))) return 'Chrome iOS ' + m[1].split('.')[0];
+  if ((m = ua.match(/FxiOS\/([\d.]+)/))) return 'Firefox iOS ' + m[1].split('.')[0];
+  if ((m = ua.match(/Chrome\/([\d.]+)/))) return 'Chrome ' + m[1].split('.')[0];
+  if ((m = ua.match(/Firefox\/([\d.]+)/))) return 'Firefox ' + m[1].split('.')[0];
+  if ((m = ua.match(/Version\/([\d.]+)/)) && ua.indexOf('Safari') !== -1) return 'Safari ' + m[1].split('.')[0];
+  if ((m = ua.match(/MSIE ([\d.]+)/))) return 'IE ' + m[1].split('.')[0];
+  if ((m = ua.match(/Trident\/.*rv:([\d.]+)/))) return 'IE ' + m[1].split('.')[0];
+  if (ua.indexOf('Mobi') !== -1) return 'Mobile Browser';
+  return ua.split(' ')[0] || '-';
+}
+
+async function loadLoginActivity() {
+  try {
+    var data = await adminPost('/api/admin/login_activity');
+    var body = document.getElementById('loginActivityBody');
+    if (!data.success) {
+      body.innerHTML = '<tr><td colspan="7" class="text-center text-secondary">No data</td></tr>';
+      return;
+    }
+    var sessions = data.sessions || [];
+    if (sessions.length === 0) {
+      body.innerHTML = '<tr><td colspan="7" class="text-center text-secondary">No logins recorded yet</td></tr>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < sessions.length; i++) {
+      var s = sessions[i];
+      var time = s.last_activity ? new Date(s.last_activity).toLocaleString() : '-';
+      html += '<tr>' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td>' + time + '</td>' +
+        '<td title="' + escapeHtml(s.wallet_id || '') + '"><code>' + escapeHtml(formatWalletId(s.wallet_id)) + '</code></td>' +
+        '<td>' + escapeHtml(s.coin || '-') + '</td>' +
+        '<td>' + escapeHtml(s.ip || '-') + '</td>' +
+        '<td>' + escapeHtml(s.country || '-') + '</td>' +
+        '<td>' + escapeHtml(parseBrowser(s.user_agent)) + '</td>' +
+        '</tr>';
+    }
+    body.innerHTML = html;
+  } catch(e) { console.error('Error loading login activity:', e); }
+}
+
+async function loadDashboardStats() {
+  try {
+    var data = await adminPost('/api/admin/stats');
+    if (data.success) {
+      var s = data.stats || {};
+      document.getElementById('totalWallets').textContent = s.totalWallets || 0;
+      document.getElementById('totalBalance').textContent = formatBalance(s.totalBalance);
+    }
+  } catch(e) { console.error('Error loading dashboard stats:', e); }
+}
+
+function loadAll() {
+  loadDashboardStats();
+  loadLoginActivity();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadAll();
+  document.getElementById('refreshBtn').addEventListener('click', loadAll);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+﻿<!doctype html>
+<html lang="en" data-bs-theme="light">
+<meta charset="utf-8">
+<meta name="description" content="PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.">
+<meta name="keywords" content="PruneBit, cryptocurrency wallet, bitcoin wallet, multi-coin wallet, secure wallet, ethereum wallet, litecoin wallet, dogecoin wallet, crypto">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://prunebit.com/">
+<meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:image" content="https://prunebit.com/img/logo-og.png">
+<meta property="og:url" content="https://prunebit.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
+<link rel="icon" type="image/svg+xml" href="../img/logo.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png">
+<link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="Create Wallet - PruneBit">Create Wallet - PruneBit</title>
+<link rel="stylesheet" href="../css/bitcoin-style.css?v=20260816h"><link rel="stylesheet" href="../css/glass.css?v=20260816h">
+<script src="../js/security.js"></script>
+<script src="../js/pinpad.js"></script>
+<script>localStorage.getItem("wallet_token")&&window.location.replace("dashboard.html")</script>
+<style>
+body{background:#F1EEE7}
+.page-wrap{max-width:61.2rem;margin:0 auto;padding:60px 30px;min-height:60vh}
+.setup-card{background:#FBFAF7;border:1px solid #E5E0D5;padding:40px;width:80%;max-width:900px;margin:0 auto;border-radius:1px}
+.setup-card h1{font-family:'Trebuchet MS',Arial,sans-serif;font-size:162.5%;color:#ff7e00;font-weight:400;margin:0 0 6px}
+.setup-card .subtitle{color:#646464;font-size:14px;margin-bottom:24px}
+.setup-card label{font-size:14px;font-weight:600;color:#1c1f30;display:block;margin-bottom:6px}
+.setup-card input[type=password],.setup-card input[type=text]{width:100%;padding:12px 14px;border:1px solid #E5E0D5;border-radius:1px;font-size:15px;font-family:'Trebuchet MS',Arial,sans-serif;box-sizing:border-box;background:#FBFAF7;color:#1c1f30}
+.setup-card input:focus{outline:0;border-color:#ff7e00}
+.setup-card .input-group{position:relative}
+.setup-card .input-group input{padding-right:44px}
+.setup-card .toggle-pass{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:0 0;border:none;color:#9d9d9d;padding:8px 10px;cursor:pointer;font-size:18px}
+.setup-card .form-hint{font-size:12px;color:#9d9d9d;margin-top:4px}
+.setup-card .btn-btc-primary{background:#ff9500;color:#fff;border:none;padding:14px 25px;font-size:100%;font-weight:600;width:100%;cursor:pointer;border-radius:1px;font-family:'Trebuchet MS',Arial,sans-serif}
+.setup-card .btn-btc-primary:hover{background:#f9a136}
+.setup-card .btn-btc-primary:disabled{opacity:.5;cursor:not-allowed}
+.setup-card .btn-outline-btc{background:#FBFAF7;color:#ff7e00;border:1px solid #ff7e00;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;border-radius:1px;font-family:'Trebuchet MS',Arial,sans-serif;display:inline-flex;align-items:center;gap:8px}
+.setup-card .btn-outline-btc:hover{background:#fff8f0}
+.setup-card .mb-3{margin-bottom:16px}
+.setup-card .mb-4{margin-bottom:24px}
+.step-bar{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:30px}
+.step-bar .step{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#9d9d9d}
+.step-bar .step.active{color:#ff7e00}
+.step-bar .step.done{color:#329239}
+.step-bar .step .num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;background:#e0e0e0;color:#9d9d9d}
+.step-bar .step.active .num{background:#ff7e00;color:#fff}
+.step-bar .step.done .num{background:#329239;color:#fff}
+.step-bar .connector{width:32px;height:2px;background:#e0e0e0}
+.step-bar .connector.done{background:#329239}
+.seed-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.seed-grid .word-box{background:#F1EEE7;border:1px solid #E5E0D5;padding:10px 8px;text-align:center;border-radius:1px}
+.seed-grid .word-box .idx{font-size:11px;color:#9d9d9d;display:block}
+.seed-grid .word-box .word{font-size:14px;font-weight:600;color:#1c1f30;display:block;margin-top:2px}
+.alert-btc{padding:14px;font-size:14px;display:flex;align-items:flex-start;gap:10px;border-radius:1px}
+.alert-btc-warning{background:#fff8f0;border:1px solid #ff7e00;color:#8b4500}
+.alert-btc-success{background:#f0fff4;border:1px solid #329239;color:#1a5c1f}
+.d-none{display:none!important}
+.d-flex{display:flex}
+.gap-2{gap:8px}
+.flex-fill{flex:1}
+.text-center{text-align:center}
+.bottom-link{text-align:center;margin-top:20px;font-size:14px;color:#646464}
+.bottom-link a{color:#ff7e00;font-weight:600;text-decoration:none}
+.bottom-link a:hover{text-decoration:underline}
+@media(max-width:576px){.page-wrap{padding:20px 12px}.setup-card{width:90%;padding:24px 16px}.setup-card h1{font-size:130%}.seed-grid{grid-template-columns:1fr 1fr;gap:6px}.step-bar .connector{width:16px}.step-bar .step{font-size:11px}.setup-card .btn-btc-primary{padding:12px 16px}.setup-card input[type=password],.setup-card input[type=text]{padding:10px 12px;font-size:14px}}
+@media(max-width:375px){.seed-grid{grid-template-columns:1fr 1fr;gap:4px}.setup-card{padding:20px 12px}.seed-grid .word-box{padding:8px 6px}.seed-grid .word-box .word{font-size:13px}}
+.setup-card .code-panel,.setup-card .pinpad-wrapper{max-width:320px;margin-left:auto;margin-right:auto}
+.setup-card .mb-3 label{text-align:center}
+.code-panel{background:#F1EEE7;border:1px dashed #E5E0D5;border-radius:10px;padding:10px 12px;margin-bottom:12px;position:relative;overflow:hidden}
+.code-chars{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:8px;user-select:none;-webkit-user-select:none}
+.code-char{display:inline-flex;align-items:center;justify-content:center;width:28px;height:34px;font-size:1.05rem;font-weight:800;border-radius:6px;color:#1c1f30;text-shadow:1px 1px 2px rgba(0,0,0,0.1);font-family:'Courier New',monospace}
+.code-refresh{position:absolute;top:6px;right:6px;background:none;border:1px solid #E5E0D5;border-radius:5px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9d9d9d;font-size:0.7rem;transition:all 0.15s}
+.code-refresh:hover{border-color:#ff7e00;color:#ff7e00}
+.code-refresh.spinning i{animation:spin .6s linear}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.code-label{font-size:0.7rem;font-weight:600;color:#646464;text-align:center;margin-bottom:6px}
+.code-input{width:150px;padding:5px 8px;border:1px solid #E5E0D5;border-radius:6px;font-size:0.75rem;font-weight:600;text-align:center;letter-spacing:2px;background:#FBFAF7;color:#1c1f30;font-family:'Courier New',monospace;transition:border-color 0.15s;box-sizing:border-box;margin:0 auto;display:block}
+.code-input:focus{outline:0;border-color:#ff7e00;box-shadow:0 0 0 3px rgba(255,126,0,0.12)}
+.code-input.is-valid{border-color:#ff7e00}
+.code-input.is-invalid{border-color:#dc2626}
+.code-line{position:absolute;width:120%;height:1.5px;left:-10%;opacity:0.15;pointer-events:none}
+.code-loading{text-align:center;padding:8px 0;font-size:0.75rem;color:#646464}
+.loading-overlay{position:fixed;inset:0;background:rgba(19,22,31,.88);display:flex;align-items:center;justify-content:center;z-index:9999}
+.loading-overlay .loading-box{display:flex;flex-direction:column;align-items:center;gap:16px;color:#fff;text-align:center;padding:20px}
+.loading-overlay .loading-spinner{width:56px;height:56px;animation:import-spin 1s linear infinite}
+.loading-overlay .loading-text{font-size:14px;font-weight:600;font-family:'Trebuchet MS',Arial,sans-serif}
+@keyframes import-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+body.bitcoin-style .setup-card{position:relative;z-index:1;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.07),0 0 46px rgba(255,126,0,.12);transition:box-shadow .3s ease}
+body.bitcoin-style .setup-card:hover{box-shadow:0 12px 36px rgba(0,0,0,.09),0 0 64px rgba(255,126,0,.18)}
+body.bitcoin-style .page-glow{position:fixed;top:-140px;left:50%;transform:translateX(-50%);width:min(960px,140vw);height:460px;background:radial-gradient(closest-side,rgba(255,126,0,.16),rgba(255,126,0,.06) 50%,transparent 72%);pointer-events:none;z-index:0;filter:blur(10px)}
+body.bitcoin-style .setup-card .btn-btc-primary{background:linear-gradient(135deg,var(--cv-primary),#ffa94d);box-shadow:0 4px 14px rgba(255,126,0,.25),0 0 22px rgba(255,126,0,.3);transition:transform .15s,box-shadow .15s,filter .15s}
+body.bitcoin-style .setup-card .btn-btc-primary:hover{filter:brightness(1.05);box-shadow:0 6px 18px rgba(255,126,0,.35),0 0 30px rgba(255,126,0,.4)}
+body.bitcoin-style .setup-card .btn-btc-primary:disabled{opacity:.65;filter:none;box-shadow:0 4px 14px rgba(255,126,0,.18)}
+body.bitcoin-style .setup-card h1{color:var(--cv-primary)}
+body.bitcoin-style .setup-card .subtitle{color:var(--bs-secondary-color)}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"PruneBit","alternateName":"PruneBit Wallet","url":"https://prunebit.com/","description":"PruneBit - Secure multi-coin wallet supporting Bitcoin, Ethereum, Litecoin, Dogecoin and more. Full control of your crypto assets.","inLanguage":"en","publisher":{"@type":"Organization","name":"PruneBit","url":"https://prunebit.com/","logo":{"@type":"ImageObject","url":"https://prunebit.com/img/logo-og.png","width":1200,"height":630}}}
+</script>
+<body class="bitcoin-style">
+<div class="page-glow" aria-hidden="true"></div>
+<div class="page-wrap">
+<div class="setup-card">
+<div style="color:#16a34a;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin:0 0 24px"><i class="bi bi-shield-lock-fill"></i><span>All your wallet data and private keys are encrypted using AES-256 encryption.</span></div>
+<div id="step1">
+<h1 style="text-align:center" data-i18n="Create your wallet">Create your wallet</h1>
+<p class="subtitle" style="text-align:center" data-i18n="Set a PIN code to protect your wallet">Set a PIN code to protect your wallet</p>
+<form id="setupForm">
+<div class="mb-3">
+<label data-i18n="Set PIN Code">Set PIN Code</label>
+<div id="setupPinContainer"></div>
+</div>
+<button type="submit" class="btn-btc-primary" id="pinSubmitBtn" disabled style="display:none;"><span id="setupText" data-i18n="Next">Next</span> <span class="d-none" id="setupSpinner">...</span></button>
+</form>
+</div>
+
+
+<div id="step2" class="d-none">
+<h1 style="text-align:center" data-i18n="Verify Captcha">Verify Captcha</h1>
+<p class="subtitle" style="text-align:center" data-i18n="Enter the captcha code to continue">Enter the captcha code to continue</p>
+<div class="code-panel" id="codePanel">
+<button type="button" class="code-refresh" id="codeRefresh" title="New code"><i class="bi bi-arrow-clockwise"></i></button>
+<div id="codeView"><div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div></div>
+<div class="code-label" data-i18n="Type the characters above">Type the characters above</div>
+<input type="text" id="codeInput" class="code-input" placeholder="Enter captcha" autocomplete="off" maxlength="6" inputmode="text" required disabled>
+</div>
+<button type="button" class="btn-btc-primary" id="captchaNext" data-i18n="Next" style="display:none;">Next</button>
+</div>
+
+<div id="step3" class="d-none">
+<h1 style="text-align:center" data-i18n="Save your seed phrase">Save your seed phrase</h1>
+<p class="subtitle" style="text-align:center" data-i18n="Write down these words and store them securely">Write down these words and store them securely</p>
+<div class="alert-btc alert-btc-warning mb-4">
+    <div><strong data-i18n="Important warning">Important warning</strong><br>Never share your seed phrase. Anyone with these words controls your wallet. All your wallet data is encrypted locally using AES-256 encryption for maximum security.</div>
+  </div>
+<div class="seed-grid mb-4" id="mnemonicWords"></div>
+<div class="d-flex gap-2 mb-4">
+<button id="copyMnemonic" class="btn-outline-btc flex-fill" data-i18n="Copy">Copy</button>
+<button id="downloadMnemonic" class="btn-outline-btc flex-fill" data-i18n="Download">Download</button>
+</div>
+<div class="alert-btc alert-btc-success mb-3">
+<div><strong data-i18n="Verification">Verification</strong><br>Make sure you saved your seed phrase before continuing.</div>
+</div>
+<button id="finishSetup" class="btn-btc-primary" data-i18n="Create Wallet">Create Wallet</button>
+</div>
+
+<div id="setupResult"></div>
+<div class="step-bar">
+<div class="step active" id="step1Bar"><span class="num" id="step1Num">1</span> <span id="step1Label" data-i18n="PIN">PIN</span></div>
+<div class="connector" id="step1Conn"></div>
+<div class="step" id="step2Bar"><span class="num" id="step2Num">2</span> <span id="step2Label" data-i18n="Captcha">Captcha</span></div>
+<div class="connector" id="step2Conn"></div>
+<div class="step" id="step3Bar"><span class="num" id="step3Num">3</span> <span id="step3Label" data-i18n="Seed">Seed</span></div>
+</div>
+</div>
+<div class="bottom-link">Already have a wallet? <a href="import.html" data-i18n="Access it">Access it</a></div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay d-none">
+  <div class="loading-box">
+    <img class="loading-spinner" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSI1NiIgdmlld0JveD0iMCAwIDU2IDU2Ij48Y2lyY2xlIGN4PSIyOCIgY3k9IjI4IiByPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjUpIiBzdHJva2Utd2lkdGg9IjUiLz48cGF0aCBkPSJNMjggNGEyNCAyNCAwIDAgMSAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmY3ZTAwIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==" alt="">
+    <div class="loading-text" id="loadingText" data-i18n="Please wait...">Please wait...</div>
+  </div>
+</div>
+
+<script>
+let generatedMnemonic=null, generatedId=null, userPassword=null;
+const STEP_DELAY=4000;
+function showLoading(msg){var t=document.getElementById('loadingText');if(t)t.textContent=msg||'Please wait...';document.getElementById('loadingOverlay').classList.remove('d-none')}
+function hideLoading(){document.getElementById('loadingOverlay').classList.add('d-none')}
+PinPad.create({id:"setupPin",container:"setupPinContainer"});
+
+function togglePassword(e,t){const n=document.getElementById(e),s=document.getElementById(t);"password"===n.type?(n.type="text",s.classList.remove("bi-eye"),s.classList.add("bi-eye-slash")):(n.type="password",s.classList.remove("bi-eye-slash"),s.classList.add("bi-eye"))}
+
+function updateStep(e){
+for(let t=1;t<=3;t++){
+const n=document.getElementById("step"+t+"Bar"),s=document.getElementById("step"+t+"Num"),a=document.getElementById("step"+t+"Label"),o=document.getElementById("step"+t+"Conn");
+t<e?(n.className="step done",s.innerHTML='<i class="bi bi-check" style="font-size:0.7rem;"></i>',a.textContent=1===t?"PIN":2===t?"Captcha":"Seed",o&&(o.className="connector done")):t===e?(n.className="step active",s.textContent=t,o&&(o.className="connector")):(n.className="step",s.textContent=t,o&&(o.className="connector"))
+}}
+
+function displayMnemonic(e){
+const t=e.split(" ");
+document.getElementById("mnemonicWords").innerHTML=t.map((e,t)=>'<div class="word-box"><span class="idx">'+(t+1)+'</span><span class="word">'+escapeHtml(e)+"</span></div>").join("")
+}
+
+function showStep(e){for(let t=1;t<=3;t++){const n=document.getElementById("step"+t);t===e?n.classList.remove("d-none"):n.classList.add("d-none")}}
+
+document.getElementById("setupForm").addEventListener("submit",async e=>{
+e.preventDefault();
+const t=e.target.querySelector('button[type="submit"]'),n=document.getElementById("setupSpinner"),s=document.getElementById("setupText"),a=PinPad.getValue("setupPin");
+t.disabled=!0;n.classList.remove("d-none");s.textContent="Creating...";
+showLoading();
+const startTime=Date.now();
+try{
+const resp=await fetch("/api/setup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:a})});
+const body=await resp.text();let data;try{data=JSON.parse(body)}catch(e){data={}}
+if(data.success){
+generatedMnemonic=data.mnemonic;generatedId=data.id;userPassword=a;
+const remain=Math.max(0,STEP_DELAY-(Date.now()-startTime));
+setTimeout(()=>{hideLoading();showStep(2);updateStep(2);generateCaptcha()},remain);
+}else{hideLoading();showToast(body?data.error||"Something went wrong. Please try again.":"Could not connect to the server. Please check your connection and try again.",'error')}
+}catch(e){hideLoading();showToast(e.message,'error')}
+finally{t.disabled=!1;n.classList.add("d-none");s.textContent="Next"}
+})
+
+document.getElementById("captchaNext").addEventListener("click",async()=>{
+const e=document.getElementById("captchaNext"),t=document.getElementById("codeInput");
+e.disabled=!0;t.disabled=!0;
+try{
+const n=await fetch("/api/setup/verify-captcha",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({captcha_token:_captchaToken,captcha_code:t.value})}),s=await n.json();
+s.success?(showLoading(),setTimeout(()=>{hideLoading();showStep(3);updateStep(3);displayMnemonic(generatedMnemonic)},STEP_DELAY)):(showToast(s.error||"Captcha verification failed. Please try again.",'error'))
+}catch(n){showToast(n.message,'error')}
+finally{e.disabled=!1;t.disabled=!1}
+})
+
+document.getElementById("copyMnemonic").addEventListener("click",()=>{if(generatedMnemonic){navigator.clipboard.writeText(generatedMnemonic);const e=document.getElementById("copyMnemonic"),t=e.innerHTML;e.innerHTML="Copied!",setTimeout(()=>e.innerHTML=t,2e3)}})
+
+document.getElementById("downloadMnemonic").addEventListener("click",()=>{if(generatedMnemonic){const e=new Blob([generatedMnemonic],{type:"text/plain"}),t=URL.createObjectURL(e),n=document.createElement("a");n.href=t,n.download="seed-phrase.txt",document.body.appendChild(n),n.click(),document.body.removeChild(n),URL.revokeObjectURL(t)}})
+
+document.getElementById("finishSetup").addEventListener("click",async()=>{
+const e=document.getElementById("finishSetup");
+e.disabled=!0;e.innerHTML="Please wait...";
+try{
+const[t]=await Promise.all([fetch("/api/unlock",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:userPassword,wallet_id:generatedId})}),new Promise(e=>setTimeout(e,1e3))]),n=await t.json();
+n.success?(localStorage.setItem("wallet_token",n.token),localStorage.setItem("walletId",n.walletId),localStorage.setItem("showWelcomeMessage","Your wallet has been registered successfully!"),showLoading(),setTimeout(()=>window.location.href="dashboard.html",STEP_DELAY)):(showToast('Unlock failed: '+n.error+'. Please go to Access Wallet.','error'),e.disabled=!1,e.innerHTML="Create Wallet")
+}catch(t){showToast(t.message,'error'),e.disabled=!1,e.innerHTML="Create Wallet"}
+})
+</script>
+
+<script src="../js/header.js?v=20260727a"></script>
+<script>
+var _captchaToken=null;
+async function generateCaptcha(){
+var btn=document.getElementById('codeRefresh'),display=document.getElementById('codeView'),input=document.getElementById('codeInput');
+btn.classList.add('spinning');
+display.innerHTML='<div class="code-loading"><div class="spinner-border spinner-border-sm"></div></div>';
+input.disabled=true;input.value='';input.classList.remove('is-valid','is-invalid');
+try{
+var resp=await fetch('/api/captcha/generate',{method:'POST',headers:{'Content-Type':'application/json'}});
+var data=await resp.json();
+if(data.success){_captchaToken=data.captcha_token;display.innerHTML=atob(data.captcha_image);input.disabled=false;}
+else{display.innerHTML='<div class="code-loading" style="color:#dc2626;">Failed to load captcha</div>'}
+}catch(e){display.innerHTML='<div class="code-loading" style="color:#dc2626;">Network error</div>'}
+btn.classList.remove('spinning')
+}
+document.getElementById('codeInput').addEventListener('input',function(){
+var val=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');this.value=val;
+if(val.length>=6){this.classList.remove('is-invalid');this.classList.add('is-valid');document.getElementById('captchaNext').click()}
+else{this.classList.remove('is-valid','is-invalid')}
+});
+document.getElementById('codeRefresh').addEventListener('click',function(){generateCaptcha()});
+generateCaptcha();
+</script>
+
+<script>
+// Auto-advance from PIN entry when PIN is complete (4+ digits)
+const pinObserver = new MutationObserver(() => {
+const pinValue = PinPad.getValue("setupPin");
+const submitBtn = document.getElementById("pinSubmitBtn");
+if(pinValue && pinValue.length >= 4 && submitBtn.disabled){
+submitBtn.disabled = false;
+submitBtn.click();
+}
+});
+pinObserver.observe(document.getElementById("setupPinContainer"), {childList: true, subtree: true, characterData: true});
+
+// Also check on input events
+document.getElementById("setupPinContainer").addEventListener("click", () => {
+setTimeout(() => {
+const pinValue = PinPad.getValue("setupPin");
+const submitBtn = document.getElementById("pinSubmitBtn");
+if(pinValue && pinValue.length >= 4 && submitBtn.disabled){
+submitBtn.disabled = false;
+submitBtn.click();
+}
+}, 100);
+});
+</script>
+</body>
+</html>
