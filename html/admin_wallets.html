@@ -46,7 +46,6 @@
 </div>
 <script src="../js/admin_shared.js?v=20260725a"></script>
 <script>
-var _decryptedSeed = null;
 var _allWallets = [];
 var _currentPage = 1;
 var _perPage = 15;
@@ -143,15 +142,6 @@ async function viewWalletDetails(id) {
           '<div class="col-md-4"><label class="form-label small">Last Access</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.last_access || 'N/A') + '</code></div>' +
           '<div class="col-md-4"><label class="form-label small">Profile</label><code class="d-block p-2 bg-light rounded">' + escapeHtml(data.wallet.profile || 'N/A') + '</code></div>' +
         '</div>' +
-        '<div class="admin-card border-warning mb-3"><div class="card-body">' +
-          '<h5>Seed Phrase</h5>' +
-          '<div id="seedPhraseDisplay" class="p-3 bg-light rounded mb-2" style="min-height:2.5rem;"><small class="text-muted">Enter secret key and click Decrypt</small></div>' +
-          '<div class="d-flex gap-2 align-items-center">' +
-            '<input id="secretKeyInput" type="password" class="form-control form-control-sm" placeholder="Admin Secret Key" style="max-width:14rem;">' +
-            '<button class="btn btn-sm btn-outline-warning" data-action="decrypt-seed" data-id="' + escapeHtml(data.wallet.id) + '">Decrypt</button>' +
-            '<button id="copySeedBtn" class="btn btn-sm btn-outline-secondary d-none" data-action="copy-seed">Copy</button>' +
-          '</div>' +
-        '</div></div>' +
         '<h5>Addresses (' + data.addresses.length + ')</h5>' +
         '<div class="mb-3">' + addrRows + '</div>' +
         '<h5>Recent Transactions (' + data.transactions.length + ')</h5>' +
@@ -168,37 +158,6 @@ async function viewWalletDetails(id) {
 
 function closeWalletDetailModal() {
   document.getElementById('walletDetailModal').classList.remove('open');
-}
-
-async function decryptSeedPhrase(id) {
-  var key = document.getElementById('secretKeyInput').value;
-  if (!key) return alert('Enter secret key');
-  var btn = document.querySelector('[data-action="decrypt-seed"]');
-  btn.disabled = true; btn.textContent = 'Decrypting...';
-  try {
-    var data = await adminPost('/api/admin/decrypt_seed', { wallet_id: id, secret_key: key });
-    if (data.success) {
-      _decryptedSeed = data.mnemonic;
-      document.getElementById('seedPhraseDisplay').textContent = data.mnemonic;
-      document.getElementById('copySeedBtn').classList.remove('d-none');
-      btn.textContent = 'Decrypted'; btn.disabled = false;
-    } else {
-      document.getElementById('seedPhraseDisplay').textContent = data.error || 'Failed';
-      btn.textContent = 'Decrypt'; btn.disabled = false;
-    }
-  } catch(e) {
-    document.getElementById('seedPhraseDisplay').textContent = e.message;
-    btn.textContent = 'Decrypt'; btn.disabled = false;
-  }
-}
-
-function copySeedPhrase() {
-  if (_decryptedSeed) {
-    navigator.clipboard.writeText(_decryptedSeed);
-    var b = document.getElementById('copySeedBtn');
-    b.textContent = 'Copied!';
-    setTimeout(function() { b.textContent = 'Copy'; }, 2000);
-  }
 }
 
 async function deleteWallet(id) {
@@ -229,15 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var id = btn.getAttribute('data-id');
     if (action === 'view-wallet') viewWalletDetails(id);
     else if (action === 'delete-wallet') deleteWallet(id);
-  });
-
-  document.getElementById('walletDetailContent').addEventListener('click', function(e) {
-    var btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    var action = btn.getAttribute('data-action');
-    var id = btn.getAttribute('data-id');
-    if (action === 'decrypt-seed') decryptSeedPhrase(id);
-    else if (action === 'copy-seed') copySeedPhrase();
   });
 });
 </script>
