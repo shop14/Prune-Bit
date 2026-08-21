@@ -7,13 +7,13 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://prunebit.com/">
 <meta property="og:title" content="PruneBit - Secure Multi-Coin Wallet">
-<meta property="og:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta property="og:description" content="PruneBit is a secure multi-coin wallet Non-Custodial that runs entirely on your browser.">
 <meta property="og:image" content="https://prunebit.com/img/logo-og.png">
 <meta property="og:url" content="https://prunebit.com/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PruneBit - Secure Multi-Coin Wallet">
-<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet that runs entirely on your local machine.">
+<meta name="twitter:description" content="PruneBit is a secure multi-coin wallet Non-Custodial that runs entirely on your browser.">
 <meta name="twitter:image" content="https://prunebit.com/img/logo-og.png">
 <link rel="icon" type="image/svg+xml" href="../img/logo.svg"><link rel="icon" type="image/png" sizes="512x512" href="../img/logo-512.png"><link rel="apple-touch-icon" sizes="512x512" href="../img/logo-512.png">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -260,6 +260,9 @@ body.bitcoin-style .faq-answer.open{display:block}
 <a href="#check-prices" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Check Prices"><i class="bi bi-graph-up"></i> Check Prices </a>
 <a href="#exchange-crypto" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Exchange Crypto"><i class="bi bi-arrow-left-right"></i> Exchange Crypto </a>
 <a href="exchanges.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Open Exchange"><i class="bi bi-arrow-repeat"></i> Open Exchange</a>
+<a href="#anti-scam" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Anti-Scam Protection"><i class="bi bi-shield-check"></i> Anti-Scam Protection</a>
+<a href="#verify-download" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Verify Your Download"><i class="bi bi-patch-check"></i> Verify Your Download</a>
+<a href="#open-source" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Open Source &amp; Transparency"><i class="bi bi-github"></i> Open Source &amp; Transparency</a>
 <a href="#troubleshooting" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Troubleshooting"><i class="bi bi-question-circle"></i> Troubleshooting </a>
 <a href="ticket.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors" data-i18n="Contact Support"><i class="bi bi-chat-dots"></i> Contact Support</a>
 </nav>
@@ -288,12 +291,12 @@ body.bitcoin-style .faq-answer.open{display:block}
 <ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
 <li data-i18n="A modern web browser (Chrome, Firefox, Safari, or Edge)">A modern web browser (Chrome, Firefox, Safari, or Edge)</li>
 <li data-i18n="A secure internet connection">A secure internet connection</li>
-<li data-i18n="A strong password (minimum 8 characters recommended)">A strong password (minimum 8 characters recommended)</li>
+<li data-i18n="A strong PIN (6+ characters recommended)">A strong PIN (6+ characters recommended)</li>
 </ul>
 <h4 class="font-semibold text-gray-900 mb-2" data-i18n="First Steps">First Steps</h4>
 <ol class="list-decimal list-inside text-gray-600 space-y-1">
 <li data-i18n="Choose whether to create a new wallet or import an existing one">Choose whether to create a new wallet or import an existing one</li>
-<li data-i18n="Set a strong, unique password">Set a strong, unique password</li>
+<li data-i18n="Set a strong, unique PIN">Set a strong, unique PIN</li>
 <li data-i18n="Write down your seed phrase and store it securely">Write down your seed phrase and store it securely</li>
 <li data-i18n="Start managing your cryptocurrency!">Start managing your cryptocurrency!</li>
 </ol>
@@ -313,7 +316,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 </div>
 <div class="flex gap-4">
 <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
-<div><h4 class="font-semibold text-gray-900" data-i18n="Set a Strong Password">Set a Strong Password</h4><p class="text-gray-600 text-sm" data-i18n="Create a password that you'll use to access your wallet.">Create a password that you'll use to access your wallet.</p></div>
+<div><h4 class="font-semibold text-gray-900" data-i18n="Set a Strong PIN">Set a Strong PIN</h4><p class="text-gray-600 text-sm" data-i18n="Create a PIN that you'll use to access your wallet.">Create a PIN that you'll use to access your wallet.</p></div>
 </div>
 <div class="flex gap-4">
 <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">4</div>
@@ -333,16 +336,16 @@ body.bitcoin-style .faq-answer.open{display:block}
 
 <section id="accessing-wallet" class="mb-10">
 <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Accessing Your Wallet"><span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">3</span> Accessing Your Wallet</h2>
-<p class="text-gray-600 mb-4" data-i18n="To access your existing wallet, you'll need your password.">To access your existing wallet, you'll need your password.</p>
+<p class="text-gray-600 mb-4" data-i18n="To access your existing wallet, you'll need your PIN.">To access your existing wallet, you'll need your PIN.</p>
 <h4 class="font-semibold text-gray-900 mb-2" data-i18n="Steps to Access">Steps to Access</h4>
 <ol class="list-decimal list-inside text-gray-600 space-y-1 mb-4">
 <li data-i18n="Click &quot;Access Wallet&quot; on the homepage or go to import.html">Click "Access Wallet" on the homepage or go to import.html</li>
-<li data-i18n="Enter your wallet password">Enter your wallet password</li>
+<li data-i18n="Enter your wallet PIN">Enter your wallet PIN</li>
 <li data-i18n="Click &quot;Unlock Wallet&quot;">Click "Unlock Wallet"</li>
 <li data-i18n="You'll be redirected to your dashboard">You'll be redirected to your dashboard</li>
 </ol>
 <h4 class="font-semibold text-gray-900 mb-2" data-i18n="Session Management">Session Management</h4>
-<p class="text-gray-600" data-i18n="Your session will remain active for 15 minutes of inactivity. After that, you'll need to log in again.">Your session will remain active for 15 minutes of inactivity. After that, you'll need to log in again.</p>
+<p class="text-gray-600" data-i18n="Your session will remain active for 10 minutes of inactivity. After that, you'll need to log in again.">Your session will remain active for 10 minutes of inactivity. After that, you'll need to log in again.</p>
 </section>
 
 <section id="importing-wallet" class="mb-10">
@@ -359,7 +362,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 <li data-i18n="Go to import.html">Go to import.html</li>
 <li data-i18n="Select &quot;Mnemonic Phrase&quot;">Select "Mnemonic Phrase"</li>
 <li data-i18n="Enter your seed phrase">Enter your seed phrase</li>
-<li data-i18n="Set a new password">Set a new password</li>
+<li data-i18n="Set a new PIN">Set a new PIN</li>
 </ol>
 </div>
 <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
@@ -372,7 +375,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 <li data-i18n="Go to import.html">Go to import.html</li>
 <li data-i18n="Select &quot;Private Key&quot;">Select "Private Key"</li>
 <li data-i18n="Enter your private key">Enter your private key</li>
-<li data-i18n="Set a new password">Set a new password</li>
+<li data-i18n="Set a new PIN">Set a new PIN</li>
 </ol>
 </div>
 </div>
@@ -436,7 +439,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 <ul class="space-y-2 text-green-700 text-sm">
 <li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Write down your seed phrase">Write down your seed phrase</span></li>
 <li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Store seed phrase offline">Store seed phrase offline</span></li>
-<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Use a strong, unique password">Use a strong, unique password</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Use a strong, unique PIN">Use a strong, unique PIN</span></li>
 <li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Verify addresses before sending">Verify addresses before sending</span></li>
 <li class="flex items-start gap-2"><i class="bi bi-check mt-0.5"></i> <span data-i18n="Keep your software updated">Keep your software updated</span></li>
 </ul>
@@ -446,7 +449,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 <ul class="space-y-2 text-blue-700 text-sm">
 <li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Share your seed phrase">Share your seed phrase</span></li>
 <li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Store seed phrase digitally">Store seed phrase digitally</span></li>
-<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Reuse passwords">Reuse passwords</span></li>
+<li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Reuse PINs">Reuse PINs</span></li>
 <li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Click suspicious links">Click suspicious links</span></li>
 <li class="flex items-start gap-2"><i class="bi bi-x mt-0.5"></i> <span data-i18n="Enter seed phrase on websites">Enter seed phrase on websites</span></li>
 </ul>
@@ -545,17 +548,61 @@ body.bitcoin-style .faq-answer.open{display:block}
 </div>
 </section>
 
+<section id="anti-scam" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Anti-Scam Protection"><span class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 text-sm">🛡️</span> Anti-Scam Protection</h2>
+<p class="text-gray-600 mb-4" data-i18n="Scammers impersonate wallet teams every day. Remember these rules and you will never fall for it:">Scammers impersonate wallet teams every day. Remember these rules and you will never fall for it:</p>
+<ul class="list-disc list-inside text-gray-600 space-y-2">
+<li data-i18n="We will never ask for your seed phrase or PIN — by email, chat, or phone.">We will never ask for your seed phrase or PIN — by email, chat, or phone.</li>
+<li data-i18n="PruneBit staff will never contact you first on WhatsApp, Telegram, or social media.">PruneBit staff will never contact you first on WhatsApp, Telegram, or social media.</li>
+<li data-i18n="There is no fee to unlock, restore, or speed up any wallet. Anyone claiming otherwise is a scammer.">There is no fee to unlock, restore, or speed up any wallet. Anyone claiming otherwise is a scammer.</li>
+<li data-i18n="Only trust downloads whose SHA-256 checksum matches the one published on this page.">Only trust downloads whose SHA-256 checksum matches the one published on this page.</li>
+<li data-i18n="If in doubt, contact us only through the official channels listed at the bottom of this page.">If in doubt, contact us only through the official channels listed at the bottom of this page.</li>
+</ul>
+</section>
+
+<section id="verify-download" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Verify Your Download"><span class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600 text-sm">✓</span> Verify Your Download</h2>
+<p class="text-gray-600 mb-4" data-i18n="Before installing the Android app, verify that your APK was not modified in transit. Compare its SHA-256 checksum with the official value below:">Before installing the Android app, verify that your APK was not modified in transit. Compare its SHA-256 checksum with the official value below:</p>
+<div class="bg-gray-50 rounded-xl p-4 overflow-x-auto">
+<table class="text-sm w-full">
+<tbody>
+<tr><td class="font-semibold pr-4 py-1 whitespace-nowrap" data-i18n="File">File</td><td><code>Prunebit_app.apk</code> (31.6 MB)</td></tr>
+<tr><td class="font-semibold pr-4 py-1 whitespace-nowrap">SHA-256</td><td><code style="word-break:break-all;">91d9fd1c9c84936ff7897fa028de423fb186634201412f09c1effd65f87ad68a</code></td></tr>
+<tr><td class="font-semibold pr-4 py-1 whitespace-nowrap" data-i18n="Linux/macOS">Linux/macOS</td><td><code>sha256sum Prunebit_app.apk</code></td></tr>
+<tr><td class="font-semibold pr-4 py-1 whitespace-nowrap" data-i18n="Windows">Windows</td><td><code>certutil -hashfile Prunebit_app.apk SHA256</code></td></tr>
+</tbody>
+</table>
+</div>
+<p class="text-gray-600 mt-3" data-i18n="If the checksum does not match exactly, do not install the file and let us know immediately.">If the checksum does not match exactly, do not install the file and let us know immediately.</p>
+</section>
+
+<section id="open-source" class="mb-10">
+<h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Open Source &amp; Transparency"><span class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600 text-sm">&lt;/&gt;</span> Open Source &amp; Transparency</h2>
+<p class="text-gray-600 mb-4" data-i18n="PruneBit is open source under the MIT license. Don't take our word for anything — read the code:">PruneBit is open source under the MIT license. Don&#39;t take our word for anything — read the code:</p>
+<div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+<a href="https://github.com/shop14/Prune-Bit" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/github/license/shop14/Prune-Bit?style=flat-square" alt="License"></a>
+<a href="https://github.com/shop14/Prune-Bit/commits" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/github/last-commit/shop14/Prune-Bit?style=flat-square" alt="Last commit"></a>
+<a href="https://github.com/shop14/Prune-Bit" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/non--custodial-no%20seeds%20stored-brightgreen?style=flat-square" alt="Non-custodial"></a>
+</div>
+<ul class="list-disc list-inside text-gray-600 space-y-2">
+<li data-i18n="Do you keep my keys? No — the server stores only a bcrypt PIN hash and public addresses. See classes/Wallet.php in the repository.">Do you keep my keys? No — the server stores only a bcrypt PIN hash and public addresses. See classes/Wallet.php in the repository.</li>
+<li data-i18n="Can you recover my wallet? No — and neither can anyone else. That is what non-custodial means.">Can you recover my wallet? No — and neither can anyone else. That is what non-custodial means.</li>
+<li data-i18n="Found a bug or security issue? Please report it via support@prunebit.com or open an issue on GitHub.">Found a bug or security issue? Please report it via support@prunebit.com or open an issue on GitHub.</li>
+</ul>
+<p class="text-gray-500 mt-4 text-sm" data-i18n="Disclaimer: This software is provided &quot;AS IS&quot;, without warranty of any kind. Use PruneBit at your own risk and never store more than you can afford to lose.">Disclaimer: This software is provided &quot;AS IS&quot;, without warranty of any kind. Use PruneBit at your own risk and never store more than you can afford to lose.</p>
+</section>
+
 <section id="troubleshooting" class="mb-10">
 <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2" data-i18n="Troubleshooting"><span class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 text-sm">12</span> Troubleshooting</h2>
 <div class="space-y-3">
 <div class="border border-gray-200 rounded-xl overflow-hidden">
 <button class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors">
-<span class="font-semibold text-gray-900" data-i18n="I forgot my password. Can I recover my wallet?">I forgot my password. Can I recover my wallet?</span>
+<span class="font-semibold text-gray-900" data-i18n="I forgot my PIN. Can I recover my wallet?">I forgot my PIN. Can I recover my wallet?</span>
 <i class="bi bi-chevron-down text-gray-500"></i>
 </button>
 <div class="faq-answer">
-<p class="text-gray-600" data-i18n="If you forgot your password but have your seed phrase, you can import your wallet using the seed phrase and set a new password. Go to import.html and select &quot;Mnemonic Phrase&quot;.">If you forgot your password but have your seed phrase, you can import your wallet using the seed phrase and set a new password. Go to import.html and select "Mnemonic Phrase".</p>
-<p class="text-gray-600 mt-2"><strong data-i18n="Note:">Note:</strong> <span data-i18n="Without your password AND seed phrase, your wallet cannot be recovered.">Without your password AND seed phrase, your wallet cannot be recovered.</span></p>
+<p class="text-gray-600" data-i18n="If you forgot your PIN but have your seed phrase, you can import your wallet using the seed phrase and set a new PIN. Go to import.html and select &quot;Mnemonic Phrase&quot;.">If you forgot your PIN but have your seed phrase, you can import your wallet using the seed phrase and set a new PIN. Go to import.html and select "Mnemonic Phrase".</p>
+<p class="text-gray-600 mt-2"><strong data-i18n="Note:">Note:</strong> <span data-i18n="Without your PIN AND seed phrase, your wallet cannot be recovered.">Without your PIN AND seed phrase, your wallet cannot be recovered.</span></p>
 </div>
 </div>
 <div class="border border-gray-200 rounded-xl overflow-hidden">
@@ -578,7 +625,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 <i class="bi bi-chevron-down text-gray-500"></i>
 </button>
 <div class="faq-answer">
-<p class="text-gray-600" data-i18n="If you have your password, you can still access your wallet. However, if you lose both your password and seed phrase, your wallet cannot be recovered. This is why it's crucial to back up your seed phrase in a secure location.">If you have your password, you can still access your wallet. However, if you lose both your password and seed phrase, your wallet cannot be recovered. This is why it's crucial to back up your seed phrase in a secure location.</p>
+<p class="text-gray-600" data-i18n="If you have your PIN, you can still access your wallet. However, if you lose both your PIN and seed phrase, your wallet cannot be recovered. This is why it's crucial to back up your seed phrase in a secure location.">If you have your PIN, you can still access your wallet. However, if you lose both your PIN and seed phrase, your wallet cannot be recovered. This is why it's crucial to back up your seed phrase in a secure location.</p>
 </div>
 </div>
 <div class="border border-gray-200 rounded-xl overflow-hidden">
@@ -599,11 +646,11 @@ body.bitcoin-style .faq-answer.open{display:block}
 <p class="text-gray-600" data-i18n="PruneBit uses industry-standard security measures:">PruneBit uses industry-standard security measures:</p>
 <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
 <li data-i18n="AES-256-GCM encryption for seed phrases">AES-256-GCM encryption for seed phrases</li>
-<li data-i18n="Bcrypt hashing (work factor 12) for passwords">Bcrypt hashing (work factor 12) for passwords</li>
+<li data-i18n="Bcrypt hashing (work factor 12) for PINs">Bcrypt hashing (work factor 12) for PINs</li>
 <li data-i18n="BIP39/BIP32 standard for wallet generation">BIP39/BIP32 standard for wallet generation</li>
 <li data-i18n="No storage of private keys on our servers">No storage of private keys on our servers</li>
 </ul>
-<p class="text-gray-600 mt-2" data-i18n="Your funds are as secure as your seed phrase and password.">Your funds are as secure as your seed phrase and password.</p>
+<p class="text-gray-600 mt-2" data-i18n="Your funds are as secure as your seed phrase and PIN.">Your funds are as secure as your seed phrase and PIN.</p>
 </div>
 </div>
 </div>
@@ -613,7 +660,7 @@ body.bitcoin-style .faq-answer.open{display:block}
 <div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-6 text-white text-center">
 <h3 class="text-xl font-bold mb-2" data-i18n="Still Need Help?">Still Need Help?</h3>
 <p class="text-white-50 mb-4" data-i18n="Can't find what you're looking for? Contact our support team.">Can't find what you're looking for? Contact our support team.</p>
-<a href="ticket.html" class="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all" data-i18n="Contact Support"><i class="bi bi-envelope"></i> Contact Support</a>
+<a href="ticket.html" class="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all" data-i18n="Contact Support"><i class="bi bi-envelope"></i> Contact Support</a> <a href="mailto:support@prunebit.com" class="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all"><i class="bi bi-envelope"></i> support@prunebit.com</a>
 </div>
 </section>
 </div>

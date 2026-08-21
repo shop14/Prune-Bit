@@ -702,3 +702,69 @@ class CryptoVaultNav {
 document.addEventListener('DOMContentLoaded', () => {
   new CryptoVaultNav();
 });
+
+/* ---------- Session consent banner (bottom bar, cookie-style) ---------- */
+(function () {
+  function initSessionConsent() {
+    try {
+      if (sessionStorage.getItem('pbConsent')) return;
+      var path = window.location.pathname || '';
+      if (/admin/i.test(path)) return;
+
+      var css = document.createElement('style');
+      css.textContent = [
+        '.pb-consent-banner{position:fixed;left:0;right:0;bottom:0;z-index:100000;background:var(--bs-body-bg,#fff);color:var(--bs-body-color,#111);border-top:1px solid rgba(255,126,0,.35);box-shadow:0 -8px 30px rgba(0,0,0,.18);padding:12px 18px;font-family:inherit}',
+        '.pb-consent-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:14px}',
+        '.pb-consent-brand{display:flex;align-items:center;gap:8px;flex:0 0 auto}',
+        '.pb-consent-brand img{height:24px;width:auto}',
+        '.pb-consent-brand span{font-weight:700;font-size:.95rem}',
+        '.pb-consent-text{flex:1 1 320px;min-width:260px;font-size:.8rem;line-height:1.5;color:var(--bs-secondary-color,#444)}',
+        '.pb-consent-text b{color:var(--bs-body-color,#111)}',
+        '.pb-consent-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto;margin-left:auto}',
+        '.pb-consent-links{font-size:.72rem;white-space:nowrap}',
+        '.pb-consent-links a{color:var(--bs-secondary-color,#666);text-decoration:none}',
+        '.pb-consent-links a:hover{text-decoration:underline}',
+        '.pb-consent-btn{border:none;border-radius:999px;padding:9px 20px;font-size:.85rem;font-weight:600;color:#fff;cursor:pointer;background:linear-gradient(135deg,#FF7E00,#ff9a2e);white-space:nowrap;transition:filter .15s}',
+        '.pb-consent-btn:hover{filter:brightness(1.06)}',
+        '.pb-consent-close{background:none;border:none;color:var(--bs-secondary-color,#666);font-size:1.4rem;line-height:1;cursor:pointer;padding:2px 6px;border-radius:8px}',
+        '.pb-consent-close:hover{color:var(--bs-body-color,#111);background:rgba(0,0,0,.05)}',
+        '@media (max-width:640px){.pb-consent-inner{flex-direction:column;align-items:flex-start}.pb-consent-actions{margin-left:0;width:100%;justify-content:space-between}}'
+      ].join('');
+      document.head.appendChild(css);
+
+      var b = document.createElement('div');
+      b.className = 'pb-consent-banner';
+      b.setAttribute('role', 'region');
+      b.setAttribute('aria-label', 'Consent notice');
+      b.innerHTML =
+        '<div class="pb-consent-inner">' +
+          '<div class="pb-consent-brand"><img src="/img/logo.svg" alt="PruneBit"><span>PruneBit</span></div>' +
+          '<div class="pb-consent-text">' +
+            'We currently use cookies to improve and personalize your experience on our website. ' +
+            'PruneBit is non-custodial — only you control your keys. By continuing you accept our ' +
+            '<a href="/html/terms.html">Terms</a> and <a href="/html/privacy.html">Privacy Policy</a>.' +
+          '</div>' +
+          '<div class="pb-consent-actions">' +
+            '<span class="pb-consent-links"><a href="/html/terms.html">Terms</a> · <a href="/html/privacy.html">Privacy</a></span>' +
+            '<button type="button" class="pb-consent-btn">Accept</button>' +
+            '<button type="button" class="pb-consent-close" aria-label="Dismiss">&times;</button>' +
+          '</div>' +
+        '</div>';
+
+      function accept() {
+        try { sessionStorage.setItem('pbConsent', String(Date.now())); } catch (e) {}
+        b.remove();
+      }
+      b.querySelector('.pb-consent-btn').addEventListener('click', accept);
+      var cx = b.querySelector('.pb-consent-close');
+      if (cx) cx.addEventListener('click', function () { b.remove(); });
+      document.body.appendChild(b);
+    } catch (e) { /* never block the app */ }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSessionConsent);
+  } else {
+    initSessionConsent();
+  }
+})();
