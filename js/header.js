@@ -272,6 +272,7 @@ class CryptoVaultNav {
               <div class="footer-legal-links">
                 <a href="terms.html">Terms</a>
                 <a href="privacy.html">Privacy</a>
+                <a href="https://github.com/shop14/Prune-Bit" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> Source Code</a>
               </div>
             </div>
           </div>`
@@ -291,6 +292,7 @@ class CryptoVaultNav {
               <a href="company.html">Company</a>
               <a href="support.html">Support</a>
               <a href="help.html">Help</a>
+              <a href="https://github.com/shop14/Prune-Bit" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> Source Code</a>
               <a href="status.html">Status <img src="../img/status-pulse.svg" alt="" width="14" height="14" style="vertical-align:middle;margin-left:4px;"></a>
               <a href="ticket.html">Submit a ticket</a>
             </div>
@@ -330,6 +332,7 @@ class CryptoVaultNav {
               <a href="terms.html">Terms</a>
               <a href="privacy.html">Privacy</a>
               <a href="aml.html">AML Policy</a>
+              <a href="https://github.com/shop14/Prune-Bit" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> Source Code</a>
             </div>
           </div>
         </div>`;
