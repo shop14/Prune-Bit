@@ -110,9 +110,9 @@ function dbConfig() {
     return [
         'host' => env('DB_HOST', 'localhost'),
         'port' => env('DB_PORT', 3306),
-        'user' => env('DB_USER', 'coinzipp'),
+        'user' => env('DB_USER', ''),
         'password' => env('DB_PASSWORD', ''),
-        'name' => env('DB_NAME', 'coinzipp'),
+        'name' => env('DB_NAME', ''),
     ];
 }
 }
